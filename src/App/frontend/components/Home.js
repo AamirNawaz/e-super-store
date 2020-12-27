@@ -245,7 +245,7 @@ class Home extends Component {
                     </section>
                     {/* ========================= SECTION MAIN END// ========================= */}
                 </div>
-
+                <h1>home</h1>
 
             </React.Fragment>
         );
