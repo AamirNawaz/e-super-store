@@ -4,6 +4,8 @@ import Home from './components/Home';
 import MyProfile from './components/profile/MyProfile';
 import ProfileAddress from './components/profile/ProfileAddress';
 import ProfileOrders from './components/profile/ProfileOrders';
+import ProfileWhishList from './components/profile/ProfileWhishList';
+import ProfileSetting from './components/profile/ProfileSetting';
 
 function Index() {
     return (
@@ -24,6 +26,17 @@ function Index() {
 
                 <Route path="/profile-orders">
                     <ProfileOrders />
+                </Route>
+
+                <Route path="/profile-wishlist">
+                    <ProfileWhishList />
+                </Route>
+
+                <Route path="/profile-setting">
+                    <ProfileSetting />
+                </Route>
+                <Route path="/profile-logout">
+                    <Home />
                 </Route>
             </Switch>
         </React.Fragment>
