@@ -51,7 +51,7 @@ function Header() {
                                     </Link>
                                 </div>
                                 <div className="widget-header mr-3">
-                                    <Link to="/" className="widget-view">
+                                    <Link to="/profile-orders" className="widget-view">
                                         <div className="icon-area">
                                             <i className="fa fa-store" />
                                         </div>
@@ -59,7 +59,7 @@ function Header() {
                                     </Link>
                                 </div>
                                 <div className="widget-header">
-                                    <Link to="/" className="widget-view">
+                                    <Link to="/cart-details" className="widget-view">
                                         <div className="icon-area">
                                             <i className="fa fa-shopping-cart" />
                                         </div>

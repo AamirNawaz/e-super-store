@@ -6,6 +6,9 @@ import ProfileAddress from './components/profile/ProfileAddress';
 import ProfileOrders from './components/profile/ProfileOrders';
 import ProfileWhishList from './components/profile/ProfileWhishList';
 import ProfileSetting from './components/profile/ProfileSetting';
+import CartItems from './components/cart/CartItems';
+import Footer from './layouts/Footer';
+import Header from './layouts/Header';
 
 function Index() {
     return (
@@ -37,6 +40,14 @@ function Index() {
                 </Route>
                 <Route path="/profile-logout">
                     <Home />
+                </Route>
+                <Route path="/cart-details">
+                    <Header />
+                    <CartItems />
+                    <Footer />
+                </Route>
+                <Route path="*">
+                    <h2>404 Not found</h2>
                 </Route>
             </Switch>
         </React.Fragment>
