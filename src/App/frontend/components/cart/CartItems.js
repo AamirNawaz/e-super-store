@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import item1 from '../../../assets/images/items/1.jpg';
 import item2 from '../../../assets/images/items/2.jpg';
 import item6 from '../../../assets/images/items/6.jpg';
@@ -36,7 +37,7 @@ class CartItems extends Component {
                                                     <figure className="itemside">
                                                         <div className="aside"><img src={item1} alt="" className="img-sm" /></div>
                                                         <figcaption className="info">
-                                                            <a href="/" className="title text-dark">Some of item goes here nice</a>
+                                                            <Link to="/product-details" className="title text-dark">Some of item goes here nice</Link>
                                                             <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
                                                         </figcaption>
                                                     </figure>

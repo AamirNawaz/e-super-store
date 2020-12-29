@@ -41,15 +41,7 @@ function Header() {
                                         <small className="text"> My profile </small>
                                     </Link>
                                 </div>
-                                <div className="widget-header mr-3">
-                                    <Link to="/" className="widget-view">
-                                        <div className="icon-area">
-                                            <i className="fa fa-comment-dots" />
-                                            <span className="notify">1</span>
-                                        </div>
-                                        <small className="text"> Message </small>
-                                    </Link>
-                                </div>
+
                                 <div className="widget-header mr-3">
                                     <Link to="/profile-orders" className="widget-view">
                                         <div className="icon-area">

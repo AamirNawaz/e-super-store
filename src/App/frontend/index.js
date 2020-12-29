@@ -9,6 +9,7 @@ import ProfileSetting from './components/profile/ProfileSetting';
 import CartItems from './components/cart/CartItems';
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
+import ProductDetails from './components/product-detail/ProductDetails';
 
 function Index() {
     return (
@@ -46,9 +47,17 @@ function Index() {
                     <CartItems />
                     <Footer />
                 </Route>
+
+                <Route path="/product-details">
+                    <Header />
+                    <ProductDetails />
+                    <Footer />
+                </Route>
+
                 <Route path="*">
                     <h2>404 Not found</h2>
                 </Route>
+
             </Switch>
         </React.Fragment>
     )
