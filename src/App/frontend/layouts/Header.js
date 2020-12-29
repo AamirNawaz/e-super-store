@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo3661.png';
 
-function Header() {
+
+function Header(props) {
+    const [cartCount, setCartCount] = useState(0);
+
+    useEffect(() => {
+        let count = 0;
+        props.cart.forEach(item => {
+            count = count + item.qty;
+        })
+        setCartCount(count);
+
+    }, [props.cart, cartCount])
+
     return (
         <header className="section-header">
             <section className="header-main border-bottom">
@@ -54,6 +67,7 @@ function Header() {
                                     <Link to="/cart-details" className="widget-view">
                                         <div className="icon-area">
                                             <i className="fa fa-shopping-cart" />
+                                            <span className="notify">{cartCount}</span>
                                         </div>
                                         <small className="text"> Cart </small>
                                     </Link>
@@ -134,4 +148,9 @@ function Header() {
     )
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return {
+        cart: state.shope.cart
+    }
+}
+export default connect(mapStateToProps, null)(Header);

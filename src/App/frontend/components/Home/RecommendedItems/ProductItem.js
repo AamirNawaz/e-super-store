@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { addToCart } from '../../../../redux/reducer/shope/shopeActions';
 
-export default function ProductItem(props) {
+function ProductItem(props) {
     return (
 
         <React.Fragment>
@@ -11,7 +13,8 @@ export default function ProductItem(props) {
                             <a href="/" className="img-wrap"> <img src={img} alt={index + 1} /> </a>
                             <figcaption className="info-wrap">
                                 <a href="/" className="title">Just another product name</a>
-                                <div className="price mt-1">$179.00</div> {/* price-wrap.// */}
+                                <div className="price mt-1">$179.00</div>
+                                <button className="btn btn-warning btn-sm" onClick={() => props.addToCartBtn(1)}>Add To Cart</button>
                             </figcaption>
                         </div>
                     </div>
@@ -23,3 +26,10 @@ export default function ProductItem(props) {
         </React.Fragment>
     )
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCartBtn: (productID) => dispatch(addToCart(productID))
+    }
+}
+export default connect(null, mapDispatchToProps)(ProductItem);
