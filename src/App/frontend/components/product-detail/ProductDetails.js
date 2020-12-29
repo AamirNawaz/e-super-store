@@ -67,23 +67,20 @@ function ProductDetails() {
                                     <dt className="col-sm-3">Availabilty</dt>
                                     <dd className="col-sm-9">in Stock</dd>
                                 </dl>
+
+                                <div className="form-group col-md">
+                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
+                                </div> {/* col.// */}
                                 <div className="form-row  mt-4">
-                                    <div className="form-group col-md flex-grow-0">
-                                        <div className="input-group mb-3 input-spinner">
-                                            <div className="input-group-prepend">
-                                                <button className="btn btn-light" type="button" id="button-plus"> + </button>
-                                            </div>
-                                            <input type="text" className="form-control" defaultValue={1} />
-                                            <div className="input-group-append">
-                                                <button className="btn btn-light" type="button" id="button-minus"> − </button>
-                                            </div>
-                                        </div>
-                                    </div> {/* col.// */}
+
+
                                     <div className="form-group col-md">
                                         <a href="/" className="btn  btn-primary">
                                             <i className="fas fa-shopping-cart" /> <span className="text">Add to cart</span>
                                         </a>
-                                        <a href="/" className="btn btn-light">
+                                        &nbsp;
+                                        &nbsp;
+                                        <a href="/" className="btn btn-info">
                                             <i className="fas fa-envelope" /> <span className="text">Contact supplier</span>
                                         </a>
                                     </div> {/* col.// */}

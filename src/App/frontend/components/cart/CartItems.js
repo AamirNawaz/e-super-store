@@ -26,7 +26,7 @@ class CartItems extends Component {
                                         <thead className="text-muted">
                                             <tr className="small text-uppercase">
                                                 <th scope="col">Product</th>
-                                                <th scope="col" width={120}>Quantity</th>
+                                                <th scope="col" width={140}>Quantity</th>
                                                 <th scope="col" width={120}>Price</th>
                                                 <th scope="col" className="text-right" width={200}> </th>
                                             </tr>
@@ -43,12 +43,7 @@ class CartItems extends Component {
                                                     </figure>
                                                 </td>
                                                 <td>
-                                                    <select className="form-control">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                    </select>
+                                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
                                                 </td>
                                                 <td>
                                                     <div className="price-wrap">
@@ -57,8 +52,8 @@ class CartItems extends Component {
                                                     </div> {/* price-wrap .// */}
                                                 </td>
                                                 <td className="text-right">
-                                                    <a data-original-title="Save to Wishlist" href="/" className="btn btn-light" data-toggle="tooltip"> <i className="fa fa-heart" /></a>
-                                                    <a href="/" className="btn btn-light"> Remove</a>
+
+                                                    <a href="/" className="btn btn-danger"> Remove</a>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -72,12 +67,7 @@ class CartItems extends Component {
                                                     </figure>
                                                 </td>
                                                 <td>
-                                                    <select className="form-control">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                    </select>
+                                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
                                                 </td>
                                                 <td>
                                                     <div className="price-wrap">
@@ -86,8 +76,7 @@ class CartItems extends Component {
                                                     </div> {/* price-wrap .// */}
                                                 </td>
                                                 <td className="text-right">
-                                                    <a data-original-title="Save to Wishlist" href="/" className="btn btn-light" data-toggle="tooltip"> <i className="fa fa-heart" /></a>
-                                                    <a href="/" className="btn btn-light btn-round"> Remove</a>
+                                                    <a href="/" className="btn btn-danger btn-round"> Remove</a>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -101,11 +90,7 @@ class CartItems extends Component {
                                                     </figure>
                                                 </td>
                                                 <td>
-                                                    <select className="form-control">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                    </select>
+                                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
                                                 </td>
                                                 <td>
                                                     <div className="price-wrap">
@@ -114,8 +99,7 @@ class CartItems extends Component {
                                                     </div> {/* price-wrap .// */}
                                                 </td>
                                                 <td className="text-right">
-                                                    <a data-original-title="Save to Wishlist" href="/" className="btn btn-light" data-toggle="tooltip"> <i className="fa fa-heart" /></a>
-                                                    <a href="/" className="btn btn-light btn-round"> Remove</a>
+                                                    <a href="/" className="btn btn-danger btn-round"> Remove</a>
                                                 </td>
                                             </tr>
                                         </tbody>
