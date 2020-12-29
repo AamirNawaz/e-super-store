@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from "react-router-dom";
-import Home from './components/Home';
+import Home from './components/Home/index';
 import MyProfile from './components/profile/MyProfile';
 import ProfileAddress from './components/profile/ProfileAddress';
 import ProfileOrders from './components/profile/ProfileOrders';
@@ -10,6 +10,7 @@ import CartItems from './components/cart/CartItems';
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
 import ProductDetails from './components/product-detail/ProductDetails';
+import ShopeProducts from './components/shope/ShopeProducts';
 
 function Index() {
     return (
@@ -51,6 +52,12 @@ function Index() {
                 <Route path="/product-details">
                     <Header />
                     <ProductDetails />
+                    <Footer />
+                </Route>
+
+                <Route path="/shope-products">
+                    <Header />
+                    <ShopeProducts />
                     <Footer />
                 </Route>
 

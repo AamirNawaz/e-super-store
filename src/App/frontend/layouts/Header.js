@@ -100,7 +100,7 @@ function Header() {
                                 </div> {/*  dropdown-menu dropdown-large end.// */}
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/">Ready to ship</a>
+                                <Link className="nav-link" to="/shope-products">Shope </Link>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="/">Trade shows</a>
