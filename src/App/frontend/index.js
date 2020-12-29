@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from "react-router-dom";
-import Home from './components/Home';
+import Home from './components/Home/index';
 import MyProfile from './components/profile/MyProfile';
 import ProfileAddress from './components/profile/ProfileAddress';
 import ProfileOrders from './components/profile/ProfileOrders';
