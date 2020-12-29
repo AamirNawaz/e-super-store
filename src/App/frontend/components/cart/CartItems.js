@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import item1 from '../../../assets/images/items/1.jpg';
-import item2 from '../../../assets/images/items/2.jpg';
-import item6 from '../../../assets/images/items/6.jpg';
-
+import { connect } from 'react-redux'
+import { decrmentQty, incrmentQty, removeFromCart } from '../../../redux/reducer/shope/shopeActions'
 import payments from '../../../assets/images/misc/payments.png';
 
 class CartItems extends Component {
@@ -13,6 +11,8 @@ class CartItems extends Component {
     }
 
     render() {
+        const { cartItems } = this.props;
+        let getTotals = -0;
         return (
             <React.Fragment>
 
@@ -28,80 +28,49 @@ class CartItems extends Component {
                                                 <th scope="col">Product</th>
                                                 <th scope="col" width={140}>Quantity</th>
                                                 <th scope="col" width={120}>Price</th>
+                                                <th scope="col" width={120}>Total Price</th>
                                                 <th scope="col" className="text-right" width={200}> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <figure className="itemside">
-                                                        <div className="aside"><img src={item1} alt="" className="img-sm" /></div>
-                                                        <figcaption className="info">
-                                                            <Link to="/product-details" className="title text-dark">Some of item goes here nice</Link>
-                                                            <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
-                                                        </figcaption>
-                                                    </figure>
-                                                </td>
-                                                <td>
-                                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
-                                                </td>
-                                                <td>
-                                                    <div className="price-wrap">
-                                                        <var className="price">$1156.00</var>
-                                                        <small className="text-muted"> $315.20 each </small>
-                                                    </div> {/* price-wrap .// */}
-                                                </td>
-                                                <td className="text-right">
+                                            {
+                                                cartItems.map((item) => {
+                                                    getTotals = getTotals + (item.price * item.qty);
+                                                    return (
+                                                        <tr key={item.productID}>
+                                                            <td>
+                                                                <figure className="itemside">
+                                                                    <div className="aside"><img src={item.image} alt="" className="img-sm" /></div>
+                                                                    <figcaption className="info">
+                                                                        <Link to="/product-details" className="title text-dark">{item.productName}</Link>
+                                                                        <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
+                                                                    </figcaption>
+                                                                </figure>
+                                                            </td>
+                                                            <td>
+                                                                <button className="btn btn-success btn-xs" onClick={() => this.props.incrmentQtyBtn(item.productID)}> + </button> {item.qty} <button className="btn btn-danger btn-xs" onClick={() => this.props.decrementQtyBtn(item.productID, item.qty)}> -</button>
+                                                            </td>
+                                                            <td>
+                                                                <div className="price-wrap">
+                                                                    <var className="price">${item.price}</var>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div className="price-wrap">
+                                                                    <var className="price">${item.price * item.qty}</var>
+                                                                </div>
+                                                            </td>
+                                                            <td className="text-right">
 
-                                                    <a href="/" className="btn btn-danger"> Remove</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <figure className="itemside">
-                                                        <div className="aside"><img src={item2} alt="" className="img-sm" /></div>
-                                                        <figcaption className="info">
-                                                            <a href="/" className="title text-dark">Product   goes here nice</a>
-                                                            <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
-                                                        </figcaption>
-                                                    </figure>
-                                                </td>
-                                                <td>
-                                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
-                                                </td>
-                                                <td>
-                                                    <div className="price-wrap">
-                                                        <var className="price">$149.97</var>
-                                                        <small className="text-muted"> $75.00 each </small>
-                                                    </div> {/* price-wrap .// */}
-                                                </td>
-                                                <td className="text-right">
-                                                    <a href="/" className="btn btn-danger btn-round"> Remove</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <figure className="itemside">
-                                                        <div className="aside"><img src={item6} alt="" className="img-sm" /></div>
-                                                        <figcaption className="info">
-                                                            <a href="/" className="title text-dark">Another of some product goes just here as a demo text </a>
-                                                            <p className="small text-muted">Size: XL, Color: blue,  Brand: Tissot</p>
-                                                        </figcaption>
-                                                    </figure>
-                                                </td>
-                                                <td>
-                                                    <button className="btn btn-success btn-xs"> + </button> 1 <button className="btn btn-danger btn-xs"> -</button>
-                                                </td>
-                                                <td>
-                                                    <div className="price-wrap">
-                                                        <var className="price">$98.00</var>
-                                                        <small className="text-muted"> $578.00 each</small>
-                                                    </div> {/* price-wrap .// */}
-                                                </td>
-                                                <td className="text-right">
-                                                    <a href="/" className="btn btn-danger btn-round"> Remove</a>
-                                                </td>
-                                            </tr>
+                                                                <button className="btn btn-danger" onClick={() => this.props.removeFromCartBtn(item.productID)}> X</button>
+                                                            </td>
+                                                        </tr>
+
+                                                    )
+                                                })
+                                            }
+
+
                                         </tbody>
                                     </table>
                                     <div className="card-body border-top">
@@ -133,15 +102,15 @@ class CartItems extends Component {
                                     <div className="card-body">
                                         <dl className="dlist-align">
                                             <dt>Total price:</dt>
-                                            <dd className="text-right">USD 568</dd>
+                                            <dd className="text-right">USD {getTotals}</dd>
                                         </dl>
                                         <dl className="dlist-align">
                                             <dt>Discount:</dt>
-                                            <dd className="text-right">USD 658</dd>
+                                            <dd className="text-right">USD 0.00</dd>
                                         </dl>
                                         <dl className="dlist-align">
                                             <dt>Total:</dt>
-                                            <dd className="text-right  h5"><strong>$1,650</strong></dd>
+                                            <dd className="text-right  h5"><strong>${getTotals}</strong></dd>
                                         </dl>
                                         <hr />
                                         <p className="text-center mb-3">
@@ -160,4 +129,18 @@ class CartItems extends Component {
     }
 }
 
-export default CartItems;
+const mapStateToProps = (state) => {
+    return {
+        cartItems: state.shope.cart
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removeFromCartBtn: (productID) => dispatch(removeFromCart(productID)),
+        incrmentQtyBtn: (productID) => dispatch(incrmentQty(productID)),
+        decrementQtyBtn: (productID, qty) => dispatch(decrmentQty(productID, qty))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartItems)

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import item1 from '../../../assets/images/items/1.jpg';
+import { connect } from 'react-redux';
+import { addToCart } from '../../../redux/reducer/shope/shopeActions';
+
 class ShopeProducts extends Component {
     constructor(props) {
         super(props);
@@ -7,6 +9,7 @@ class ShopeProducts extends Component {
     }
 
     render() {
+        const { productsList } = this.props;
         return (
             <React.Fragment>
                 {/* <!-- ========================= SECTION CONTENT ========================= --> */}
@@ -87,6 +90,7 @@ class ShopeProducts extends Component {
                             </div> {/* card-body .// */}
                         </div> {/* card.// */}
                         {/* ============================ FILTER TOP END.// ================================= */}
+
                         <header className="mb-3">
                             <div className="form-inline">
                                 <strong className="mr-md-auto">32 Items found </strong>
@@ -105,181 +109,32 @@ class ShopeProducts extends Component {
                             </div>
                         </header>{/* sect-heading */}
                         <div className="row">
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
 
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
+                            {productsList.map((product, index) => {
+                                return (
+                                    <div className="col-md-3" key={index}>
+                                        <figure className="card card-product-grid">
+                                            <div className="img-wrap">
+                                                <span className="badge badge-danger"> NEW </span>
+                                                <img src={product.image} alt="" />
+                                            </div>
+                                            <figcaption className="info-wrap">
+                                                <a href="/" className="title mb-2">{product.details}</a>
+                                                <div className="price-wrap">
+                                                    <span className="price">{product.price}</span>
+                                                    <small className="text-muted">/per item</small>
+                                                </div>
+                                                <p className="mb-2"> {product.qty} Pieces  <small className="text-muted">(Min Order)</small></p>
+                                                <p className="text-muted ">{product.productName}</p>
+                                                <hr />
+
+                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product.productID)}> <i className="fa fa-envelope" /> Add to Cart </button>
                                         &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
+                                            </figcaption>
+                                        </figure>
+                                    </div>)
 
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
-
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
-
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
-
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
-
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
-
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
-                            <div className="col-md-3">
-                                <figure className="card card-product-grid">
-                                    <div className="img-wrap">
-                                        <span className="badge badge-danger"> NEW </span>
-                                        <img src={item1} alt="" />
-                                    </div> {/* img-wrap.// */}
-                                    <figcaption className="info-wrap">
-                                        <a href="/" className="title mb-2">Hot sale unisex New Design Shirt for sport polo shirts latest design</a>
-                                        <div className="price-wrap">
-                                            <span className="price">$32.00-$40.00</span>
-                                            <small className="text-muted">/per item</small>
-                                        </div> {/* price-wrap.// */}
-                                        <p className="mb-2"> 2 Pieces  <small className="text-muted">(Min Order)</small></p>
-                                        <p className="text-muted ">Nike ,Company</p>
-                                        <hr />
-
-                                        <a href="/" className="btn btn-primary"> <i className="fa fa-envelope" /> Add to Cart </a>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
-                                    </figcaption>
-                                </figure>
-                            </div> {/* col.// */}
-
+                            })}
 
 
 
@@ -311,4 +166,16 @@ class ShopeProducts extends Component {
     }
 }
 
-export default ShopeProducts;
+const mapStateToProps = (state) => {
+    return {
+        productsList: state.shope.products
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCartBtn: (productID) => dispatch(addToCart(productID))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShopeProducts);
