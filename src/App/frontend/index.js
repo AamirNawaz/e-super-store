@@ -10,6 +10,7 @@ import CartItems from './components/cart/CartItems';
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
 import ProductDetails from './components/product-detail/ProductDetails';
+import ShopeProducts from './components/shope/ShopeProducts';
 
 function Index() {
     return (
@@ -51,6 +52,12 @@ function Index() {
                 <Route path="/product-details">
                     <Header />
                     <ProductDetails />
+                    <Footer />
+                </Route>
+
+                <Route path="/shope-products">
+                    <Header />
+                    <ShopeProducts />
                     <Footer />
                 </Route>
 
