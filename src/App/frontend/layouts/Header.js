@@ -72,6 +72,14 @@ function Header(props) {
                                         <small className="text"> Cart </small>
                                     </Link>
                                 </div>
+                                <div className="widget-header">
+                                    <Link to="/admin/dashboard" className="widget-view">
+                                        <div className="icon-area">
+                                            <i className="fa fa-store" />
+                                        </div>
+                                        <small className="text"> Dashboard </small>
+                                    </Link>
+                                </div>
                             </div> {/* widgets-wrap.// */}
                         </div> {/* col.// */}
                     </div> {/* row.// */}

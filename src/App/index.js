@@ -1,25 +1,27 @@
 import React from 'react';
 import { Switch, Route } from "react-router-dom";
-import Home from './components/Home/index';
-import MyProfile from './components/profile/MyProfile';
-import ProfileAddress from './components/profile/ProfileAddress';
-import ProfileOrders from './components/profile/ProfileOrders';
-import ProfileWhishList from './components/profile/ProfileWhishList';
-import ProfileSetting from './components/profile/ProfileSetting';
-import CartItems from './components/cart/CartItems';
-import Footer from './layouts/Footer';
-import Header from './layouts/Header';
-import ProductDetails from './components/product-detail/ProductDetails';
-import ShopeProducts from './components/shope/ShopeProducts';
+import Home from './frontend/components/Home/index';
+import MyProfile from './frontend/components/profile/MyProfile';
+import ProfileAddress from './frontend/components/profile/ProfileAddress';
+import ProfileOrders from './frontend/components/profile/ProfileOrders';
+import ProfileWhishList from './frontend/components/profile/ProfileWhishList';
+import ProfileSetting from './frontend/components/profile/ProfileSetting';
+import CartItems from './frontend/components/cart/CartItems';
+import Footer from './frontend/layouts/Footer';
+import Header from './frontend/layouts/Header';
+import ProductDetails from './frontend/components/product-detail/ProductDetails';
+import ShopeProducts from './frontend/components/shope/ShopeProducts';
+import Dashboard from './admin/components/Dashboard';
+import Login from './admin/components/Login';
 
 function Index() {
     return (
         <React.Fragment>
             <Switch>
+                {/* Frontend Routes */}
                 <Route exact path="/">
                     <Home />
                 </Route>
-
 
                 <Route path="/profile">
                     <MyProfile />
@@ -60,6 +62,21 @@ function Index() {
                     <ShopeProducts />
                     <Footer />
                 </Route>
+                {/* Frontend Routes end */}
+
+                {/* Admin Dashboard routes */}
+                <Route path="/admin/dashboard">
+                    <Dashboard />
+                </Route>
+
+                <Route path="/admin/login">
+                    <Login />
+                </Route>
+
+                <Route path="/admin/logout">
+                    <Login />
+                </Route>
+                {/* Admin Dashboard routes End */}
 
                 <Route path="*">
                     <h2>404 Not found</h2>

@@ -1,14 +1,10 @@
 import React from 'react';
-
-
-import Root from './App/root';
+import IndexRoot from './App/index';
 
 function App() {
   return (
     <React.Fragment>
-
-      <Root />
-
+      <IndexRoot />
     </React.Fragment>
   );
 }

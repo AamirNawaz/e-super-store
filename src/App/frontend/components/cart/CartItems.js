@@ -17,7 +17,7 @@ class CartItems extends Component {
         return (
             <React.Fragment>
                 <ToastContainer
-                    position="bottom-left"
+                    position="top-right"
                     autoClose={5000}
                     hideProgressBar={false}
                     newestOnTop={false}
@@ -44,7 +44,7 @@ class CartItems extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
+                                            {cartItems.length > 0 ?
                                                 cartItems.map((item) => {
                                                     getTotals = getTotals + (item.price * item.qty);
                                                     return (
@@ -79,6 +79,12 @@ class CartItems extends Component {
 
                                                     )
                                                 })
+                                                :
+                                                <tr>
+                                                    <td colSpan="5">
+                                                        <center><strong style={{ color: 'red' }}>Your Cart is empty!</strong></center>
+                                                    </td>
+                                                </tr>
                                             }
 
 

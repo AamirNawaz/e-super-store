@@ -16,7 +16,7 @@ function ProductDetails(props) {
     return (
         <React.Fragment>
             <ToastContainer
-                position="bottom-left"
+                position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}

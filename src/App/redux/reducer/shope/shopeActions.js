@@ -70,22 +70,22 @@ export const clearCart = () => {
 const tostifyAlert = (type, message) => {
     if (type === 'success') {
         return toast.success(message, {
-            position: "bottom-left",
+            position: "top-right",
             autoClose: 4000,
             hideProgressBar: false,
             closeOnClick: true,
-            pauseOnHover: true,
+            pauseOnHover: false,
             draggable: true,
             progress: undefined,
         });
     }
     if (type === 'error') {
         return toast.error(message, {
-            position: "bottom-left",
+            position: "top-right",
             autoClose: 4000,
             hideProgressBar: false,
             closeOnClick: true,
-            pauseOnHover: true,
+            pauseOnHover: false,
             draggable: true,
             progress: undefined,
         });
