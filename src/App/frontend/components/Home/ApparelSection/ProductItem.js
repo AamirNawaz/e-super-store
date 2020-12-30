@@ -7,7 +7,7 @@ export default function ProductItem(props) {
             {
                 props.imgs.map((img, index) => {
                     return (
-                        <li className="col-6 col-lg-3 col-md-4">
+                        <li key={index} className="col-6 col-lg-3 col-md-4">
                             <Link to="/shope-products" className="item">
                                 <div className="card-body">
                                     <h6 className="title">Well made women clothes with trending collection</h6>
