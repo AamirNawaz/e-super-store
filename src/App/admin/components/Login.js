@@ -39,7 +39,7 @@ class Login extends Component {
                                             </form>
                                         </div>
                                         <div className="card-footer text-center">
-                                            <div className="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                            <div className="small"><a href="/">Need an account? Sign up!</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -53,9 +53,9 @@ class Login extends Component {
                             <div className="d-flex align-items-center justify-content-between small">
                                 <div className="text-muted">Copyright © Your Website 2020</div>
                                 <div>
-                                    <a href="#">Privacy Policy</a>
+                                    <a href="/">Privacy Policy</a>
             ·
-            <a href="#">Terms &amp; Conditions</a>
+            <a href="/">Terms &amp; Conditions</a>
                                 </div>
                             </div>
                         </div>
