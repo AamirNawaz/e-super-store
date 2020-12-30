@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { decrmentQty, incrmentQty, removeFromCart } from '../../../redux/reducer/shope/shopeActions'
 import payments from '../../../assets/images/misc/payments.png';
+import { ToastContainer } from 'react-toastify';
 
 class CartItems extends Component {
     constructor(props) {
@@ -15,7 +16,17 @@ class CartItems extends Component {
         let getTotals = -0;
         return (
             <React.Fragment>
-
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 {/* ========================= SECTION CONTENT ========================= */}
                 <section className="section-content padding-y">
                     <div className="container">
@@ -42,7 +53,7 @@ class CartItems extends Component {
                                                                 <figure className="itemside">
                                                                     <div className="aside"><img src={item.image} alt="" className="img-sm" /></div>
                                                                     <figcaption className="info">
-                                                                        <Link to="/product-details" className="title text-dark">{item.productName}</Link>
+                                                                        <Link to={`product-details/${item.productID}`} className="title text-dark">{item.productName}</Link>
                                                                         <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
                                                                     </figcaption>
                                                                 </figure>
@@ -124,7 +135,7 @@ class CartItems extends Component {
                 </section>
                 {/* ========================= SECTION CONTENT END// ========================= */}
 
-            </React.Fragment>
+            </React.Fragment >
         )
     }
 }
