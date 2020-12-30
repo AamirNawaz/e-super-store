@@ -49,7 +49,7 @@ function Index() {
                     <Footer />
                 </Route>
 
-                <Route path="/product-details">
+                <Route path="/product-details/:productID">
                     <Header />
                     <ProductDetails />
                     <Footer />

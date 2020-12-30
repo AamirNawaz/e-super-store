@@ -16,6 +16,12 @@ const InitialState = {
             price: 25,
             details: 'Naik shoes for sport jugger type',
             image: item1,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
         },
         {
@@ -24,6 +30,12 @@ const InitialState = {
             price: 590,
             details: 'hussh puppies jogger sports shoe',
             image: item2,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
 
         },
@@ -33,6 +45,12 @@ const InitialState = {
             price: 350,
             details: 'Cat A hilly area super climber shoe',
             image: item3,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
 
         },
@@ -42,6 +60,12 @@ const InitialState = {
             price: 24,
             details: 'Burjan shoes Juggar details description',
             image: item4,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
         },
         {
@@ -50,6 +74,12 @@ const InitialState = {
             price: 150,
             details: 'Burjan shoes Juggar details description',
             image: item5,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
 
         },
@@ -59,6 +89,12 @@ const InitialState = {
             price: 500,
             details: 'A supper climber unezay',
             image: item6,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
 
         },
@@ -68,6 +104,12 @@ const InitialState = {
             price: 340,
             details: 'Naik shoes for sport jugger type',
             image: item7,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
         },
         {
@@ -76,6 +118,12 @@ const InitialState = {
             price: 780,
             details: 'hussh puppies jogger sports shoe',
             image: item8,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
 
         },
@@ -85,6 +133,12 @@ const InitialState = {
             price: 134,
             details: 'Cat A hilly area super climber shoe',
             image: item9,
+            manufacturer: 'nike company',
+            guarantee: '1.5 year',
+            deliveryTime: '3-5',
+            availabilty: true,
+            orders: '4',
+            reviews: '55',
             qty: 1
 
         }

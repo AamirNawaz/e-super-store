@@ -1,11 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import item15 from '../../../assets/images/items/15.jpg';
 import item15_1 from '../../../assets/images/items/15-1.jpg';
 import item15_2 from '../../../assets/images/items/15-2.jpg';
+import { addToCart } from '../../../redux/reducer/shope/shopeActions';
 
-function ProductDetails() {
+function ProductDetails(props) {
+    const { productID } = useParams();
+    const item = props.products.find((prod) => prod.productID === parseInt(productID));
+
     return (
         <React.Fragment>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+
             {/* ========================= SECTION CONTENT ========================= */}
             <section className="section-content bg-white padding-y">
                 <div className="container">
@@ -15,20 +36,22 @@ function ProductDetails() {
                             <div className="card">
                                 <article className="gallery-wrap">
                                     <div className="img-big-wrap">
-                                        <div> <a href="/"><img src={item15} alt="" /></a></div>
-                                    </div> {/* slider-product.// */}
+
+
+                                        <div> <a href="/"><img src={item.image} alt="" /></a></div>
+                                    </div>
                                     <div className="thumbs-wrap">
                                         <a href="/" className="item-thumb"> <img src={item15} alt="" /></a>
                                         <a href="/" className="item-thumb"> <img src={item15_1} alt="" /></a>
                                         <a href="/" className="item-thumb"> <img src={item15_2} alt="" /></a>
                                         <a href="/" className="item-thumb"> <img src={item15_1} alt="" /></a>
-                                    </div> {/* slider-nav.// */}
-                                </article> {/* gallery-wrap .end// */}
-                            </div> {/* card.// */}
+                                    </div>
+                                </article>
+                            </div>
                         </aside>
                         <main className="col-md-6">
                             <article className="product-info-aside">
-                                <h2 className="title mt-3">Hot sale unisex New Design Shoe </h2>
+                                <h2 className="title mt-3">{item.productName} </h2>
                                 <div className="rating-wrap my-3">
                                     <ul className="rating-stars">
                                         <li style={{ width: '80%' }} className="stars-active">
@@ -42,30 +65,23 @@ function ProductDetails() {
                                             <i className="fa fa-star" />
                                         </li>
                                     </ul>
-                                    <small className="label-rating text-muted">132 reviews</small>
-                                    <small className="label-rating text-success"> <i className="fa fa-clipboard-check" /> 154 orders </small>
+                                    <small className="label-rating text-muted">{item.reviews} reviews</small>
+                                    <small className="label-rating text-success"> <i className="fa fa-clipboard-check" /> {item.orders} orders </small>
                                 </div> {/* rating-wrap.// */}
                                 <div className="mb-3">
-                                    <var className="price h4">USD 465,00</var>
-                                    <span className="text-muted">USD 562.65 incl. VAT</span>
-                                </div> {/* price-detail-wrap .// */}
-                                <p>Compact sport shoe for running, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat </p>
+                                    <var className="price h4">USD {item.price}</var>
+                                    <span className="text-muted"> USD {item.price} incl. VAT</span>
+                                </div>
+                                <p>{item.details} </p>
                                 <dl className="row">
                                     <dt className="col-sm-3">Manufacturer</dt>
-                                    <dd className="col-sm-9"><a href="/">Great textile Ltd.</a></dd>
-                                    <dt className="col-sm-3">Article number</dt>
-                                    <dd className="col-sm-9">596 065</dd>
+                                    <dd className="col-sm-9"><a href="/">{item.manufacturer}</a></dd>
                                     <dt className="col-sm-3">Guarantee</dt>
-                                    <dd className="col-sm-9">2 year</dd>
+                                    <dd className="col-sm-9">{item.guarantee} year</dd>
                                     <dt className="col-sm-3">Delivery time</dt>
-                                    <dd className="col-sm-9">3-4 days</dd>
+                                    <dd className="col-sm-9">{item.deliveryTime} days</dd>
                                     <dt className="col-sm-3">Availabilty</dt>
-                                    <dd className="col-sm-9">in Stock</dd>
+                                    <dd className="col-sm-9">{item.availabilty ? 'In Stock' : 'Out of Stock'}</dd>
                                 </dl>
 
                                 <div className="form-group col-md">
@@ -75,9 +91,9 @@ function ProductDetails() {
 
 
                                     <div className="form-group col-md">
-                                        <a href="/" className="btn  btn-primary">
+                                        <button className="btn  btn-primary" onClick={() => props.addToCartBtn(item.productID)}>
                                             <i className="fas fa-shopping-cart" /> <span className="text">Add to cart</span>
-                                        </a>
+                                        </button>
                                         &nbsp;
                                         &nbsp;
                                         <a href="/" className="btn btn-info">
@@ -96,8 +112,18 @@ function ProductDetails() {
             {/* ========================= SECTION CONTENT END// ========================= */}
 
 
-        </React.Fragment>
+        </React.Fragment >
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        products: state.shope.products
+    }
+}
 
-export default ProductDetails;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCartBtn: (productID) => dispatch(addToCart(productID)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

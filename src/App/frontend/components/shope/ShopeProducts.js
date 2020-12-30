@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { addToCart } from '../../../redux/reducer/shope/shopeActions';
 
 class ShopeProducts extends Component {
@@ -12,6 +13,17 @@ class ShopeProducts extends Component {
         const { productsList } = this.props;
         return (
             <React.Fragment>
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 {/* <!-- ========================= SECTION CONTENT ========================= --> */}
                 <section className="section-content padding-y">
                     <div className="container">
