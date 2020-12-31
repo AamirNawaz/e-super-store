@@ -66,6 +66,41 @@ export const clearCart = () => {
     }
 }
 
+/************* Wish list section **********/
+export const addToWishList = (productID) => {
+    const message = "Added in Wish list";
+    const type = 'success';
+    tostifyAlert(type, message);
+    return {
+        type: actionType.ADD_TO_WISHLIST,
+        payload: { id: productID }
+    }
+
+}
+
+export const removeFromWishList = (productID) => {
+    const message = "Item remove from Wish list";
+    const type = 'error';
+    tostifyAlert(type, message);
+    return {
+        type: actionType.REMOVE_FROM_WISHLIST,
+        payload: { id: productID }
+    }
+}
+
+export const clearWishList = () => {
+    const message = "Wish list item cleared!";
+    const type = 'error';
+    tostifyAlert(type, message);
+
+    return {
+        type: actionType.CLEAR_WISHLIST,
+        payload: {
+            wishList: []
+        }
+    }
+}
+
 
 const tostifyAlert = (type, message) => {
     if (type === 'success') {

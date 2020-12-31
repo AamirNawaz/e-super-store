@@ -1,73 +1,73 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from '../../layouts/Header';
 import AsideNav from './AsideNav';
 import PageSectionTop from './PageSectionTop';
 
-import item1 from '../../../assets/images/items/1.jpg';
-import item2 from '../../../assets/images/items/2.jpg';
-import item6 from '../../../assets/images/items/6.jpg';
+import { addToCart, clearWishList, removeFromWishList } from '../../../redux/reducer/shope/shopeActions';
+import { ToastContainer } from 'react-toastify';
 
-function ProfileWhishList() {
+
+
+function ProfileWhishList(props) {
+    const { wishList } = props;
     return (
         <React.Fragment>
             <Header />
             <PageSectionTop title="My account" />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             {/* ========================= SECTION CONTENT ========================= */}
             <section className="section-content padding-y">
                 <div className="container">
                     <div className="row">
                         <AsideNav />
 
-                        {/* Content area */}
                         <main className="col-md-9">
                             <article className="card">
                                 <div className="card-body">
                                     <div className="row">
-                                        <div className="col-md-6">
-                                            <figure className="itemside mb-4">
-                                                <div className="aside">
-                                                    <img src={item1} alt=" " className="border img-md" /></div>
-                                                <figcaption className="info">
-                                                    <a href="/" className="title">Great product name goes here</a>
-                                                    <p className="price mb-2">$80</p>
-                                                    <a href="/" className="btn btn-secondary btn-sm"> Add to cart </a>
-                                                    <a href="/" className="btn btn-danger btn-sm" data-toggle="tooltip" title data-original-title="Remove from wishlist"> <i className="fa fa-times" /> </a>
-                                                </figcaption>
-                                            </figure>
-                                        </div> {/* col.// */}
-                                        <div className="col-md-6">
-                                            <figure className="itemside mb-4">
-                                                <div className="aside"><img src={item2} alt="" className="border img-md" /></div>
-                                                <figcaption className="info">
-                                                    <a href="/" className="title">Men's Jackeet for Winter </a>
-                                                    <p className="price mb-2">$1280</p>
-                                                    <a href="/" className="btn btn-secondary btn-sm"> Add to cart </a>
-                                                    <a href="/" className="btn btn-danger btn-sm" data-toggle="tooltip" title data-original-title="Remove from wishlist"> <i className="fa fa-times" /> </a>
-                                                </figcaption>
-                                            </figure>
-                                        </div> {/* col.// */}
-                                        <div className="col-md-6">
-                                            <figure className="itemside mb-4">
-                                                <div className="aside">
-                                                    <img src={item6} alt="name" className="border img-md" /></div>
-                                                <figcaption className="info">
-                                                    <a href="/" className="title">Another book of item goes here </a>
-                                                    <p className="price mb-2">$280</p>
-                                                    <a href="/" className="btn btn-secondary btn-sm"> Add to cart </a>
-                                                    <a href="/" className="btn btn-danger btn-sm" data-toggle="tooltip" title data-original-title="Remove from wishlist"> <i className="fa fa-times" /> </a>
-                                                </figcaption>
-                                            </figure>
-                                        </div> {/* col.// */}
-                                    </div> {/* row .//  */}
-                                </div> {/* card-body.// */}
+                                        {wishList && wishList.length ?
+                                            wishList.map((list, index) => {
+                                                return (
+                                                    <div className="col-md-6">
+                                                        <figure className="itemside mb-4">
+                                                            <div className="aside">
+                                                                <img src={list.image} alt=" " className="border img-md" /></div>
+                                                            <figcaption className="info">
+                                                                <a href="/" className="title">{list.productName}</a>
+                                                                <p className="price mb-2">${list.price}</p>
+                                                                <button className="btn btn-secondary btn-sm" onClick={() => props.addToCartBtn(list.productID)}> Add to cart </button>
+                                                                <button className="btn btn-danger btn-sm" data-toggle="tooltip" title data-original-title="Remove from wishlist" onClick={() => props.removeFromWishlistBtn(list.productID)}> <i className="fa fa-times" /> </button>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>
+                                                )
+                                            })
+
+                                            : <h5 style={{ color: 'red' }}>Your wish list is empty!</h5>}
+
+
+                                    </div>
+                                    {wishList && wishList.length > 0 ? (
+                                        <button className="btn btn-danger btn-md" onClick={() => props.clearWishListBtn()}> <i className="fa fa-times" /> Clear Wishlist </button>
+                                    ) :
+                                        ''
+                                    }
+                                </div>
                             </article>
-                        </main> {/* col.// */}
-
-
-                        {/* Content area End */}
-
+                        </main>
                     </div>
-                </div> {/* container .//  */}
+                </div>
             </section>
             {/* ========================= SECTION CONTENT END// ========================= */}
 
@@ -76,4 +76,18 @@ function ProfileWhishList() {
     )
 }
 
-export default ProfileWhishList;
+const mapStateToProps = (state) => {
+    return {
+        wishList: state.shope.wishList
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCartBtn: (productID) => dispatch(addToCart(productID)),
+        removeFromWishlistBtn: (productID) => dispatch(removeFromWishList(productID)),
+        clearWishListBtn: () => dispatch(clearWishList())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileWhishList);

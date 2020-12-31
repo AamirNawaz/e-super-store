@@ -72,6 +72,17 @@ function Header(props) {
                                         <small className="text"> Cart </small>
                                     </Link>
                                 </div>
+
+                                <div className="widget-header">
+                                    <Link to="/profile-wishlist" className="widget-view">
+                                        <div className="icon-area">
+                                            <i className="fa fa-heart" />
+                                            <span className="notify">{props.wishList.length}</span>
+                                        </div>
+                                        <small className="text"> Wishlist </small>
+                                    </Link>
+                                </div>
+
                                 <div className="widget-header">
                                     <Link to="/admin/dashboard" className="widget-view">
                                         <div className="icon-area">
@@ -158,7 +169,8 @@ function Header(props) {
 
 const mapStateToProps = (state) => {
     return {
-        cart: state.shope.cart
+        cart: state.shope.cart,
+        wishList: state.shope.wishList
     }
 }
 export default connect(mapStateToProps, null)(Header);

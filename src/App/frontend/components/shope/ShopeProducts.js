@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { addToCart } from '../../../redux/reducer/shope/shopeActions';
+import { addToCart, addToWishList } from '../../../redux/reducer/shope/shopeActions';
 
 class ShopeProducts extends Component {
     constructor(props) {
@@ -141,7 +141,7 @@ class ShopeProducts extends Component {
                                                 <hr />
 
                                                 <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product.productID)}> <i className="fa fa-envelope" /> Add to Cart </button>
-                                        &nbsp;&nbsp;<a href="/" className="btn btn-outline-primary"> <i className="fa fa-envelope" /> Add to wishlist </a>
+                                        &nbsp;&nbsp;<button className="btn btn-outline-primary" onClick={() => this.props.addToWishListBtn(product.productID)}> <i className="fa fa-heart" /> Add to wishlist </button>
                                             </figcaption>
                                         </figure>
                                     </div>)
@@ -186,7 +186,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCartBtn: (productID) => dispatch(addToCart(productID))
+        addToCartBtn: (productID) => dispatch(addToCart(productID)),
+        addToWishListBtn: (productID) => dispatch(addToWishList(productID))
     }
 }
 

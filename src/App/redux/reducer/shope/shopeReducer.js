@@ -144,6 +144,7 @@ const InitialState = {
         }
     ],
     cart: [],
+    wishList: []
 }
 
 const shopeReducer = (state = InitialState, action) => {
@@ -167,6 +168,7 @@ const shopeReducer = (state = InitialState, action) => {
                     :
                     [...state.cart, { ...item, qty: 1 }]
             }
+
 
         case actionType.REMOVE_FROM_CART:
             return {
@@ -208,6 +210,40 @@ const shopeReducer = (state = InitialState, action) => {
                 ...state,
                 cart: []
             }
+
+
+        /*****************Wishlist section********* */
+        case actionType.ADD_TO_WISHLIST:
+            const prodItem = state.products.find((product) => product.productID === action.payload.id);
+            const itemInWishlist = state.wishList.find((cartItem) => cartItem.productID === action.payload.id ? true : false);
+
+            return {
+                ...state,
+                wishList: itemInWishlist
+                    ?
+                    state.wishList.map(prodItem => prodItem.productID === action.payload.id
+                        ?
+                        { ...prodItem, isWishList: false }
+
+                        :
+                        prodItem)
+
+                    :
+                    [...state.wishList, { ...prodItem, isWishList: true }]
+            }
+
+        case actionType.REMOVE_FROM_WISHLIST:
+            return {
+                ...state,
+                wishList: state.wishList.filter((item) => item.productID !== action.payload.id)
+            }
+
+        case actionType.CLEAR_WISHLIST:
+            return {
+                ...state,
+                wishList: []
+            }
+
 
         // default case
         default:
