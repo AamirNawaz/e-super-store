@@ -13,6 +13,8 @@ import ProductDetails from './frontend/components/product-detail/ProductDetails'
 import ShopeProducts from './frontend/components/shope/ShopeProducts';
 import Dashboard from './admin/components/Dashboard';
 import Login from './admin/components/Login';
+import CheckOut from './frontend/components/cart/CheckOut';
+import CreateProduct from './admin/components/CreateProduct';
 
 function Index() {
     return (
@@ -51,6 +53,12 @@ function Index() {
                     <Footer />
                 </Route>
 
+                <Route path="/check-out">
+                    <Header />
+                    <CheckOut />
+                    <Footer />
+                </Route>
+
                 <Route path="/product-details/:productID">
                     <Header />
                     <ProductDetails />
@@ -75,6 +83,10 @@ function Index() {
 
                 <Route path="/admin/logout">
                     <Login />
+                </Route>
+
+                <Route path="/admin/create-product">
+                    <CreateProduct />
                 </Route>
                 {/* Admin Dashboard routes End */}
 

@@ -28,7 +28,7 @@ function AsideBar() {
                         </a>
                         <div className="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav className="sb-sidenav-menu-nested nav">
-                                <a className="nav-link" href="layout-static.html">Static Navigation</a>
+                                <Link className="nav-link" to="/admin/create-product">Create Product</Link>
                                 <a className="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
                             </nav>
                         </div>

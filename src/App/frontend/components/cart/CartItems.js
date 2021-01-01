@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { decrmentQty, incrmentQty, removeFromCart } from '../../../redux/reducer/shope/shopeActions'
+import { clearCart, decrmentQty, incrmentQty, removeFromCart } from '../../../redux/reducer/shope/shopeActions'
 import payments from '../../../assets/images/misc/payments.png';
 import { ToastContainer } from 'react-toastify';
 
@@ -91,9 +91,20 @@ class CartItems extends Component {
                                         </tbody>
                                     </table>
                                     <div className="card-body border-top">
-                                        <a href="/" className="btn btn-primary float-md-right"> Make Purchase <i className="fa fa-chevron-right" /> </a>
-                                        <a href="/" className="btn btn-light"> <i className="fa fa-chevron-left" /> Continue shopping </a>
+                                        <button className="btn btn-danger float-md-right" onClick={() => this.props.clearCartBtn()}> Clear Cart <i className="fa fa-chevron-right" /> </button>
+
                                     </div>
+                                    {
+                                        cartItems.length <= 0 ? <div className="card-body border-top">
+                                            <a href="/" className="btn btn-light"> <i className="fa fa-chevron-left" /> Continue shopping </a>
+                                        </div> :
+
+                                            <div className="card-body border-top">
+                                                <Link to="/check-out" className="btn btn-primary float-md-right"> Make Purchase <i className="fa fa-chevron-right" /> </Link>
+                                                <a href="/" className="btn btn-light"> <i className="fa fa-chevron-left" /> Continue shopping </a>
+                                            </div>
+                                    }
+
                                 </div> {/* card.// */}
                                 <div className="alert alert-success mt-3">
                                     <p className="icontext"><i className="icon text-success fa fa-truck" /> Free Delivery within 1-2 weeks</p>
@@ -156,7 +167,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         removeFromCartBtn: (productID) => dispatch(removeFromCart(productID)),
         incrmentQtyBtn: (productID) => dispatch(incrmentQty(productID)),
-        decrementQtyBtn: (productID, qty) => dispatch(decrmentQty(productID, qty))
+        decrementQtyBtn: (productID, qty) => dispatch(decrmentQty(productID, qty)),
+        clearCartBtn: () => dispatch(clearCart())
     }
 }
 
