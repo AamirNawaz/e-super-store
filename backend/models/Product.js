@@ -16,6 +16,10 @@ const productSchema = new mongoose.Schema({
     //     type: String,
     //     enum: ['active', 'inActive']
     // },
+    // size: {
+    //     type: String,
+    //     enum: ['small', 'large', 'Extra Large']
+    // },
 })
 
 

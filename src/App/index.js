@@ -15,6 +15,7 @@ import Dashboard from './admin/components/Dashboard';
 import Login from './admin/components/Login';
 import CheckOut from './frontend/components/cart/CheckOut';
 import CreateProduct from './admin/components/CreateProduct';
+import ProductCategory from './admin/components/ProductCategory';
 
 function Index() {
     return (
@@ -87,6 +88,10 @@ function Index() {
 
                 <Route path="/admin/create-product">
                     <CreateProduct />
+                </Route>
+
+                <Route path="/admin/product-category">
+                    <ProductCategory />
                 </Route>
                 {/* Admin Dashboard routes End */}
 
