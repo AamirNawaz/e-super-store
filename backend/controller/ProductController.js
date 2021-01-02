@@ -25,10 +25,19 @@ const addProduct = async (req, res) => {
         const reqBody = req.body;
         const products = new ProductModel({
             name: reqBody.name,
+            manufacturer: reqBody.manufacturer,
+            category: reqBody.category,
+            image: reqBody.image,
+            price: reqBody.price,
+            sale: reqBody.sale,
+            inStock: reqBody.inStock,
+            status: reqBody.status,
+            size: reqBody.size
         });
-        await products.save();
+        const result = await products.save();
+        res.json({ result })
     } catch (error) {
-        console.log(error);
+        res.status(400).send(error.message);
     }
 }
 

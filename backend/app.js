@@ -7,6 +7,7 @@ require('dotenv').config()
 
 var productRoutes = require('./routes/productRoutes');
 var userRoutes = require('./routes/userRoutes');
+var categoryRoutes = require('./routes/categoryRoutes')
 const { dbConnection } = require('./db/config');
 
 var app = express();
@@ -42,6 +43,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

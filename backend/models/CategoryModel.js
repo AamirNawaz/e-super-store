@@ -4,12 +4,13 @@ const categorySchema = new mongoose.Schema({
     name: String,
     status: {
         type: String,
-        enum: ['active', 'inActive']
+        enum: ['active', 'inActive'],
+        default: 'active'
     },
-})
+}, { timestamps: true })
 
 
 
 const Category = mongoose.model('Category', categorySchema);
 
-module.exports.Category = Category;
+module.exports.CategoryModel = Category;
