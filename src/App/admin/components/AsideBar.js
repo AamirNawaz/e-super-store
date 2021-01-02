@@ -23,13 +23,13 @@ function AsideBar() {
                         <div className="sb-sidenav-menu-heading">Interface</div>
                         <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div className="sb-nav-link-icon"><i className="fas fa-columns" /></div>
-              Layouts
+              Products
               <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down" /></div>
                         </a>
                         <div className="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav className="sb-sidenav-menu-nested nav">
                                 <Link className="nav-link" to="/admin/create-product">Create Product</Link>
-                                <a className="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                <Link className="nav-link" to="/admin/product-category">Product Category</Link>
                             </nav>
                         </div>
                         <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">

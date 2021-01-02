@@ -10247,3 +10247,8 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+.imageInput[type=file]{
+  height: 40px;
+  width: 200px;
+  background-color: red;
+}
