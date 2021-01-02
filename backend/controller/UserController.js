@@ -17,7 +17,7 @@ const authUser = async (req, res) => {
                     name: user.name,
                     userType: user.userType,
 
-                }, 'secret', { expiresIn: '1h' });
+                }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 
                 res.json({ token });
             } else {
@@ -43,7 +43,7 @@ const signup = async (req, res) => {
         status,
         name,
         userType,
-    }, 'secret', { expiresIn: '1h' });
+    }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 
     try {
         const user = new UserModel({
