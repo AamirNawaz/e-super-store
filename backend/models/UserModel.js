@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     username: { type: String, unique: true },
     password: { type: String, required: true },
-    contactNumber: { type: Number, minlength: 15 },
+    contactNumber: { type: Number, minlength: 5, maxlength: 15 },
     address: { type: String },
     userType: {
         type: String, required: true,
@@ -13,12 +13,13 @@ const userSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['blocked', 'unblock']
+        enum: ['blocked', 'unblock'],
+        default: 'unblock'
     },
-})
+}, { timestamps: true })
 
 
 
 const User = mongoose.model('User', userSchema);
 
-module.exports.User = User;
+module.exports.UserModel = User;

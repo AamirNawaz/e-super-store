@@ -6,7 +6,7 @@ const sliderSchema = new mongoose.Schema({
         type: String,
         enum: ['active', 'inActive']
     },
-})
+}, { timestamps: true })
 
 
 

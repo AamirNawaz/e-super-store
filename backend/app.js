@@ -3,25 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config()
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productRoutes = require('./controller/product');
+var productRoutes = require('./routes/productRoutes');
+var userRoutes = require('./routes/userRoutes');
+const { dbConnection } = require('./db/config');
 
 var app = express();
 
-// Mongodb connection
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/e-supper-store-db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
-}).then(() => {
-  console.log('Mongoos Connected');
-}).catch((e) => {
-  console.log(e);
-})
-
+// db connection call
+dbConnection();
 
 
 
@@ -49,8 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   global.baseUrl = appUrl;
 // });
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 
 // catch 404 and forward to error handler
@@ -62,7 +52,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get('env') === process.env.APP_ENV ? err : {};
 
   // render the error page
   res.status(err.status || 500);

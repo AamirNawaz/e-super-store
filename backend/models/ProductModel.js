@@ -16,10 +16,10 @@ const productSchema = new mongoose.Schema({
     //     type: String,
     //     enum: ['active', 'inActive']
     // },
-})
+}, { timestamps: true })
 
 
 
 const Product = mongoose.model('Product', productSchema);
 
-module.exports.Product = Product;
+module.exports.ProductModel = Product;
