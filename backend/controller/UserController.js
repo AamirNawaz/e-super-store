@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { UserModel } = require('../models/UserModel');
 var bcrypt = require('bcryptjs');
+const { generateToken } = require('../helper/generateToken');
 
 
 const authUser = async (req, res) => {
@@ -11,14 +12,7 @@ const authUser = async (req, res) => {
         if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {
-
-                const token = jwt.sign({
-                    email: user.email,
-                    name: user.name,
-                    userType: user.userType,
-
-                }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-
+                const token = await generateToken({ id: user._id, email: user.email, name: user.name, userType: user.userType });
                 res.json({ token });
             } else {
                 res.status(400).send('Password did not matched');
@@ -36,15 +30,7 @@ const signup = async (req, res) => {
     const { name, email, username, password, contactNumber, address, userType, status } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
-
-    const token = jwt.sign({
-        email,
-        username,
-        status,
-        name,
-        userType,
-    }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-
+    const token = await generateToken({ email, username, status, name, userType });
     try {
         const user = new UserModel({
             name,
@@ -66,15 +52,20 @@ const signup = async (req, res) => {
 
 const getUsers = async (req, res) => {
     try {
-        const users = UserModel.find({});
+        const users = await UserModel.find({}).select('-password');
         res.json({ users });
     } catch (error) {
-        throw new Error('User controller error');
+        res.status(400).send(error.message);
     }
 }
 
+const getUserProfile = async (req, res, next) => {
+    const userInfo = await UserModel.findById({ _id: req.user.id }).select('-password');
+    res.json(userInfo);
+}
 module.exports = {
     authUser,
     getUsers,
-    signup
+    signup,
+    getUserProfile
 }
