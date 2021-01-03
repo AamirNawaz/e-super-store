@@ -2,24 +2,42 @@ import React, { Component } from 'react'
 import AsideBar from './AsideBar';
 import DashboardFooter from './DashboardFooter';
 import NavTop from './NavTop';
+import axios from 'axios';
+import Pagination from './Pagination';
 
 
 class ProductCategory extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            productName: '',
-            companyName: '',
-            productCategory: '',
-            productPrice: '',
-            productSale: '',
-            productStock: '',
+            categories: [],
+            categoryName: '',
             productStatus: '',
-            productSize: '',
-            productImage: '',
+            perPage: 4,
+            start: 0,
+            end: this.perPage
 
 
         }
+    }
+    changePagination = (startValue, endValue) => {
+        this.setState({
+            start: startValue,
+            end: endValue
+        })
+
+    }
+    getCategories = async () => {
+        const categoriesList = await axios.get('http://localhost:9000/api/categories');
+        const data = categoriesList.data.categories
+        console.log(data)
+        this.setState({
+            categories: data
+        })
+    }
+    componentDidMount() {
+        this.getCategories()
+
     }
     handleChange = (e) => {
         this.setState({
@@ -30,6 +48,7 @@ class ProductCategory extends Component {
     }
 
     render() {
+        const { categories, start, end } = this.state
         return (
             <React.Fragment>
                 <div>
@@ -46,15 +65,15 @@ class ProductCategory extends Component {
 
                                         <div className="form-group col-md-6">
                                             <label htmlFor="inputEmail4">Category Name</label>
-                                            <input type="text" className="form-control" id="productName" name="productName" placeholder="Product Name" onChange={(e) => this.handleChange(e)} />
+                                            <input type="text" className="form-control" id="productName" name="productCategory" placeholder="Product Category" onChange={(e) => this.handleChange(e)} />
                                         </div>
                                         <div className="form-group">
                                             <div className="form-group col-md-6">
-                                                <label htmlFor="inputState">Product Category</label>
-                                                <select name="productCategory" id="inputState" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                                <label htmlFor="inputState">Status</label>
+                                                <select name="categoryStatus" id="inputState" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
-                                                    <option value="shoes">Shoes</option>
-                                                    <option value="shirts">Shirts</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="inActive">In-Active</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -64,6 +83,40 @@ class ProductCategory extends Component {
 
                                         </div>
                                     </form>
+                                    <table className="table table-dark">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Edit | Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {
+                                                categories.slice(start, end).map((item, index) => (
+                                                    <tr key={index}>
+                                                        <th scope="row">{index + 1}</th>
+                                                        <td>{item.name}</td>
+                                                        <td>{item.status}</td>
+                                                        <td>
+                                                            <button className="btn btn-success">Edit</button>
+                                                            {` `}
+                                                            |
+                                                            {` `}
+                                                            <button className="btn btn-danger">Delete</button>
+
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <Pagination perPage={this.state.perPage} changePagination={this.changePagination} totalCategories={categories.length} />
                                 </div>
                             </main>
                             <DashboardFooter />
