@@ -147,18 +147,18 @@ const InitialState = {
     wishList: []
 }
 
-const shopeReducer = (state = InitialState, action) => {
+const shopeReducer = (state = { products: [], cart: [], wishList: [] }, action) => {
     // eslint-disable-next-line default-case
     switch (action.type) {
         case actionType.ADD_TO_CART:
-            const item = state.products.find((product) => product.productID === action.payload.id);
-            const itemInCart = state.cart.find((cartItem) => cartItem.productID === action.payload.id ? true : false);
+            const item = state.products.find((product) => product._id === action.payload.id);
+            const itemInCart = state.cart.find((cartItem) => cartItem._id === action.payload.id ? true : false);
 
             return {
                 ...state,
                 cart: itemInCart
                     ?
-                    state.cart.map(item => item.productID === action.payload.id
+                    state.cart.map(item => item._id === action.payload.id
                         ?
                         { ...item, qty: item.qty + 1 }
 
@@ -173,12 +173,12 @@ const shopeReducer = (state = InitialState, action) => {
         case actionType.REMOVE_FROM_CART:
             return {
                 ...state,
-                cart: state.cart.filter((item) => item.productID !== action.payload.id)
+                cart: state.cart.filter((item) => item._id !== action.payload.id)
             }
 
         case actionType.INCREMENT_QTY:
             let tempCart = state.cart.map((cartItem) => {
-                if (cartItem.productID === action.payload.id) {
+                if (cartItem._id === action.payload.id) {
                     cartItem = { ...cartItem, qty: cartItem.qty + 1 }
                 }
                 return cartItem;
@@ -193,11 +193,11 @@ const shopeReducer = (state = InitialState, action) => {
             let tempCartNew = [];
             if (action.payload.decrementQty === 1) {
                 tempCartNew = state.cart.filter(
-                    (cartItem) => cartItem.productID !== action.payload.id
+                    (cartItem) => cartItem._id !== action.payload.id
                 );
             } else {
                 tempCartNew = state.cart.map((cartItem) => {
-                    if (cartItem.productID === action.payload.id) {
+                    if (cartItem._id === action.payload.id) {
                         cartItem = { ...cartItem, qty: cartItem.qty - 1 };
                     }
                     return cartItem;
@@ -214,14 +214,14 @@ const shopeReducer = (state = InitialState, action) => {
 
         /*****************Wishlist section********* */
         case actionType.ADD_TO_WISHLIST:
-            const prodItem = state.products.find((product) => product.productID === action.payload.id);
-            const itemInWishlist = state.wishList.find((cartItem) => cartItem.productID === action.payload.id ? true : false);
+            const prodItem = state.products.find((product) => product._id === action.payload.id);
+            const itemInWishlist = state.wishList.find((cartItem) => cartItem._id === action.payload.id ? true : false);
 
             return {
                 ...state,
                 wishList: itemInWishlist
                     ?
-                    state.wishList.map(prodItem => prodItem.productID === action.payload.id
+                    state.wishList.map(prodItem => prodItem._id === action.payload.id
                         ?
                         { ...prodItem, isWishList: false }
 
@@ -235,7 +235,7 @@ const shopeReducer = (state = InitialState, action) => {
         case actionType.REMOVE_FROM_WISHLIST:
             return {
                 ...state,
-                wishList: state.wishList.filter((item) => item.productID !== action.payload.id)
+                wishList: state.wishList.filter((item) => item._id !== action.payload.id)
             }
 
         case actionType.CLEAR_WISHLIST:
@@ -244,6 +244,12 @@ const shopeReducer = (state = InitialState, action) => {
                 wishList: []
             }
 
+        /***************Fetch products */
+        case actionType.FETCH_PRODUCTS:
+            return {
+                ...state,
+                products: action.payload.productList
+            }
 
         // default case
         default:

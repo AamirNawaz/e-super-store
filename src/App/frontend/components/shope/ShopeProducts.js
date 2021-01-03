@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { addToCart, addToWishList } from '../../../redux/reducer/shope/shopeActions';
+import { addToCart, addToWishList, fetchProducts } from '../../../redux/reducer/shope/shopeActions';
 
 class ShopeProducts extends Component {
     constructor(props) {
         super(props);
         this.state = {}
     }
+
+    componentDidMount = () => {
+        this.props.fetchProductsCall();
+    }
+
+
 
     render() {
         const { productsList } = this.props;
@@ -133,15 +139,15 @@ class ShopeProducts extends Component {
                                             <figcaption className="info-wrap">
                                                 <a href="/" className="title mb-2">{product.details}</a>
                                                 <div className="price-wrap">
-                                                    <span className="price">{product.price}</span>
+                                                    <span className="price">${product.price} </span>
                                                     <small className="text-muted">/per item</small>
                                                 </div>
                                                 <p className="mb-2"> {product.qty} Pieces  <small className="text-muted">(Min Order)</small></p>
                                                 <p className="text-muted ">{product.productName}</p>
                                                 <hr />
 
-                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product.productID)}> <i className="fa fa-envelope" /> Add to Cart </button>
-                                        &nbsp;&nbsp;<button className="btn btn-outline-primary" onClick={() => this.props.addToWishListBtn(product.productID)}> <i className="fa fa-heart" /> Add to wishlist </button>
+                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product._id)}> <i className="fa fa-envelope" /> Add to Cart </button>
+                                        &nbsp;&nbsp;<button className="btn btn-outline-primary" onClick={() => this.props.addToWishListBtn(product._id)}> <i className="fa fa-heart" /> Add to wishlist </button>
                                             </figcaption>
                                         </figure>
                                     </div>)
@@ -186,8 +192,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCartBtn: (productID) => dispatch(addToCart(productID)),
-        addToWishListBtn: (productID) => dispatch(addToWishList(productID))
+        addToCartBtn: (_id) => dispatch(addToCart(_id)),
+        addToWishListBtn: (_id) => dispatch(addToWishList(_id)),
+        fetchProductsCall: () => dispatch(fetchProducts())
     }
 }
 
