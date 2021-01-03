@@ -39,15 +39,15 @@ function ProfileWhishList(props) {
                                         {wishList && wishList.length ?
                                             wishList.map((list, index) => {
                                                 return (
-                                                    <div className="col-md-6">
+                                                    <div key={index} className="col-md-6">
                                                         <figure className="itemside mb-4">
                                                             <div className="aside">
                                                                 <img src={list.image} alt=" " className="border img-md" /></div>
                                                             <figcaption className="info">
                                                                 <a href="/" className="title">{list.productName}</a>
                                                                 <p className="price mb-2">${list.price}</p>
-                                                                <button className="btn btn-secondary btn-sm" onClick={() => props.addToCartBtn(list.productID)}> Add to cart </button>
-                                                                <button className="btn btn-danger btn-sm" data-toggle="tooltip" title data-original-title="Remove from wishlist" onClick={() => props.removeFromWishlistBtn(list.productID)}> <i className="fa fa-times" /> </button>
+                                                                <button className="btn btn-secondary btn-sm" onClick={() => props.addToCartBtn(list._id)}> Add to cart </button>
+                                                                <button className="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Remove from wishlist" onClick={() => props.removeFromWishlistBtn(list._id)}> <i className="fa fa-times" /> </button>
                                                             </figcaption>
                                                         </figure>
                                                     </div>
@@ -84,8 +84,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCartBtn: (productID) => dispatch(addToCart(productID)),
-        removeFromWishlistBtn: (productID) => dispatch(removeFromWishList(productID)),
+        addToCartBtn: (_id) => dispatch(addToCart(_id)),
+        removeFromWishlistBtn: (_id) => dispatch(removeFromWishList(_id)),
         clearWishListBtn: () => dispatch(clearWishList())
     }
 }
