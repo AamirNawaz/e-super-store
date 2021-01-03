@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, unique: true, require: true },
     status: {
         type: String,
         enum: ['active', 'inActive'],

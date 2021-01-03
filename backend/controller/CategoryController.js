@@ -22,12 +22,16 @@ const getCategoryById = async (req, res) => {
 const addCategory = async (req, res) => {
     try {
         const reqBody = req.body;
-        const category = new CategoryModel({
-            name: reqBody.name,
-            status: reqBody.status
-        });
-        const result = await category.save();
-        res.json({ result })
+        if (reqBody.name && reqBody.status) {
+            const category = new CategoryModel({
+                name: reqBody.name,
+                status: reqBody.status
+            });
+            const result = await category.save();
+            res.json({ result })
+        } else {
+            res.status(400).send('Category name and status are required field!');
+        }
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -36,6 +40,7 @@ const addCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
     try {
         const _id = req.params.id;
+        console.log(_id);
         const result = await CategoryModel.deleteOne({ _id });
         res.json({ result });
     } catch (error) {

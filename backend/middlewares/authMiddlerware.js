@@ -24,6 +24,17 @@ const protectedRoute = async (req, res, next) => {
     }
 }
 
+const adminProtectedRoute = async (req, res, next) => {
+    // res.send(req.user);
+    console.log('admin route: req.user', req.user);
+    if (req.user && req.user.userType === 'admin') {
+        next();
+    } else {
+        res.status(401).send("Not Authorized to access admin area");
+    }
+}
+
 module.exports = {
-    protectedRoute
+    protectedRoute,
+    adminProtectedRoute
 }
