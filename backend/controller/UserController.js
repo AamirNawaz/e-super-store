@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { UserModel } = require('../models/UserModel');
 var bcrypt = require('bcryptjs');
+const { generateToken } = require('../helper/generateToken');
 
 
 const authUser = async (req, res) => {
@@ -11,14 +12,7 @@ const authUser = async (req, res) => {
         if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {
-
-                const token = jwt.sign({
-                    email: user.email,
-                    name: user.name,
-                    userType: user.userType,
-
-                }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-
+                const token = await generateToken({ email: user.email, name: user.name, userType: user.userType });
                 res.json({ token });
             } else {
                 res.status(400).send('Password did not matched');
