@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config()
 
+var indexRoute = require('./routes/index');
 var productRoutes = require('./routes/productRoutes');
 var userRoutes = require('./routes/userRoutes');
 var categoryRoutes = require('./routes/categoryRoutes')
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   global.baseUrl = appUrl;
 // });
 
+app.use('/',indexRoute);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
