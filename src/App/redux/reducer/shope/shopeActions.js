@@ -1,31 +1,32 @@
 
 import * as actionType from './shopeActionTypes';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
-export const addToCart = (productID) => {
+export const addToCart = (_id) => {
     const message = "Added in Cart!";
     const type = 'success';
     tostifyAlert(type, message);
 
     return {
         type: actionType.ADD_TO_CART,
-        payload: { id: productID }
+        payload: { id: _id }
     }
 }
 
-export const removeFromCart = (productID) => {
+export const removeFromCart = (_id) => {
     const message = "Item removed from Cart!";
     const type = 'error';
     tostifyAlert(type, message);
 
     return {
         type: actionType.REMOVE_FROM_CART,
-        payload: { id: productID }
+        payload: { id: _id }
 
     }
 }
 
-export const incrmentQty = (productID) => {
+export const incrmentQty = (_id) => {
     const message = "Quantity updated in cart!";
     const type = 'success';
     tostifyAlert(type, message);
@@ -33,12 +34,12 @@ export const incrmentQty = (productID) => {
     return {
         type: actionType.INCREMENT_QTY,
         payload: {
-            id: productID
+            id: _id
         }
     }
 }
 
-export const decrmentQty = (productID, qty) => {
+export const decrmentQty = (_id, qty) => {
 
     const message = "Quantity decremented from cart!";
     const type = 'error';
@@ -47,7 +48,7 @@ export const decrmentQty = (productID, qty) => {
     return {
         type: actionType.DECREMENT_QTY,
         payload: {
-            id: productID,
+            id: _id,
             decrementQty: qty
         }
     }
@@ -67,24 +68,24 @@ export const clearCart = () => {
 }
 
 /************* Wish list section **********/
-export const addToWishList = (productID) => {
+export const addToWishList = (_id) => {
     const message = "Added in Wish list";
     const type = 'success';
     tostifyAlert(type, message);
     return {
         type: actionType.ADD_TO_WISHLIST,
-        payload: { id: productID }
+        payload: { id: _id }
     }
 
 }
 
-export const removeFromWishList = (productID) => {
+export const removeFromWishList = (_id) => {
     const message = "Item remove from Wish list";
     const type = 'error';
     tostifyAlert(type, message);
     return {
         type: actionType.REMOVE_FROM_WISHLIST,
-        payload: { id: productID }
+        payload: { id: _id }
     }
 }
 
@@ -101,6 +102,19 @@ export const clearWishList = () => {
     }
 }
 
+export const fetchProducts = () => {
+    return async function (dispatch) {
+            await axios.get('/products').then(response => {
+               const localStorageProducts =  localStorage.setItem('products',JSON.stringify(response.data.products));
+                  dispatch({
+                      type: actionType.FETCH_PRODUCTS,
+                      payload: {
+                          productList: response.data.products.length ? response.data.products : localStorageProducts
+                      }
+                  })
+              })
+        }
+}
 
 const tostifyAlert = (type, message) => {
     if (type === 'success') {

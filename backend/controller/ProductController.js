@@ -24,16 +24,22 @@ const addProduct = async (req, res) => {
     try {
         const reqBody = req.body;
         const products = new ProductModel({
-            name: reqBody.name,
+            productName: reqBody.productName,
             manufacturer: reqBody.manufacturer,
+            details: reqBody.details,
             category: reqBody.category,
             image: reqBody.image,
             price: reqBody.price,
             sale: reqBody.sale,
-            inStock: reqBody.inStock,
+            stock: reqBody.stock,
             status: reqBody.status,
-            size: reqBody.size
+            size: reqBody.size,
+            qty: reqBody.qty,
+            deliveryTime: reqBody.deliveryTime,
+            guarantee: reqBody.guarantee,
+            reviews: reqBody.reviews,
         });
+
         const result = await products.save();
         res.json({ result })
     } catch (error) {

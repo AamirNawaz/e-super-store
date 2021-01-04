@@ -45,21 +45,21 @@ class CartItems extends Component {
                                         </thead>
                                         <tbody>
                                             {cartItems.length > 0 ?
-                                                cartItems.map((item) => {
+                                                cartItems.map((item, index) => {
                                                     getTotals = getTotals + (item.price * item.qty);
                                                     return (
-                                                        <tr key={item.productID}>
+                                                        <tr key={index}>
                                                             <td>
                                                                 <figure className="itemside">
                                                                     <div className="aside"><img src={item.image} alt="" className="img-sm" /></div>
                                                                     <figcaption className="info">
-                                                                        <Link to={`product-details/${item.productID}`} className="title text-dark">{item.productName}</Link>
+                                                                        <Link to={`product-details/${item._id}`} className="title text-dark">{item.productName}</Link>
                                                                         <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
                                                                     </figcaption>
                                                                 </figure>
                                                             </td>
                                                             <td>
-                                                                <button className="btn btn-success btn-xs" onClick={() => this.props.incrmentQtyBtn(item.productID)}> + </button> {item.qty} <button className="btn btn-danger btn-xs" onClick={() => this.props.decrementQtyBtn(item.productID, item.qty)}> -</button>
+                                                                <button className="btn btn-success btn-xs" onClick={() => this.props.incrmentQtyBtn(item._id)}> + </button> {item.qty} <button className="btn btn-danger btn-xs" onClick={() => this.props.decrementQtyBtn(item._id, item.qty)}> -</button>
                                                             </td>
                                                             <td>
                                                                 <div className="price-wrap">
@@ -73,7 +73,7 @@ class CartItems extends Component {
                                                             </td>
                                                             <td className="text-right">
 
-                                                                <button className="btn btn-danger" onClick={() => this.props.removeFromCartBtn(item.productID)}> X</button>
+                                                                <button className="btn btn-danger" onClick={() => this.props.removeFromCartBtn(item._id)}> X</button>
                                                             </td>
                                                         </tr>
 
@@ -165,9 +165,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        removeFromCartBtn: (productID) => dispatch(removeFromCart(productID)),
-        incrmentQtyBtn: (productID) => dispatch(incrmentQty(productID)),
-        decrementQtyBtn: (productID, qty) => dispatch(decrmentQty(productID, qty)),
+        removeFromCartBtn: (_id) => dispatch(removeFromCart(_id)),
+        incrmentQtyBtn: (_id) => dispatch(incrmentQty(_id)),
+        decrementQtyBtn: (_id, qty) => dispatch(decrmentQty(_id, qty)),
         clearCartBtn: () => dispatch(clearCart())
     }
 }
