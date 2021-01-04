@@ -2,18 +2,16 @@ const mongoose = require('mongoose');
 // const CategoryModel = require('../models/CategoryModel');
 
 const productSchema = new mongoose.Schema({
-    name: String,
+    productName: String,
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     manufacturer: String,
+    details: String,
     image: String,
     price: Number,
-    sale: {
+    sale: { type: String },
+    stock: {
         type: String,
-        default: 0
-    },
-    inStock: {
-        type: String,
-        default: true
+        enum: ['inStock', 'outOfStock']
     },
     status: {
         type: String,
@@ -21,8 +19,13 @@ const productSchema = new mongoose.Schema({
     },
     size: {
         type: String,
-        enum: ['small', 'large', 'extraLarge', 'medium']
-    }
+        enum: ['small', 'large', 'Extra Large']
+    },
+    qty: Number,
+    deliveryTime: String,
+    guarantee: String,
+    reviews: String
+
 }, { timestamps: true })
 
 

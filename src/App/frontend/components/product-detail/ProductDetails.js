@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 import item15 from '../../../assets/images/items/15.jpg';
 import item15_1 from '../../../assets/images/items/15-1.jpg';
@@ -11,7 +12,17 @@ import { addToCart } from '../../../redux/reducer/shope/shopeActions';
 
 function ProductDetails(props) {
     const { productID } = useParams();
-    const item = props.products.find((prod) => prod.productID === parseInt(productID));
+    let item = null;
+    const productsData = JSON.parse(localStorage.getItem('products'));
+    if (productsData === null) {
+        console.log('empty localstorege');
+        //here we need to call single prodcut from api
+        return <Redirect to="/" />
+    } else {
+        item = productsData.find((prod) => prod._id === productID);
+    }
+
+
 
     return (
         <React.Fragment>
@@ -81,7 +92,7 @@ function ProductDetails(props) {
                                     <dt className="col-sm-3">Delivery time</dt>
                                     <dd className="col-sm-9">{item.deliveryTime} days</dd>
                                     <dt className="col-sm-3">Availabilty</dt>
-                                    <dd className="col-sm-9">{item.availabilty ? 'In Stock' : 'Out of Stock'}</dd>
+                                    <dd className="col-sm-9">{item.stock ? 'In Stock' : 'Out of Stock'}</dd>
                                 </dl>
 
                                 <div className="form-group col-md">
@@ -91,7 +102,7 @@ function ProductDetails(props) {
 
 
                                     <div className="form-group col-md">
-                                        <button className="btn  btn-primary" onClick={() => props.addToCartBtn(item.productID)}>
+                                        <button className="btn  btn-primary" onClick={() => props.addToCartBtn(item._id)}>
                                             <i className="fas fa-shopping-cart" /> <span className="text">Add to cart</span>
                                         </button>
                                         &nbsp;
@@ -116,6 +127,7 @@ function ProductDetails(props) {
     )
 }
 const mapStateToProps = (state) => {
+
     return {
         products: state.shope.products
     }
@@ -123,7 +135,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCartBtn: (productID) => dispatch(addToCart(productID)),
+        addToCartBtn: (_id) => dispatch(addToCart(_id)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
