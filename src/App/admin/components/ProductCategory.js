@@ -13,7 +13,7 @@ class ProductCategory extends Component {
             categories: [],
             categoryName: '',
             productStatus: '',
-            perPage: 4,
+            perPage: 2,
             start: 0,
             end: this.perPage
 
@@ -83,7 +83,7 @@ class ProductCategory extends Component {
 
                                         </div>
                                     </form>
-                                    <table className="table table-dark">
+                                    <table className="table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
