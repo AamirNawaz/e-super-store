@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { addToCart, addToWishList, fetchProducts } from '../../../redux/reducer/shope/shopeActions';
+import { addToCart, addToWishList, /*fetchProducts*/ } from '../../../redux/reducer/shope/shopeActions';
 
 class ShopeProducts extends Component {
     constructor(props) {
@@ -10,9 +10,9 @@ class ShopeProducts extends Component {
         this.state = {}
     }
 
-    componentDidMount = () => {
-        this.props.fetchProductsCall();
-    }
+    // componentDidMount = () => {
+    //     this.props.fetchProductsCall();
+    // }
 
 
 
@@ -186,16 +186,20 @@ class ShopeProducts extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const localStorageProducts = JSON.parse(localStorage.getItem('products')) ?  JSON.parse(localStorage.getItem('products')) :[]
+    const reducerStateProducts = state.shope.products.length ? state.shope.products : []
+  
     return {
-        productsList: state.shope.products
+        productsList: reducerStateProducts.length ? reducerStateProducts :localStorageProducts
     }
+   
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         addToCartBtn: (_id) => dispatch(addToCart(_id)),
         addToWishListBtn: (_id) => dispatch(addToWishList(_id)),
-        fetchProductsCall: () => dispatch(fetchProducts())
+        // fetchProductsCall: () => dispatch(fetchProducts())
     }
 }
 

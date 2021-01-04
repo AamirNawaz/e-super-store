@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import {  ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -92,7 +92,7 @@ function ProductDetails(props) {
     
     
                                         <div className="form-group col-md">
-                                            <button className="btn  btn-primary" onClick={() => props.addToCartBtn(item.productID)}>
+                                            <button className="btn  btn-primary" onClick={() => props.addToCartBtn(item._id)}>
                                                 <i className="fas fa-shopping-cart" /> <span className="text">Add to cart</span>
                                             </button>
                                             &nbsp;

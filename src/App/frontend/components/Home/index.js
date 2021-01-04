@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux';
 import Header from "../../layouts/Header";
 import MainSection from './MainSection/index'
 import DealSection from './DealSection/index'
@@ -10,9 +11,19 @@ import SubscribeNewsLater from '../subscribeNewsLater';
 
 
 import bannerImg from '../../../assets/images/banners/ad-sm.png';
+import { fetchProducts } from '../../../redux/reducer/shope/shopeActions';
 
 
-export default function index() {
+class Index extends React.Component {
+constructor(props){
+    super(props);
+    this.state={}
+}
+componentDidMount = () => {
+    this.props.fetchProductsCall();
+}
+
+render(){
     return (
         <React.Fragment>
             <Header />
@@ -32,3 +43,12 @@ export default function index() {
         </React.Fragment>
     )
 }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchProductsCall: () => dispatch(fetchProducts())
+    }
+}
+export default connect(null,mapDispatchToProps)(Index);

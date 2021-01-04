@@ -102,23 +102,19 @@ export const clearWishList = () => {
     }
 }
 
-
-
 export const fetchProducts = () => {
-    return function (dispatch) {
-        axios.get('/products').then(response => {
-            localStorage.setItem('products', JSON.stringify(response.data.products))
-            dispatch({
-                type: actionType.FETCH_PRODUCTS,
-                payload: {
-                    productList: response.data.products
-                }
-            })
-        })
-    }
-
+    return async function (dispatch) {
+            await axios.get('/products').then(response => {
+               const localStorageProducts =  localStorage.setItem('products',JSON.stringify(response.data.products));
+                  dispatch({
+                      type: actionType.FETCH_PRODUCTS,
+                      payload: {
+                          productList: response.data.products.length ? response.data.products : localStorageProducts
+                      }
+                  })
+              })
+        }
 }
-
 
 const tostifyAlert = (type, message) => {
     if (type === 'success') {
