@@ -5,6 +5,15 @@ import { ToastContainer } from 'react-toastify';
 import { addToCart } from '../../../../redux/reducer/shope/shopeActions';
 
 function ProductItem(props) {
+    // let productData ="";
+    // if(props.products.length){
+    //     productData = props.products;
+    // }else if(JSON.parse(localStorage.getItem('products'))){
+    //     productData=JSON.parse(localStorage.getItem('products'));
+    // }else{
+    //     productData = [];
+    // }
+    // console.log('product length:::',productData)
     return (
 
         <React.Fragment>
@@ -19,30 +28,33 @@ function ProductItem(props) {
                 draggable
                 pauseOnHover
             />
-            {
-                props.products.map((product, index) => {
+            {props.productData.length ? 
+                props.productData.map((product, index) => {
                     return (<div key={index} className="col-xl-2 col-lg-3 col-md-4 col-6">
                         <div className="card card-sm card-product-grid">
-                            <Link to={`/product-details/${product.productID}`} className="img-wrap"> <img src={product.image} alt={product.productName} /> </Link>
+                            <Link to={`/product-details/${product._id}`} className="img-wrap"> <img src={product.image} alt={product.productName} /> </Link>
                             <figcaption className="info-wrap">
-                                <Link to={`/product-details/${product.productID}`} className="title">{product.productName}</Link>
+                                <Link to={`/product-details/${product._id}`} className="title">{product.productName}</Link>
                                 <div className="price mt-1">${product.price}</div>
-                                <button className="btn btn-warning btn-sm" onClick={() => props.addToCartBtn(product.productID)}>Add To Cart</button>
+                                <button className="btn btn-warning btn-sm" onClick={() => props.addToCartBtn(product._id)}>Add To Cart</button>
                             </figcaption>
                         </div>
                     </div>
                     )
 
-                })
-            }
+                }): ('')}
+            
 
         </React.Fragment>
     )
 }
 
 const mapStateToProps = (state) => {
+    const localStorageProducts = JSON.parse(localStorage.getItem('products')) ?  JSON.parse(localStorage.getItem('products')) :[]
+    const reducerStateProducts = state.shope.products.length ? state.shope.products : [] 
     return {
-        products: state.shope.products
+        productData: reducerStateProducts.length ? reducerStateProducts :localStorageProducts
+        
     }
 }
 const mapDispatchToProps = (dispatch) => {

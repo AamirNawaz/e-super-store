@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { addToCart, addToWishList, fetchProducts } from '../../../redux/reducer/shope/shopeActions';
 
@@ -137,7 +138,7 @@ class ShopeProducts extends Component {
                                                 <img src={product.image} alt="" />
                                             </div>
                                             <figcaption className="info-wrap">
-                                                <a href="/" className="title mb-2">{product.details}</a>
+                                                <Link to={`/product-details/${product._id}`} className="title mb-2">{product.details}</Link>
                                                 <div className="price-wrap">
                                                     <span className="price">${product.price} </span>
                                                     <small className="text-muted">/per item</small>
