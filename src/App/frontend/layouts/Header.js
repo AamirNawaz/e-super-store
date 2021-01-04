@@ -45,24 +45,15 @@ function Header(props) {
                         </div> {/* col.// */}
                         <div className="col-xl-4 col-lg-4 col-md-6">
                             <div className="widgets-wrap float-md-right">
-                                <div className="widget-header mr-3">
-                                    <Link to="/profile" className="widget-view">
-                                        <div className="icon-area">
-                                            <i className="fa fa-user" />
-                                            <span className="notify">3</span>
-                                        </div>
-                                        <small className="text"> My profile </small>
-                                    </Link>
-                                </div>
-
-                                <div className="widget-header mr-3">
+                                
+                                {/* <div className="widget-header mr-3">
                                     <Link to="/profile-orders" className="widget-view">
                                         <div className="icon-area">
                                             <i className="fa fa-store" />
                                         </div>
                                         <small className="text"> Orders </small>
                                     </Link>
-                                </div>
+                                </div> */}
                                 <div className="widget-header">
                                     <Link to="/cart-details" className="widget-view">
                                         <div className="icon-area">
@@ -83,14 +74,34 @@ function Header(props) {
                                     </Link>
                                 </div>
 
-                                <div className="widget-header">
+                                <div className="widget-header mr-3">
+                                    <Link to="/profile" className="widget-view">
+                                        <div className="icon-area">
+                                            <i className="fa fa-user" />
+                                            
+                                        </div>
+                                        <a href="/" className="nav-link dropdown-toggle" data-toggle="dropdown" style={{fontSize: '14px'}}> My profile </a>
+                                        <div className="dropdown-menu dropdown-menu-right">
+                                    <a className="dropdown-item" href="/">Profile</a>
+                                    <a className="dropdown-item" href="/">My Wishlist</a>
+                                    <a className="dropdown-item" href="/">My Orders</a>
+                                    <a className="dropdown-item" href="/">Setting</a>
+                                    <a className="dropdown-item" href="/">Logout</a>
+                                </div>
+                                    </Link>
+                                </div>
+                       
+
+
+
+                                {/* <div className="widget-header">
                                     <Link to="/admin/dashboard" className="widget-view">
                                         <div className="icon-area">
                                             <i className="fa fa-store" />
                                         </div>
                                         <small className="text"> Dashboard </small>
                                     </Link>
-                                </div>
+                                </div> */}
                             </div> {/* widgets-wrap.// */}
                         </div> {/* col.// */}
                     </div> {/* row.// */}

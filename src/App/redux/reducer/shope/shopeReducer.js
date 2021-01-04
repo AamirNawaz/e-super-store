@@ -19,8 +19,10 @@ const shopeReducer = (state = { products: [], cart: [], wishList: [] }, action) 
                         item)
 
                     :
-                    [...state.cart, { ...item, qty: 1 }]
+                    [...state.cart, { ...item, qty: 1 }],
+                    
             }
+            
 
 
         case actionType.REMOVE_FROM_CART:
@@ -99,9 +101,10 @@ const shopeReducer = (state = { products: [], cart: [], wishList: [] }, action) 
 
         /***************Fetch products */
         case actionType.FETCH_PRODUCTS:
+           
             return {
                 ...state,
-                products: action.payload.productList
+                products:  action.payload.productList
             }
 
         // default case
