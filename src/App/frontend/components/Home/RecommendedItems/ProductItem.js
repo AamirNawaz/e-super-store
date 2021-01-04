@@ -29,7 +29,8 @@ function ProductItem(props) {
                 pauseOnHover
             />
             {props.productData.length ? 
-                props.productData.map((product, index) => {
+                props.productData.slice(0,6).map((product, index) => {
+                    
                     return (<div key={index} className="col-xl-2 col-lg-3 col-md-4 col-6">
                         <div className="card card-sm card-product-grid">
                             <Link to={`/product-details/${product._id}`} className="img-wrap"> <img src={product.image} alt={product.productName} /> </Link>
@@ -43,6 +44,11 @@ function ProductItem(props) {
                     )
 
                 }): ('')}
+                {props.productData.length >6  ?
+                <div className="col-xl-12 col-lg-12 col-md-12 col-12"><Link to="/shope-products"  style={{textDecoration: 'underline',
+    color: '#ff6a00',float:'right'}}>View More</Link></div>
+                :('')
+                }
             
 
         </React.Fragment>
