@@ -104,7 +104,7 @@ export const clearWishList = () => {
 
 export const fetchProducts = () => {
     return async function (dispatch) {
-            await axios.get('/products').then(response => {
+            await axios.get('https://e-super-store.herokuapp.com/api/products').then(response => {
                const localStorageProducts =  localStorage.setItem('products',JSON.stringify(response.data.products));
                   dispatch({
                       type: actionType.FETCH_PRODUCTS,
