@@ -16,6 +16,9 @@ import Login from './admin/components/Login';
 import CheckOut from './frontend/components/cart/CheckOut';
 import CreateProduct from './admin/components/CreateProduct';
 import ProductCategory from './admin/components/ProductCategory';
+import UserLogin from './frontend/components/Auth/UserLogin';
+import UserRegister from './frontend/components/Auth/UserRegister';
+import UserResetPassword from './frontend/components/Auth/UserResetPassword';
 
 function Index() {
     return (
@@ -24,6 +27,23 @@ function Index() {
                 {/* Frontend Routes */}
                 <Route exact path="/">
                     <Home />
+                </Route>
+                <Route path="/user/login">
+                    <Header/>
+                    <UserLogin />
+                    <Footer />
+                </Route>
+
+                <Route path="/user/register">
+                <Header />
+                    <UserRegister />
+                    <Footer />
+                </Route>
+
+                <Route path="/user/forgot-password">
+                    <Header />
+                    <UserResetPassword />
+                    <Footer />
                 </Route>
 
                 <Route path="/profile">
@@ -73,7 +93,7 @@ function Index() {
                 </Route>
                 {/* Frontend Routes end */}
 
-                {/* Admin Dashboard routes */}
+                {/****************** Admin Dashboard routes *********************/}
                 <Route path="/admin/dashboard">
                     <Dashboard />
                 </Route>
