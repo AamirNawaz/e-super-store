@@ -19,6 +19,7 @@ import ProductCategory from './admin/components/ProductCategory';
 import UserLogin from './frontend/components/Auth/UserLogin';
 import UserRegister from './frontend/components/Auth/UserRegister';
 import UserResetPassword from './frontend/components/Auth/UserResetPassword';
+import Logout from './admin/components/Logout';
 
 function Index() {
     return (
@@ -103,7 +104,7 @@ function Index() {
                 </Route>
 
                 <Route path="/admin/logout">
-                    <Login />
+                    <Logout />
                 </Route>
 
                 <Route path="/admin/create-product">

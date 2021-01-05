@@ -76,6 +76,17 @@ function Header(props) {
                                     </Link>
                                 </div> 
 
+                                <div className="widget-header mr-3">
+                                   <Link to="/admin/login" className="widget-view">
+                                        <div className="icon-area">
+                                            <i className="fa fa-user" />
+                                            
+                                        </div>
+                                        <div className="" data-toggle="dropdown" style={{fontSize: '14px'}}>Admin Login </div>
+                                      
+                                    </Link>
+                                </div> 
+
                                 {/* <div className="widget-header mr-3">
                                    <div className="widget-view">
                                         <div className="icon-area">
