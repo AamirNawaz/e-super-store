@@ -105,11 +105,10 @@ export const clearWishList = () => {
 export const fetchProducts = () => {
     return async function (dispatch) {
             await axios.get(`${REACT_APP_ENV=== 'Development'? DEV_API_END_POINT:API_END_POINT}/products`).then(response => {
-               const localStorageProducts =  localStorage.setItem('products',JSON.stringify(response.data.products));
                   dispatch({
                       type: actionType.FETCH_PRODUCTS,
                       payload: {
-                          productList: response.data.products.length ? response.data.products : localStorageProducts
+                          productList: response.data.products
                       }
                   })
               })
