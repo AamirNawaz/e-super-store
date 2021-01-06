@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
-import {DEV_API_END_POINT} from '../../../AppConstant';
+import {API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV} from '../../../AppConstant';
 import { Link } from 'react-router-dom';
 class UsersList extends Component {
     constructor(props) {
@@ -19,8 +19,9 @@ class UsersList extends Component {
     }
     
     getUsers =async()=>{
+
     const token =this.props.auth.authToken;
-    const response = await axios.get(`${DEV_API_END_POINT}/users`,{headers: {
+    const response = await axios.get(`${REACT_APP_ENV=== 'Development'? DEV_API_END_POINT:API_END_POINT}/users`,{headers: {
         'Authorization': `Bearer ${token}` 
       }}
       );
