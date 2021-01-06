@@ -10,7 +10,7 @@ const protectedRoute = async (req, res, next) => {
                 req.user = decode.user;
                 next();
             } catch (error) {
-                res.status(401).send(error.message);
+                res.status(400).send(error.message);
             }
 
         }
@@ -25,8 +25,6 @@ const protectedRoute = async (req, res, next) => {
 }
 
 const adminProtectedRoute = async (req, res, next) => {
-    // res.send(req.user);
-    console.log('admin route: req.user', req.user);
     if (req.user && req.user.userType === 'admin') {
         next();
     } else {

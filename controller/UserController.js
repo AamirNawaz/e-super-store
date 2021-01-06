@@ -8,7 +8,6 @@ const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email });
-
         if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {
