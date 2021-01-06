@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import {connect} from 'react-redux';
+import { withRouter  } from 'react-router-dom';
 import '../assets/css/dashboard.css';
 import AsideBar from './AsideBar';
 import DashboardFooter from './DashboardFooter';
@@ -9,6 +10,12 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {}
+    }
+
+    componentDidMount =()=>{
+        if(!this.props.authResponse.authToken){
+            this.props.history.push('/admin/login');
+        }
     }
 
     render() {
@@ -77,4 +84,9 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+const mapStateToProps = (state)=>{
+    return{
+        authResponse:state.auth
+    }
+}
+export default connect(mapStateToProps)(withRouter(Dashboard));

@@ -5,15 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import { addToCart } from '../../../../redux/reducer/shope/shopeActions';
 
 function ProductItem(props) {
-    // let productData ="";
-    // if(props.products.length){
-    //     productData = props.products;
-    // }else if(JSON.parse(localStorage.getItem('products'))){
-    //     productData=JSON.parse(localStorage.getItem('products'));
-    // }else{
-    //     productData = [];
-    // }
-    // console.log('product length:::',productData)
     return (
 
         <React.Fragment>
@@ -56,10 +47,8 @@ function ProductItem(props) {
 }
 
 const mapStateToProps = (state) => {
-    const localStorageProducts = JSON.parse(localStorage.getItem('products')) ?  JSON.parse(localStorage.getItem('products')) :[]
-    const reducerStateProducts = state.shope.products.length ? state.shope.products : [] 
     return {
-        productData: reducerStateProducts.length ? reducerStateProducts :localStorageProducts
+        productData: state.shope.products
         
     }
 }

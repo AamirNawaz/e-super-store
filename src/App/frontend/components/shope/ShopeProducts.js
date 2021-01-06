@@ -119,11 +119,8 @@ class ShopeProducts extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const localStorageProducts = JSON.parse(localStorage.getItem('products')) ?  JSON.parse(localStorage.getItem('products')) :[]
-    const reducerStateProducts = state.shope.products.length ? state.shope.products : []
-  
     return {
-        productsList: reducerStateProducts.length ? reducerStateProducts :localStorageProducts
+        productsList: state.shope.products
     }
    
 }

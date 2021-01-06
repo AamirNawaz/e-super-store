@@ -1,10 +1,12 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-function NavTop() {
+import { userLogout } from '../../redux/reducer/Auth/authActions';
+function NavTop(props) {
     return (
         <React.Fragment>
             <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <a className="navbar-brand" href="index.html">Start Bootstrap</a>
+                <Link className="navbar-brand" to="/admin/dashboard">E-Super Store</Link>
                 <button className="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="/"><i className="fas fa-bars" /></button>
                 {/* Navbar Search*/}
                 <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -23,7 +25,7 @@ function NavTop() {
                             <a className="dropdown-item" href="/">Settings</a>
                             <a className="dropdown-item" href="/">Activity Log</a>
                             <div className="dropdown-divider" />
-                            <Link className="dropdown-item" to="/admin/logout">Logout</Link>
+                            <Link className="dropdown-item" to="/admin/logout" onClick={()=>props.logoutBtn()}>Logout</Link>
                         </div>
                     </li>
                 </ul>
@@ -31,5 +33,9 @@ function NavTop() {
         </React.Fragment>
     )
 }
-
-export default NavTop;
+const mapDispatchToProps =(dispatch)=>{
+    return{
+        logoutBtn :()=>dispatch(userLogout())
+    }
+}
+export default connect(null,mapDispatchToProps)(NavTop);

@@ -2,7 +2,7 @@
 import * as actionType from './shopeActionTypes';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import {API_END_POINT} from '../../../AppConstant';
+import {API_END_POINT,DEV_API_END_POINT, REACT_APP_ENV} from '../../../AppConstant';
 export const addToCart = (_id) => {
     const message = "Added in Cart!";
     const type = 'success';
@@ -104,7 +104,7 @@ export const clearWishList = () => {
 
 export const fetchProducts = () => {
     return async function (dispatch) {
-            await axios.get(`${API_END_POINT}/products`).then(response => {
+            await axios.get(`${REACT_APP_ENV=== 'Development'? DEV_API_END_POINT:API_END_POINT}/products`).then(response => {
                const localStorageProducts =  localStorage.setItem('products',JSON.stringify(response.data.products));
                   dispatch({
                       type: actionType.FETCH_PRODUCTS,
