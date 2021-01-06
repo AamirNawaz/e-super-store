@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { withRouter  } from 'react-router-dom';
 import '../assets/css/dashboard.css';
 import AsideBar from './AsideBar';
 import DashboardFooter from './DashboardFooter';
@@ -12,13 +12,13 @@ class Dashboard extends Component {
         this.state = {}
     }
 
-    render() {
-        // const {authToken,isLoggedIn}= this.props;
-        const authToken  =localStorage.getItem('authToken');
-        const isLoggedIn  =localStorage.getItem('isLoggedIn');
-        if(!authToken && !isLoggedIn){
-            return <Redirect to="/admin/login"/>
+    componentDidMount =()=>{
+        if(!this.props.authResponse.authToken){
+            this.props.history.push('/admin/login');
         }
+    }
+
+    render() {
         return (<React.Fragment>
             <div>
                 <NavTop />
@@ -84,9 +84,9 @@ class Dashboard extends Component {
     }
 }
 
-const mapStateToProps =(state) =>{
+const mapStateToProps = (state)=>{
     return{
-        authResponse:state.auth[0]
+        authResponse:state.auth
     }
 }
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(withRouter(Dashboard));

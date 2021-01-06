@@ -122,11 +122,8 @@ function ProductDetails(props) {
    
 }
 const mapStateToProps = (state) => {
-    const localStorageProducts = JSON.parse(localStorage.getItem('products')) ?  JSON.parse(localStorage.getItem('products')) :[]
-    const reducerStateProducts = state.shope.products.length ? state.shope.products : [] 
-  
     return {
-        products: reducerStateProducts.length ? reducerStateProducts :localStorageProducts
+        products: state.shope.products
     }
 }
 

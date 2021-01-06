@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import AsideBar from './AsideBar';
-import DashboardFooter from './DashboardFooter';
-import NavTop from './NavTop';
+import AsideBar from '../AsideBar';
+import DashboardFooter from '../DashboardFooter';
+import NavTop from '../NavTop';
 
 
 class CreateProduct extends Component {

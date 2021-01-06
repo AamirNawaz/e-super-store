@@ -22,9 +22,6 @@ export const userLogin =(email,password)=>{
                 progress: undefined,
             });
 
-            // storing token in localStorage
-            localStorage.setItem('authToken',userToken.data.token);
-            localStorage.setItem('isLoggedIn',true);
               dispatch({
                 type:actionType.USER_LOGIN,
                 payload:{
@@ -33,7 +30,8 @@ export const userLogin =(email,password)=>{
                 }
             })
         } catch (error) {
-            toast.error(error.response.data, {
+            const message = error.response.data ? error.response.data :'Backend Service Stop';
+            toast.error(message, {
                 position: "top-right",
                 autoClose: 7000,
                 hideProgressBar: false,
@@ -42,8 +40,7 @@ export const userLogin =(email,password)=>{
                 draggable: true,
                 progress: undefined,
             });
-            localStorage.setItem('authToken',null);
-            localStorage.setItem('isLoggedIn',false);
+
             dispatch({
                 type:actionType.USER_LOGIN,
                 payload:{
@@ -59,8 +56,6 @@ export const userLogin =(email,password)=>{
 
 
 export const userLogout =()=>{
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('isLoggedIn');
     return{
         type:actionType.USER_LOGOUT,
         payload:{

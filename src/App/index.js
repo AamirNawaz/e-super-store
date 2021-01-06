@@ -14,12 +14,14 @@ import ShopeProducts from './frontend/components/shope/ShopeProducts';
 import Dashboard from './admin/components/Dashboard';
 import Login from './admin/components/Login';
 import CheckOut from './frontend/components/cart/CheckOut';
-import CreateProduct from './admin/components/CreateProduct';
+import CreateProduct from './admin/components/products/CreateProduct';
 import ProductCategory from './admin/components/ProductCategory';
 import UserLogin from './frontend/components/Auth/UserLogin';
 import UserRegister from './frontend/components/Auth/UserRegister';
 import UserResetPassword from './frontend/components/Auth/UserResetPassword';
 import Logout from './admin/components/Logout';
+import ProductList from './admin/components/products/ProductsList';
+import UsersList from './admin/components/users/UsersList';
 
 function Index() {
     return (
@@ -110,9 +112,15 @@ function Index() {
                 <Route path="/admin/create-product">
                     <CreateProduct />
                 </Route>
+                <Route path="/admin/product-list">
+                    <ProductList />
+                </Route>
 
                 <Route path="/admin/product-category">
                     <ProductCategory />
+                </Route>
+                <Route path="/admin/users">
+                    <UsersList />
                 </Route>
                 {/* Admin Dashboard routes End */}
 

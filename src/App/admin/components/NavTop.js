@@ -6,7 +6,7 @@ function NavTop(props) {
     return (
         <React.Fragment>
             <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <a className="navbar-brand" href="index.html">Start Bootstrap</a>
+                <Link className="navbar-brand" to="/admin/dashboard">E-Super Store</Link>
                 <button className="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="/"><i className="fas fa-bars" /></button>
                 {/* Navbar Search*/}
                 <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import {userLogin} from '../../redux/reducer/Auth/authActions';
 // import { Link } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
+import { withRouter  } from 'react-router-dom';
 
 
 class Login extends Component {
@@ -26,12 +27,20 @@ class Login extends Component {
         const {email,password} = this.state;
         this.props.UserLoginBtn(email,password);
     }
-    render() {
-        const authToken  =localStorage.getItem('authToken');
-        const isLoggedIn  =localStorage.getItem('isLoggedIn');
-        if(authToken && isLoggedIn){
-            return <Redirect to="/admin/dashboard" />
-        }else{
+
+    componentDidUpdate() {
+        if(this.props.authResponse.authToken){
+            const decode = jwt_decode(this.props.authResponse.authToken);
+            const {userType} = decode.user;
+
+            if(userType && userType==='admin'){
+                setTimeout(() => {
+                     this.props.history.push('/admin/dashboard');
+                  }, 1000);
+            }
+        }
+      }
+    render() {        
          return (<React.Fragment>
              <ToastContainer
                     position="bottom-left"
@@ -73,7 +82,11 @@ class Login extends Component {
                                                 </div>
                                                 <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                     <a className="small" href="password.html">Forgot Password?</a>
+                                                    {!this.props.authResponse.isLoggedIn ?
                                                     <button onClick={(event)=>this.handleLogin(event)}className="btn btn-primary">Login</button>
+                                                    :
+                                                    <button onClick={(event)=>this.handleLogin(event)}className="btn btn-primary" disabled>wait...</button>
+                                                    }
                                                 </div>
                                             </form>
                                         </div>
@@ -101,12 +114,11 @@ class Login extends Component {
             </div>
 
         </React.Fragment>);
-        }
+    
     }
 }
 
 const mapStateToProps = (state)=>{
-    console.log('stateeeee::::',state);
     return{
         authResponse:state.auth
     }
@@ -116,4 +128,4 @@ const mapDispatchToProps =(dispatch)=>{
         UserLoginBtn :(email,password,rememberMe)=>dispatch(userLogin(email,password,rememberMe))
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Login));
