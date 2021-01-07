@@ -5,7 +5,7 @@ function Pagination(props){
         <React.Fragment>
               <tr>
                                     <td>Showing 5 out {props.RecordCount}</td>
-                           <td colSpan="5">
+                           <td colSpan={props.colSpan}>
                                 <nav aria-label="Page navigation example" style={{float:'right'}}>
                                 <ul className="pagination">
                                     <li className="page-item"><Link className="page-link" to="/admin/users">Previous</Link></li>

@@ -4,6 +4,7 @@ import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
 import Pagination from '../Pagination';
+import PaginationSearch from '../PaginationSearch';
 class ProductList extends Component {
     constructor(props) {
         super(props);
@@ -23,10 +24,12 @@ class ProductList extends Component {
             <AsideBar />
         </div>
         <div id="layoutSidenav_content">
+            
             <main style={{margin: '20px'}}>
                 <div className="table-responsive" >
                     <h1>Product List</h1>
-                                <table className="table">
+                   <PaginationSearch addBtn="Add Product" link="/admin/create-product" placeholder="Search product" />
+                <table className="table">
                 <thead className="thead-dark">
                     <tr>
                     <th scope="col">ID</th>
@@ -60,7 +63,7 @@ class ProductList extends Component {
                             <tr><td>No Record found.</td></tr>
                             )}
                             
-                              <Pagination RecordCount={products.length} />                    
+                              <Pagination RecordCount={products.length} colSpan={7} />                    
                 </tbody>
                 </table>
 
