@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { Component } from 'react'
+import { toast, ToastContainer } from 'react-toastify';
+import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
@@ -21,7 +24,7 @@ class CreateProduct extends Component {
             qty: '',
             deliveryTime: '',
             guarantee: '',
-            reviews: '',
+            reviews: 'test',
         }
     }
     handleChange = (e) => {
@@ -29,14 +32,67 @@ class CreateProduct extends Component {
             [e.target.name]: e.target.value
         })
     }
-    handleSaveProduct = (e)=>{
+    handleSaveProduct = async(e)=>{
         e.preventDefault();
-        
+        const {productName,category,manufacturer,deliveryTime,details,image,price,qty,sale,size,guarantee,reviews,status,stock} = this.state;
         // /static/media/7.3910c3dd.jpg
+        if(productName && category && manufacturer && deliveryTime && details && image && price && qty && sale && size && guarantee && status && stock) {
+            const data ={
+                productName,
+                category,
+                manufacturer,
+                deliveryTime,
+                details,image,price,qty,sale,size,guarantee,reviews,status,stock
+            }
+            const response = await axios.post(`${REACT_APP_ENV=== 'Development'? DEV_API_END_POINT:API_END_POINT}/products/add`,data);
+             if(response.status ===200) {
+                toast.success('Product Created successfully!',{
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                  })
+             }else{
+                toast.error('Failed to Created product!',{
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                  })
+             }
+           
+        }else{
+            toast.error('Product All Fields are mandatory!',{
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+              })
+        }
     }
     render() {
         return (
             <React.Fragment>
+                 <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
                 <div>
                     <NavTop />
                     <div id="layoutSidenav">
