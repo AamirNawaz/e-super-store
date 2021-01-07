@@ -5,7 +5,7 @@ import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
 import {API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV} from '../../../AppConstant';
-import { Link } from 'react-router-dom';
+import Pagination from '../Pagination';
 class UsersList extends Component {
     constructor(props) {
         super(props);
@@ -40,10 +40,10 @@ class UsersList extends Component {
                     <AsideBar />
                 </div>
                 <div id="layoutSidenav_content">
-                    <main>
-                        <div className="container mt-5 w-75" >
+                    <main style={{margin: '20px'}}>
+                         <div className="table-responsive">
                             <h1>System Users</h1>
-                                        <table className="table">
+                    <table className="table">
                         <thead className="thead-dark">
                             <tr>
                             <th scope="col">ID</th>
@@ -72,21 +72,7 @@ class UsersList extends Component {
                             <tr><td>No Record found.</td></tr>
                             )}
                             
-                                <tr>
-                                    <td>Showing 5 out {this.state.users.length}</td>
-                           <td colSpan="5">
-                                <nav aria-label="Page navigation example" style={{float:'right'}}>
-                                <ul className="pagination">
-                                    <li className="page-item"><Link className="page-link" to="/admin/users">Previous</Link></li>
-                                    <li className="page-item active"><Link className="page-link" to="/admin/users">1</Link></li>
-                                    <li className="page-item"><Link className="page-link" to="/admin/users">2</Link></li>
-                                    <li className="page-item"><Link className="page-link" to="/admin/users">3</Link></li>
-                                    <li className="page-item"><Link className="page-link" to="/admin/users">Next</Link></li>
-                                </ul>
-                                </nav>
-                                </td>
-                              
-                            </tr>
+                              <Pagination RecordCount={this.state.users.length} />
                             
 
                         </tbody>
