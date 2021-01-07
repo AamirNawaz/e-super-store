@@ -82,11 +82,7 @@ class Login extends Component {
                                                 </div>
                                                 <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                     <a className="small" href="password.html">Forgot Password?</a>
-                                                    {!this.props.authResponse.isLoggedIn ?
                                                     <button onClick={(event)=>this.handleLogin(event)}className="btn btn-primary">Login</button>
-                                                    :
-                                                    <button onClick={(event)=>this.handleLogin(event)}className="btn btn-primary" disabled>wait...</button>
-                                                    }
                                                 </div>
                                             </form>
                                         </div>
