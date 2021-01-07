@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/images/logo3661.png';
+import Logo from '../../assets/images/logo_main.png';
 
 
 function Header(props) {
@@ -23,7 +23,7 @@ function Header(props) {
                     <div className="row align-items-center">
                         <div className="col-xl-2 col-lg-3 col-md-12">
                             <Link to="/" className="brand-wrap">
-                                <img className="logo" src={Logo} alt="Logo" />
+                                <img  src={Logo} style={{height:'100px'}}alt="Logo" />
                             </Link>
                         </div>
                         <div className="col-xl-6 col-lg-5 col-md-6">
