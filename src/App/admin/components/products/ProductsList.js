@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
+import Pagination from '../Pagination';
 class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
+        const products = this.props.productsData;
+        console.log('products::::',products);
         return ( 
           
 
@@ -19,29 +23,44 @@ class ProductList extends Component {
             <AsideBar />
         </div>
         <div id="layoutSidenav_content">
-            <main>
-                <div className="container mt-5 w-75" >
-                    <h1>Create Product</h1>
+            <main style={{margin: '20px'}}>
+                <div className="table-responsive" >
+                    <h1>Product List</h1>
                                 <table className="table">
-                <thead classname="thead-dark">
+                <thead className="thead-dark">
                     <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">image</th>
                     <th scope="col">Price</th>
                     <th scope="col">Qty</th>
+                    <th scope="col">stock</th>
+                    <th scope="col">status</th>
                     <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>CAT works</td>
-                    <td>imge</td>
-                    <td>$450</td>
-                    <td>56</td>
-                    <td>Edit | Delete</td>
-                    </tr>
+
+                {products && products.length ?(
+                                products.map((product,index)=>{
+                                    return (
+                                        <tr key={index}>
+                                        <th scope="row">{index +1}</th>
+                                        <td>{product.productName}</td>
+                                        <td><img src={product.image} style={{width:50,height:50}} alt=""/></td>
+                                        <td>${product.price}</td>
+                                        <td>{product.qty}</td>
+                                        <td>{product.status}</td>
+                                        <td>{product.stock}</td>
+                                        <td>Edit | Delete</td>
+                                        </tr>
+                                    )
+                                })
+                            ):(
+                            <tr><td>No Record found.</td></tr>
+                            )}
+                            
+                              <Pagination RecordCount={products.length} />                    
                 </tbody>
                 </table>
 
@@ -56,5 +75,12 @@ class ProductList extends Component {
 );
     }
 }
+
+const mapStateToProps =(state)=>{
+    // console.log('state::::',state.shope.products);
+    return {
+        productsData:state.shope.products
+    }
+}
  
-export default ProductList;
+export default connect(mapStateToProps,null)(ProductList);
