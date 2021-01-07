@@ -9,26 +9,31 @@ class CreateProduct extends Component {
         super(props)
         this.state = {
             productName: '',
-            companyName: '',
-            productCategory: '',
-            productPrice: '',
-            productSale: '',
-            productStock: '',
-            productStatus: '',
-            productSize: '',
-            productImage: '',
-
-
+            category: '',
+            manufacturer: '',
+            details: '',
+            image: '',
+            price: '',
+            sale: '',
+            stock: '',
+            status: '',
+            size: '',
+            qty: '',
+            deliveryTime: '',
+            guarantee: '',
+            reviews: '',
         }
     }
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
-
-        console.log(this.state)
     }
-
+    handleSaveProduct = (e)=>{
+        e.preventDefault();
+        
+        // /static/media/7.3910c3dd.jpg
+    }
     render() {
         return (
             <React.Fragment>
@@ -49,63 +54,86 @@ class CreateProduct extends Component {
                                                 <input type="text" className="form-control" id="productName" name="productName" placeholder="Product Name" onChange={(e) => this.handleChange(e)} />
                                             </div>
                                             <div className="form-group col-md-6">
-                                                <label htmlFor="inputPassword4">Company Name</label>
-                                                <input type="text" className="form-control" id="inputPassword4" name="companyName" placeholder="Enter Company Name" onChange={(e) => this.handleChange(e)} />
+                                                <label htmlFor="inputPassword4">Manufacturer</label>
+                                                <input type="text" className="form-control" name="manufacturer" placeholder="Enter Company Name" onChange={(e) => this.handleChange(e)} />
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <div className="form-group col-md-6">
+                                                <label htmlFor="inputEmail4">Quantity</label>
+                                                <input type="text" className="form-control" name="qty" placeholder="Quantity" onChange={(e) => this.handleChange(e)} />
+                                            </div>
+                                            <div className="form-group col-md-6">
+                                                <label htmlFor="inputPassword4">Guarantee</label>
+                                                <input type="text" className="form-control"  name="guarantee" placeholder="Enter Company Name" onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
                                         <div className="form-row">
                                             <div className="form-group col-md-6">
                                                 <label htmlFor="inputState">Product Category</label>
-                                                <select name="productCategory" id="inputState" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                                <select name="category" id="inputState" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
-                                                    <option value="shoes">Shoes</option>
-                                                    <option value="shirts">Shirts</option>
+                                                    <option value="5ff1cb5b7c28a015e09b30ad">Shoes</option>
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-6">
-                                                <label htmlFor="">Product Price</label>
-                                                <input type="number" className="form-control" id="inputAddress2" name="productPrice" placeholder="Enter Product Price" onChange={(e) => this.handleChange(e)} />
+                                                <label htmlFor="">DeliveryTime</label>
+                                                <input type="number" className="form-control" name="deliveryTime" placeholder="Enter Product Price" onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
 
                                         <div className="form-row">
-                                            <div className="form-group col-md-6">
+                                            <div className="form-group col-md-3">
                                                 <label htmlFor="inputCity">Sale</label>
-                                                <input type="text" className="form-control" name="productSale" id="inputCity" onChange={(e) => this.handleChange(e)} />
+                                                <input type="text" className="form-control" name="sale" placeholder="sale" onChange={(e) => this.handleChange(e)} />
                                             </div>
-                                            <div className="form-group col-md-4">
-                                                <label htmlFor="inputState">Stock</label>
-                                                <select id="inputState" name="productStock" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                            <div className="form-group col-md-2">
+                                                <label htmlFor="inputState">Product Stock</label>
+                                                <select  name="stock" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
                                                     <option value="inStock">In Stock</option>
                                                     <option value="outOfSock">Out Of Sock</option>
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-2">
-                                                <label htmlFor="inputStatus">Status</label>
-                                                <select id="inputStatus" name="productStatus" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                                <label>Status</label>
+                                                <select name="status" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
                                                     <option value="active">Active</option>
                                                     <option value="inActive">In Active</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div className="form-row">
                                             <div className="form-group col-md-2">
-                                                <label htmlFor="inputStatus">Prduct Size</label>
-                                                <select id="inputSize" name="productSize" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                                <label>Prduct Size</label>
+                                                <select  name="size" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
                                                     <option value="small">Small</option>
                                                     <option value="large">Large</option>
                                                     <option value="extraLarge">Extra Large</option>
                                                 </select>
                                             </div>
-                                            <div className="form-group col-md-3">
-                                                <label htmlFor="inputImage">Product Image</label>
-                                                <input type="file" name="productImage" className="imageInput" onChange={(e) => this.handleChange(e)} />
+                                            <div className="form-group col-md-2">
+                                                <label htmlFor="inputImage">Price</label>
+                                                <input type="text" name="price" className="form-control" placeholder="price" onChange={(e) => this.handleChange(e)} />  
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-primary">Save</button>
+                                        <div className="form-row">
+                                        <div className="form-group col-md-12">
+                                            <label htmlFor="inputImage">Product Description</label>
+                                            <textarea type="text" name="details" className="form-control"  rows="3" onChange={(e) => this.handleChange(e)} />  
+                                        </div>
+                                        </div>
+                                        <div className="form-row">
+                                            {/* <div className="form-group col-md-12">
+                                                <label htmlFor="inputImage">Product Image</label>
+                                                <input type="file" name="productImage" onChange={(e) => this.handleChange(e)} />
+                                            </div> */}
+                                             <div className="form-group col-md-6">
+                                                <label htmlFor="inputImage">product image</label>
+                                                <input type="text" name="image" className="form-control" placeholder="product image" onChange={(e) => this.handleChange(e)} />  
+                                            </div>
+                                        </div>
+                                        <button  className="btn btn-primary" onClick={(e)=>this.handleSaveProduct(e)}>Save Product</button>
                                     </form>
                                 </div>
                             </main>

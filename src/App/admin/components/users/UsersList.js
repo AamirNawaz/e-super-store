@@ -6,6 +6,7 @@ import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
 import {API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV} from '../../../AppConstant';
 import Pagination from '../Pagination';
+import PaginationSearch from '../PaginationSearch';
 class UsersList extends Component {
     constructor(props) {
         super(props);
@@ -43,10 +44,11 @@ class UsersList extends Component {
                     <main style={{margin: '20px'}}>
                          <div className="table-responsive">
                             <h1>System Users</h1>
+                    <PaginationSearch  placeholder="Search User"/>
                     <table className="table">
                         <thead className="thead-dark">
                             <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">SrNo</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Status</th>
@@ -72,7 +74,7 @@ class UsersList extends Component {
                             <tr><td>No Record found.</td></tr>
                             )}
                             
-                              <Pagination RecordCount={this.state.users.length} />
+                              <Pagination RecordCount={this.state.users.length} colSpan={5}/>
                             
 
                         </tbody>
