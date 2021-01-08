@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import {userLogin} from '../../redux/reducer/Auth/authActions';
 // import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
-import { withRouter  } from 'react-router-dom';
+import { Link, withRouter  } from 'react-router-dom';
+import Logo from '../../assets/images/logo_main.png';
 
 
 class Login extends Component {
@@ -89,7 +90,10 @@ class Login extends Component {
                             <div className="row justify-content-center">
                                 <div className="col-lg-5">
                                     <div className="card shadow-lg border-0 rounded-lg mt-5">
-                                        <div className="card-header"><h3 className="text-center font-weight-light my-4">Login</h3></div>
+                                       
+                                        <div className="card-header">
+                                        <center><Link to="/"><img src={Logo} alt="logo" style={{ height: '100px', width: '174px'}}/></Link></center>
+                                            <h3 className="text-center font-weight-light my-4">Login</h3></div>
                                         <div className="card-body">
                                             {this.state.errorMessage? (
                                             <div className="alert alert-danger" style={{marginBottom:24}}>{this.state.errorMessage}</div>
