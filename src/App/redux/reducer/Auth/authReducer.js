@@ -3,7 +3,6 @@ import * as actionType from './authActionTypes';
 const authReducer = (state =[],action)=>{
     switch (action.type){
         case actionType.USER_LOGIN:
-            console.log('auth reducer',action.payload);
             return{
                 ...state,
                 authToken:action.payload.authToken,

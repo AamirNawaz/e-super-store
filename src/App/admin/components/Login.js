@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import {userLogin} from '../../redux/reducer/Auth/authActions';
 // import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
-import { withRouter  } from 'react-router-dom';
+import { Link, withRouter  } from 'react-router-dom';
+import Logo from '../../assets/images/logo_main.png';
 
 
 class Login extends Component {
@@ -13,7 +14,8 @@ class Login extends Component {
         this.state = {
             email:'',
             password:'',
-            rememberMe:''
+            rememberMe:'',
+            errorMessage:'',
         }     
     }
      handleOnChange =(e)=>{
@@ -22,10 +24,38 @@ class Login extends Component {
         })
     }
 
-    handleLogin =(e)=>{
+    handleLogin =async(e)=>{
         e.preventDefault();
         const {email,password} = this.state;
-        this.props.UserLoginBtn(email,password);
+
+        if(email==='' && password ===''){
+            this.setState({
+                errorMessage:'Email and password is required!'
+            })
+            return false;
+        }
+        if(email ===''){
+            this.setState({
+                errorMessage:'Email is required!'
+            })
+            return false;
+        }
+        if(password ===''){
+            this.setState({
+                errorMessage:'Password is required!'
+            })
+            return false;
+        }
+        
+        try {
+            await this.props.UserLoginBtn(email,password);
+           this.setState({
+            errorMessage:''
+        })
+        } catch (error) {
+            console.log('error:::',error);
+        } 
+        
     }
 
     componentDidUpdate() {
@@ -36,7 +66,7 @@ class Login extends Component {
             if(userType && userType==='admin'){
                 setTimeout(() => {
                      this.props.history.push('/admin/dashboard');
-                  }, 1000);
+                  }, 100);
             }
         }
       }
@@ -60,11 +90,14 @@ class Login extends Component {
                             <div className="row justify-content-center">
                                 <div className="col-lg-5">
                                     <div className="card shadow-lg border-0 rounded-lg mt-5">
-                                        <div className="card-header"><h3 className="text-center font-weight-light my-4">Login</h3></div>
+                                       
+                                        <div className="card-header">
+                                        <center><Link to="/"><img src={Logo} alt="logo" style={{ height: '100px', width: '174px'}}/></Link></center>
+                                            <h3 className="text-center font-weight-light my-4">Login</h3></div>
                                         <div className="card-body">
-                                            {/* {this.props.authResponse.isLoggedIn===false ? (
-                                            <div className="alert alert-danger" style={{marginBottom:24}}>{this.props.authResponse.message}</div>
-                                            ):('')} */}
+                                            {this.state.errorMessage? (
+                                            <div className="alert alert-danger" style={{marginBottom:24}}>{this.state.errorMessage}</div>
+                                            ):('')}
                                             <form>
                                                 <div className="form-group">
                                                     <label className="small mb-1" htmlFor="inputEmailAddress">Email</label>
@@ -82,11 +115,7 @@ class Login extends Component {
                                                 </div>
                                                 <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                     <a className="small" href="password.html">Forgot Password?</a>
-                                                    {!this.props.authResponse.isLoggedIn ?
                                                     <button onClick={(event)=>this.handleLogin(event)}className="btn btn-primary">Login</button>
-                                                    :
-                                                    <button onClick={(event)=>this.handleLogin(event)}className="btn btn-primary" disabled>wait...</button>
-                                                    }
                                                 </div>
                                             </form>
                                         </div>
