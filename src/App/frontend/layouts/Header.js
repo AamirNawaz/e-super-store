@@ -171,20 +171,12 @@ function Header(props) {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/shope-products">Shope </Link>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/">Trade shows</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/">Services</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/">Sell with us</a>
-                            </li>
+                           
                         </ul>
                         <ul className="navbar-nav ml-md-auto">
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <a className="nav-link" href="/">Get the app</a>
-                            </li>
+                            </li> */}
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="/" data-toggle="dropdown">English</a>
                                 <div className="dropdown-menu dropdown-menu-right">
