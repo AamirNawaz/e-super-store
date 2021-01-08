@@ -20,6 +20,7 @@ class Dashboard extends Component {
 
     render() {
         return (<React.Fragment>
+            
             <div>
                 <NavTop />
                 <div id="layoutSidenav">

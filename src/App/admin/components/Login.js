@@ -13,7 +13,8 @@ class Login extends Component {
         this.state = {
             email:'',
             password:'',
-            rememberMe:''
+            rememberMe:'',
+            errorMessage:'',
         }     
     }
      handleOnChange =(e)=>{
@@ -22,10 +23,38 @@ class Login extends Component {
         })
     }
 
-    handleLogin =(e)=>{
+    handleLogin =async(e)=>{
         e.preventDefault();
         const {email,password} = this.state;
-        this.props.UserLoginBtn(email,password);
+
+        if(email==='' && password ===''){
+            this.setState({
+                errorMessage:'Email and password is required!'
+            })
+            return false;
+        }
+        if(email ===''){
+            this.setState({
+                errorMessage:'Email is required!'
+            })
+            return false;
+        }
+        if(password ===''){
+            this.setState({
+                errorMessage:'Password is required!'
+            })
+            return false;
+        }
+        
+        try {
+            await this.props.UserLoginBtn(email,password);
+           this.setState({
+            errorMessage:''
+        })
+        } catch (error) {
+            console.log('error:::',error);
+        } 
+        
     }
 
     componentDidUpdate() {
@@ -36,7 +65,7 @@ class Login extends Component {
             if(userType && userType==='admin'){
                 setTimeout(() => {
                      this.props.history.push('/admin/dashboard');
-                  }, 1000);
+                  }, 100);
             }
         }
       }
@@ -62,9 +91,9 @@ class Login extends Component {
                                     <div className="card shadow-lg border-0 rounded-lg mt-5">
                                         <div className="card-header"><h3 className="text-center font-weight-light my-4">Login</h3></div>
                                         <div className="card-body">
-                                            {/* {this.props.authResponse.isLoggedIn===false ? (
-                                            <div className="alert alert-danger" style={{marginBottom:24}}>{this.props.authResponse.message}</div>
-                                            ):('')} */}
+                                            {this.state.errorMessage? (
+                                            <div className="alert alert-danger" style={{marginBottom:24}}>{this.state.errorMessage}</div>
+                                            ):('')}
                                             <form>
                                                 <div className="form-group">
                                                     <label className="small mb-1" htmlFor="inputEmailAddress">Email</label>

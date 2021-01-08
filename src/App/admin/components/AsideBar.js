@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-function AsideBar() {
+import { userLogout } from '../../redux/reducer/Auth/authActions';
+function AsideBar(props) {
 return (
 <React.Fragment>
    <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -87,15 +89,12 @@ return (
                   </div>
                </nav>
             </div>
-            <div className="sb-sidenav-menu-heading">Addons</div>
-            <a className="nav-link" href="charts.html">
-               <div className="sb-nav-link-icon"><i className="fas fa-chart-area" /></div>
-               Charts
-            </a>
-            <a className="nav-link" href="tables.html">
-               <div className="sb-nav-link-icon"><i className="fas fa-table" /></div>
-               Tables
-            </a>
+            <div className="sb-sidenav-menu-heading">Logout</div>
+         
+            <Link className="nav-link" to="/admin/logout" onClick={()=>props.logoutBtn()}>
+               <div className="sb-nav-link-icon"><i className="fas fa-sign-out-alt"></i></div>
+               Logout
+            </Link>
          </div>
       </div>
       <div className="sb-sidenav-footer">
@@ -106,4 +105,10 @@ return (
 </React.Fragment>
 )
 }
-export default AsideBar;
+
+const mapDispatchToProps =(dispatch)=>{
+   return{
+       logoutBtn :()=>dispatch(userLogout())
+   }
+}
+export default connect(null,mapDispatchToProps)(AsideBar);

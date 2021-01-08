@@ -1,11 +1,15 @@
+import jwtDecode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo_main.png';
+import { userLogout } from '../../redux/reducer/Auth/authActions';
 
 
 function Header(props) {
     const [cartCount, setCartCount] = useState(0);
+    const [userType,setUserType] = useState(0);
+    const [userName,setUserName] = useState(0);
 
     useEffect(() => {
         let count = 0;
@@ -16,7 +20,16 @@ function Header(props) {
 
     }, [props.cart, cartCount])
 
+    useEffect(()=>{
+        if(props.auth.authToken){
+            const decode = jwtDecode(props.auth.authToken);
+            setUserType(decode.user.userType);
+            setUserName(decode.user.name);
+        }
+    },[props.auth,userType])
+    
     return (
+        
         <header className="section-header">
             <section className="header-main border-bottom">
                 <div className="container">
@@ -64,46 +77,60 @@ function Header(props) {
                                         <small className="text"> Wishlist </small>
                                     </Link>
                                 </div>
+ 
 
-                                <div className="widget-header mr-3">
-                                   <Link to="/user/login" className="widget-view">
-                                        <div className="icon-area">
-                                            <i className="fa fa-user" />
-                                            
-                                        </div>
-                                        <div className="" data-toggle="dropdown" style={{fontSize: '14px'}}>Login </div>
-                                      
-                                    </Link>
-                                </div> 
+                                {userType && userType ==='admin' ? (
+                                    <div className="widget-header mr-3">
+                                    <div className="widget-view">
+                                         <div className="icon-area">
+                                             <i className="fa fa-user" />
+                                             
+                                         </div>
+                                         <div className="nav-link dropdown-toggle" data-toggle="dropdown" style={{fontSize: '14px'}}> {userName} </div>
+                                         <div className="dropdown-menu dropdown-menu-right">
+                                     <Link  className="dropdown-item" to="/admin/dashboard">Dashboard</Link>
+                                     <Link  className="dropdown-item" to="/profile-setting">Setting</Link> 
+                                     <Link className="dropdown-item" to="/admin/logout" onClick={()=>props.logoutBtn()}>Logout</Link>
+                                 </div>
+                                     </div>
+                                 </div>
+                                ) :(
+                                    <div className="widget-header mr-3">
+                                    <Link to="/user/login" className="widget-view">
+                                         <div className="icon-area">
+                                             <i className="fa fa-user" />
+                                             
+                                         </div>
+                                         <div className="" data-toggle="dropdown" style={{fontSize: '14px'}}>Login </div>
+                                       
+                                     </Link>
+                                 </div>
+                                )
+                                }
+                               
 
-                                <div className="widget-header mr-3">
-                                   <Link to="/admin/login" className="widget-view">
-                                        <div className="icon-area">
-                                            <i className="fa fa-user" />
-                                            
-                                        </div>
-                                        <div className="" data-toggle="dropdown" style={{fontSize: '14px'}}>Admin Login </div>
-                                      
-                                    </Link>
-                                </div> 
-
-                                {/* <div className="widget-header mr-3">
-                                   <div className="widget-view">
-                                        <div className="icon-area">
-                                            <i className="fa fa-user" />
-                                            
-                                        </div>
-                                        <div className="nav-link dropdown-toggle" data-toggle="dropdown" style={{fontSize: '14px'}}> My profile </div>
-                                        <div className="dropdown-menu dropdown-menu-right">
-                                    <Link className="dropdown-item" to="/profile">Profile</Link>
-                                    <Link  className="dropdown-item" to="/profile-wishlist">My Wishlist</Link>
-                                    <Link  className="dropdown-item" to="/profile-orders">My Orders</Link>
-                                    <Link  className="dropdown-item" to="/profile-setting">Setting</Link> 
-                                    <Link  className="dropdown-item" to="/logout">Logout</Link> 
-                                </div>
-                                    </div>
-                                </div> */}
-                       
+                                {userType && userType ==='customer' ? (
+                                     <div className="widget-header mr-3">
+                                     <div className="widget-view">
+                                          <div className="icon-area">
+                                              <i className="fa fa-user" />
+                                              
+                                          </div>
+                                          <div className="nav-link dropdown-toggle" data-toggle="dropdown" style={{fontSize: '14px'}}> My profile </div>
+                                          <div className="dropdown-menu dropdown-menu-right">
+                                      <Link className="dropdown-item" to="/profile">Profile</Link>
+                                      <Link  className="dropdown-item" to="/profile-wishlist">My Wishlist</Link>
+                                      <Link  className="dropdown-item" to="/profile-orders">My Orders</Link>
+                                      <Link  className="dropdown-item" to="/profile-setting">Setting</Link> 
+                                      <Link  className="dropdown-item" to="/logout">Logout</Link> 
+                                  </div>
+                                      </div>
+                                  </div>
+                         
+                                ) :
+                               ''
+                                }
+                               
 
 
 
@@ -128,31 +155,16 @@ function Header(props) {
                     <div className="collapse navbar-collapse" id="main_nav">
                         <ul className="navbar-nav">
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="/"> <i className="fa fa-bars text-muted mr-2" /> Demo pages </a>
-                                <div className="dropdown-menu dropdown-large">
+                                <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="/"> <i className="fa fa-bars text-muted mr-2" />All category </a>
+                                <div className="dropdown-menu dropdown-large" style={{width: '197%'}}>
                                     <nav className="row">
-                                        <div className="col-6">
-                                            <a href="page-index-1.html">Home page 1</a>
-                                            <a href="page-index-2.html">Home page 2</a>
-                                            <a href="page-category.html">All category</a>
-                                            <a href="page-listing-large.html">Listing list</a>
-                                            <a href="page-listing-grid.html">Listing grid</a>
-                                            <a href="page-shopping-cart.html">Shopping cart</a>
-                                            <a href="page-detail-product.html">Product detail</a>
-                                            <a href="page-content.html">Page content</a>
-                                            <a href="page-user-login.html">Page login</a>
-                                            <a href="page-user-register.html">Page register</a>
+                                        <div className="col-12" style={{marginLeft: '15px'}}>
+                                            <Link to="/shope-products/" >Fashion and clothes</Link>
+                                            <Link to="/shope-products/">Automobile and motors</Link>
+                                            <Link to="/shope-products/">Gardening and agriculture</Link>
+                                            <Link to="/shope-products/">Electronics and tech</Link>
                                         </div>
-                                        <div className="col-6">
-                                            <a href="page-profile-main.html">Profile main</a>
-                                            <a href="page-profile-orders.html">Profile orders</a>
-                                            <a href="page-profile-seller.html">Profile seller</a>
-                                            <a href="page-profile-wishlist.html">Profile wishlist</a>
-                                            <a href="page-profile-setting.html">Profile setting</a>
-                                            <a href="page-profile-address.html">Profile address</a>
-                                            <a href="rtl-page-index-1.html">RTL home page</a>
-                                            <a href="page-components.html" target="_blank">More components</a>
-                                        </div>
+                                       
                                     </nav> {/*  row end .// */}
                                 </div> {/*  dropdown-menu dropdown-large end.// */}
                             </li>
@@ -192,9 +204,17 @@ function Header(props) {
 }
 
 const mapStateToProps = (state) => {
+    
     return {
         cart: state.shope.cart,
-        wishList: state.shope.wishList
+        wishList: state.shope.wishList,
+        auth:state.auth
     }
 }
-export default connect(mapStateToProps, null)(Header);
+
+const mapDispatchToProps =(dispatch)=>{
+    return{
+        logoutBtn :()=>dispatch(userLogout())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

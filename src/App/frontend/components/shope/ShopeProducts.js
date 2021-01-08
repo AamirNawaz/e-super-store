@@ -45,19 +45,19 @@ class ShopeProducts extends Component {
 
                         <header className="mb-3">
                             <div className="form-inline">
-                                <strong className="mr-md-auto">Category : Shoes  > {productsList.length} Items found </strong>
+                                <strong className="mr-md-auto">Category : Shoes  >  {productsList.length} Items found </strong>
                                 <select className="mr-2 form-control">
                                     <option>Latest items</option>
                                     <option>Trending</option>
                                     <option>Most Popular</option>
                                     <option>Cheapest</option>
                                 </select>
-                                <div className="btn-group">
+                                {/* <div className="btn-group">
                                     <a href="page-listing-grid.html" className="btn btn-light active" data-toggle="tooltip" title="List view">
                                         <i className="fa fa-bars" /></a>
                                     <a href="page-listing-large.html" className="btn btn-light" data-toggle="tooltip" title="Grid view">
                                         <i className="fa fa-th" /></a>
-                                </div>
+                                </div> */}
                             </div>
                         </header>{/* sect-heading */}
                         <div className="row">
