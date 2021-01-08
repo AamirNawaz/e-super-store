@@ -154,7 +154,7 @@ const mapStateToProps = (state)=>{
 }
 const mapDispatchToProps =(dispatch)=>{
     return{
-        UserLoginBtn :(email,password,rememberMe)=>dispatch(userLogin(email,password,rememberMe))
+        UserLoginBtn :(email,password)=>dispatch(userLogin(email,password))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Login));
