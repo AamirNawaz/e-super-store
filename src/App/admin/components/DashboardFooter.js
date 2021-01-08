@@ -6,7 +6,7 @@ export default function DashboardFooter() {
             <footer className="py-4 bg-light mt-auto">
                 <div className="container-fluid">
                     <div className="d-flex align-items-center justify-content-between small">
-                        <div className="text-muted">Copyright © Your Website 2020</div>
+                        <div className="text-muted">Copyright © e-super store 2020</div>
                         <div>
                             <a href="/">Privacy Policy</a>
               ·
