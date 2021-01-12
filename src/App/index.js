@@ -15,13 +15,14 @@ import Dashboard from './admin/components/Dashboard';
 import Login from './admin/components/Login';
 import CheckOut from './frontend/components/cart/CheckOut';
 import CreateProduct from './admin/components/products/CreateProduct';
-import ProductCategory from './admin/components/ProductCategory';
 import UserLogin from './frontend/components/Auth/UserLogin';
 import UserRegister from './frontend/components/Auth/UserRegister';
 import UserResetPassword from './frontend/components/Auth/UserResetPassword';
 import Logout from './admin/components/Logout';
 import ProductList from './admin/components/products/ProductsList';
 import UsersList from './admin/components/users/UsersList';
+import CategoriesList from './admin/components/categories/CategoriesList';
+
 
 function Index() {
     return (
@@ -32,13 +33,13 @@ function Index() {
                     <Home />
                 </Route>
                 <Route path="/user/login">
-                    <Header/>
+                    <Header />
                     <UserLogin />
                     <Footer />
                 </Route>
 
                 <Route path="/user/register">
-                <Header />
+                    <Header />
                     <UserRegister />
                     <Footer />
                 </Route>
@@ -116,9 +117,11 @@ function Index() {
                     <ProductList />
                 </Route>
 
-                <Route path="/admin/product-category">
-                    <ProductCategory />
+                <Route path="/admin/categories-list">
+                    <CategoriesList />
                 </Route>
+
+
                 <Route path="/admin/users">
                     <UsersList />
                 </Route>

@@ -40,8 +40,8 @@ return (
             </a>
             <div className="collapse" id="categoryLayout" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                <nav className="sb-sidenav-menu-nested nav">
-                  <Link className="nav-link" to="/admin/product-category">
-                  Product Category</Link>
+                  <Link className="nav-link" to="/admin/categories-list">
+                  Categories List</Link>
                </nav>
             </div>
 
