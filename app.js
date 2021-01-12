@@ -29,20 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// cors 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || 'http://localhost:3000');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type,token,authorization');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   if ('OPTIONS' == req.method) {
-//     res.status(204).end();
-//   } else {
-//     next();
-//   }
-//   global.baseUrl = appUrl;
-// });
-
 app.use('/',indexRoute);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);

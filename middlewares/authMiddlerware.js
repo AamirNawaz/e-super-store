@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const protectedRoute = async (req, res, next) => {
     let token = null;
     try {
+        
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             try {
                 token = req.headers.authorization.split(' ')[1];
