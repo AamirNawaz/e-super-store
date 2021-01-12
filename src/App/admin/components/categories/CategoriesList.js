@@ -14,21 +14,24 @@ import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import CreateCategoryModel from './CreateCategoryModel';
 import EditCategoryModel from './EditCategoryModel';
-
+import '../../assets/css/search.css';
 
 class CategoriesList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            categoriesList: [],
+            categoriesData: [],
             editCategoryFlag: false,
+            searchInput: '',
             open: false,
+            page: 0,
+            rowsPerPage: 5,
+            count: 0,
 
         }
     }
 
     componentDidMount = async () => {
-
         const authToken = this.props.auth;
         await this.props.fetchCategories(authToken);
 
@@ -37,6 +40,12 @@ class CategoriesList extends Component {
             this.props.history.push('/admin/logout');
         }
     }
+
+    handleChangePage = (event, newPage) => {
+        this.setState({
+            page: newPage,
+        });
+    };
 
     handleDeleteCategory = async (categoryID) => {
         const authToken = this.props.auth;
@@ -74,20 +83,20 @@ class CategoriesList extends Component {
         }
     }
 
-
-
     OpenModel = () => {
-
-        this.setState({ open: !this.state.open });
-
-
+        this.setState({
+            open: !this.state.open
+        });
     }
-    refreshComponentCall = () => {
-        this.componentDidMount();
-    };
 
+    handleOnchange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     render() {
-        const { categories } = this.props;
+        const categories = this.state.searchInput ? this.props.categories.filter(data => data.name === this.state.searchInput) : this.props.categories;
+
         return (
             <React.Fragment>
                 <ToastContainer
@@ -110,9 +119,22 @@ class CategoriesList extends Component {
                         <div id="layoutSidenav_content">
                             <main style={{ marginLeft: '20px', marginRight: '20px', marginTop: '55px' }}>
 
-                                <div className="table-responsive">
+                                <div>
                                     <h3>Categoreis List</h3>
-                                    <PaginationSearch onClick={() => this.OpenModel()} placeholder="Search User" add="" >ADD Category</PaginationSearch>
+
+                                    {/* Search filter */}
+                                    <div className="row mb-2" >
+                                        <PaginationSearch onClick={() => this.OpenModel()} placeholder="Search User" add="" >ADD Category</PaginationSearch>
+                                        <div className="col-md-3 offset-md-6">
+                                            <div className="form-group has-search">
+                                                <span className="fa fa-search form-control-feedback" />
+                                                <input style={{ borderRadius: '0px', border: '2px solid #ff6a00' }} name="searchInput" type="text" className="form-control" placeholder={'Search category'} onChange={(event) => this.handleOnchange(event)} autoComplete="off" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    {/* Search filter */}
+
                                     {/* Open Model */}
                                     <CreateCategoryModel open={this.state.open} OpenModel={() => this.OpenModel()} />
 
@@ -136,7 +158,7 @@ class CategoriesList extends Component {
                                                             <td>{category.name}</td>
                                                             <td>{category.status}</td>
                                                             <td>
-                                                                <EditCategoryModel categoryID={category._id} parentComponentRefresh={this.refreshComponentCall}><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i></EditCategoryModel>
+                                                                <EditCategoryModel categoryID={category._id} ><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i></EditCategoryModel>
                                                                 &nbsp;&nbsp;| <Link to="/admin/categories-list" onClick={() => this.handleDeleteCategory(category._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                         </tr>
                                                     )

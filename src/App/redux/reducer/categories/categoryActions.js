@@ -48,6 +48,24 @@ export const categories = (authToken) => {
 
 }
 
-
-
-
+export const searchCategory = () => {
+    return async function (dispatch) {
+        try {
+            dispatch({
+                type: actionType.SEARCH_CATEGORY,
+                payload: {
+                    categoriesList: categories.data.categories,
+                    tokenExpireMessage: false
+                }
+            })
+        } catch (error) {
+            dispatch({
+                type: actionType.SEARCH_CATEGORY,
+                payload: {
+                    categoriesList: [],
+                    tokenExpireMessage: true
+                }
+            })
+        }
+    }
+}

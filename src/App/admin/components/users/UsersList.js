@@ -14,7 +14,8 @@ class UsersList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            users: [],
+            searchInput: ''
         }
     }
 
@@ -56,7 +57,16 @@ class UsersList extends Component {
 
         }
     }
+
+    handleOnchange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+
     render() {
+        const users = this.state.searchInput ? this.state.users.filter(data => data.name === this.state.searchInput) : this.state.users;
         return (
             <React.Fragment>
                 <ToastContainer
@@ -80,7 +90,20 @@ class UsersList extends Component {
                             <main style={{ margin: '20px' }}>
                                 <div className="table-responsive">
                                     <h1>System Users</h1>
-                                    <PaginationSearch placeholder="Search User" />
+
+                                    {/* Search filter */}
+                                    <div className="row mb-2" >
+                                        <PaginationSearch placeholder="Search User" />
+                                        <div className="col-md-3 offset-md-6">
+                                            <div className="form-group has-search">
+                                                <span className="fa fa-search form-control-feedback" />
+                                                <input style={{ borderRadius: '0px', border: '2px solid #ff6a00' }} name="searchInput" type="text" className="form-control" placeholder={'Search User'} onChange={(event) => this.handleOnchange(event)} autoComplete="off" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    {/* Search filter */}
+
                                     <table className="table">
                                         <thead className="thead-dark">
                                             <tr>
@@ -93,8 +116,8 @@ class UsersList extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.state.users && this.state.users.length ? (
-                                                this.state.users.map((user, index) => {
+                                            {users && users.length ? (
+                                                users.map((user, index) => {
                                                     return (
                                                         <tr key={index}>
                                                             <th scope="row">{index + 1}</th>
@@ -110,7 +133,7 @@ class UsersList extends Component {
                                                     <tr><td>No Record found.</td></tr>
                                                 )}
 
-                                            <Pagination RecordCount={this.state.users.length} colSpan={5} />
+                                            <Pagination RecordCount={users.length} colSpan={5} />
 
 
                                         </tbody>
