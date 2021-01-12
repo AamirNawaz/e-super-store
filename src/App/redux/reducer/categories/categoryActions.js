@@ -1,22 +1,23 @@
-import * as actionType from '../Auth/authActionTypes';
+import * as actionType from '../categories/categoryActionTypes';
 import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import { toast } from 'react-toastify';
 
 
-export const userLogin = (email, password) => {
+export const categories = (authToken) => {
     return async function (dispatch) {
         try {
-            const userToken = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/login`, {
-                email,
-                password
-            });
-
+            const categories = await axios.get(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/categories`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                }
+            }
+            );
             dispatch({
-                type: actionType.USER_LOGIN,
+                type: actionType.CATEGORIES,
                 payload: {
-                    authToken: userToken.data.token,
-                    isLoggedIn: true,
+                    categoriesList: categories.data.categories,
+                    tokenExpireMessage: false
                 }
             })
         } catch (error) {
@@ -31,13 +32,16 @@ export const userLogin = (email, password) => {
                 progress: undefined,
             });
 
+
+
             dispatch({
-                type: actionType.USER_LOGIN,
+                type: actionType.CATEGORIES,
                 payload: {
-                    authToken: null,
-                    isLoggedIn: false
+                    categoriesList: [],
+                    tokenExpireMessage: true
                 }
             })
+
         }
 
     }
@@ -45,12 +49,5 @@ export const userLogin = (email, password) => {
 }
 
 
-export const userLogout = () => {
-    return {
-        type: actionType.USER_LOGOUT,
-        payload: {
-            authToken: null,
-            isLoggedIn: false
-        }
-    }
-}
+
+

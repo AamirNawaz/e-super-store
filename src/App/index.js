@@ -22,7 +22,7 @@ import Logout from './admin/components/Logout';
 import ProductList from './admin/components/products/ProductsList';
 import UsersList from './admin/components/users/UsersList';
 import CategoriesList from './admin/components/categories/CategoriesList';
-import CreateCategory from './admin/components/categories/CreateCategory';
+
 
 function Index() {
     return (
@@ -33,13 +33,13 @@ function Index() {
                     <Home />
                 </Route>
                 <Route path="/user/login">
-                    <Header/>
+                    <Header />
                     <UserLogin />
                     <Footer />
                 </Route>
 
                 <Route path="/user/register">
-                <Header />
+                    <Header />
                     <UserRegister />
                     <Footer />
                 </Route>
@@ -117,12 +117,11 @@ function Index() {
                     <ProductList />
                 </Route>
 
-                <Route path="/admin/create-category">
-                    <CreateCategory />
-                </Route>
                 <Route path="/admin/categories-list">
                     <CategoriesList />
                 </Route>
+
+
                 <Route path="/admin/users">
                     <UsersList />
                 </Route>

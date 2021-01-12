@@ -5,21 +5,89 @@ import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
 import Pagination from '../Pagination';
 import PaginationSearch from '../PaginationSearch';
-import CreateCategory from './CreateCategory';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import { userLogout } from '../../../redux/reducer/Auth/authActions';
+import { categories } from '../../../redux/reducer/categories/categoryActions';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
+import CreateCategoryModel from './CreateCategoryModel';
+import EditCategoryModel from './EditCategoryModel';
+
+
 class CategoriesList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            categoriesList: [],
+            editCategoryFlag: false,
+            open: false,
+
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
 
+        const authToken = this.props.auth;
+        await this.props.fetchCategories(authToken);
+
+        if (this.props.tokenExpire) {
+            this.props.logoutCall();
+            this.props.history.push('/admin/logout');
+        }
     }
 
+    handleDeleteCategory = async (categoryID) => {
+        const authToken = this.props.auth;
+        const response = await axios.get(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/categories/delete/${categoryID}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            }
+        }
+        );
+
+        if (response.status === 200) {
+            toast.success('Category Created successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            //fetch all categories data on save
+            this.props.fetchCategories(authToken);
+
+        } else {
+            toast.error('Faild to delete the category', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
+
+
+
+    OpenModel = () => {
+
+        this.setState({ open: !this.state.open });
+
+
+    }
+    refreshComponentCall = () => {
+        this.componentDidMount();
+    };
+
     render() {
+        const { categories } = this.props;
         return (
             <React.Fragment>
                 <ToastContainer
@@ -40,13 +108,16 @@ class CategoriesList extends Component {
                             <AsideBar />
                         </div>
                         <div id="layoutSidenav_content">
-                            <CreateCategory />
-
-                            <main style={{ marginLeft: '20px', marginRight: '20px', marginBottom: '180px' }}>
+                            <main style={{ marginLeft: '20px', marginRight: '20px', marginTop: '55px' }}>
 
                                 <div className="table-responsive">
                                     <h3>Categoreis List</h3>
-                                    <PaginationSearch placeholder="Search User" />
+                                    <PaginationSearch onClick={() => this.OpenModel()} placeholder="Search User" add="" >ADD Category</PaginationSearch>
+                                    {/* Open Model */}
+                                    <CreateCategoryModel open={this.state.open} OpenModel={() => this.OpenModel()} />
+
+
+                                    {/* <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> */}
                                     <table className="table">
                                         <thead className="thead-dark">
                                             <tr>
@@ -57,27 +128,25 @@ class CategoriesList extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.state.users && this.state.users.length ? (
-                                                this.state.users.map((user, index) => {
+                                            {categories && categories.length ? (
+                                                categories.map((category, index) => {
                                                     return (
                                                         <tr key={index}>
                                                             <th scope="row">{index + 1}</th>
-                                                            <td>acbc</td>
-                                                            <td>active</td>
-                                                            <td>Edit | Delete</td>
+                                                            <td>{category.name}</td>
+                                                            <td>{category.status}</td>
+                                                            <td>
+                                                                <EditCategoryModel categoryID={category._id} parentComponentRefresh={this.refreshComponentCall}><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i></EditCategoryModel>
+                                                                &nbsp;&nbsp;| <Link to="/admin/categories-list" onClick={() => this.handleDeleteCategory(category._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                         </tr>
                                                     )
                                                 })
                                             ) : (
                                                     <tr><td>No Record found.</td></tr>
                                                 )}
-
-                                            <Pagination RecordCount={this.state.users.length} colSpan={5} />
-
-
+                                            <Pagination RecordCount={categories && categories.length ? categories.length : 0} colSpan={5} />
                                         </tbody>
                                     </table>
-
                                 </div>
                             </main>
                             <DashboardFooter />
@@ -90,6 +159,21 @@ class CategoriesList extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        categories: state.categoryReducer.categories,
+        tokenExpire: state.categoryReducer.tokenExpireMessage ? state.categoryReducer.tokenExpireMessage : false,
+        auth: state.auth.authToken
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchCategories: (authToken) => dispatch(categories(authToken)),
+        logoutCall: () => dispatch(userLogout())
+    }
+}
 
 
-export default CategoriesList;
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CategoriesList));
