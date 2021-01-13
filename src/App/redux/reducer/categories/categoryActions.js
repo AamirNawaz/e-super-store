@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 export const categories = (authToken) => {
     return async function (dispatch) {
         try {
+
             const categories = await axios.get(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/categories`, {
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -48,24 +49,3 @@ export const categories = (authToken) => {
 
 }
 
-export const searchCategory = () => {
-    return async function (dispatch) {
-        try {
-            dispatch({
-                type: actionType.SEARCH_CATEGORY,
-                payload: {
-                    categoriesList: categories.data.categories,
-                    tokenExpireMessage: false
-                }
-            })
-        } catch (error) {
-            dispatch({
-                type: actionType.SEARCH_CATEGORY,
-                payload: {
-                    categoriesList: [],
-                    tokenExpireMessage: true
-                }
-            })
-        }
-    }
-}

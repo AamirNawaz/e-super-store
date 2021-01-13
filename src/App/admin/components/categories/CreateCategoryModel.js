@@ -43,7 +43,7 @@ class CreateCategoryModel extends Component {
                 categoryStatusError: ''
             })
         }
-
+        this.props.OpenModel();
         const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/categories/add`,
             { 'name': categoryName, 'status': categoryStatus },
             {
@@ -72,7 +72,7 @@ class CreateCategoryModel extends Component {
 
             //fetch all categories data on save
             this.props.fetchCategories(token);
-            this.props.OpenModel();
+
         } else {
 
             toast.error(response.data.message, {

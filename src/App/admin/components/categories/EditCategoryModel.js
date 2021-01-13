@@ -46,7 +46,9 @@ class EditCategoryModel extends Component {
             })
         }
 
+
         if (categoryName !== '' && categoryStatus !== '') {
+            this.closeModel();
             const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/categories/update`,
                 { 'name': categoryName, 'status': categoryStatus, 'id': categoryID },
                 {
@@ -75,7 +77,6 @@ class EditCategoryModel extends Component {
 
                 //fetch all categories data on save
                 this.props.fetchCategories(token);
-                this.closeModel();
 
             } else {
                 toast.error(response.data.message, {
