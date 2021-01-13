@@ -27,14 +27,15 @@ class CategoriesList extends Component {
             page: 0,
             rowsPerPage: 5,
             count: 0,
-
         }
     }
 
     componentDidMount = async () => {
+        this.setState({
+            categoriesData: this.props.categories
+        })
         const authToken = this.props.auth;
         await this.props.fetchCategories(authToken);
-
         if (this.props.tokenExpire) {
             this.props.logoutCall();
             this.props.history.push('/admin/logout');
@@ -94,6 +95,9 @@ class CategoriesList extends Component {
             [e.target.name]: e.target.value
         })
     }
+
+
+
     render() {
         const categories = this.state.searchInput ? this.props.categories.filter(data => data.name === this.state.searchInput) : this.props.categories;
 
