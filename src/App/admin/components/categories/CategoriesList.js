@@ -5,6 +5,7 @@ import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
 import Pagination from '../Pagination';
 import PaginationSearch from '../PaginationSearch';
+import paginate from '../../../helper/paginate';
 import { toast, ToastContainer } from 'react-toastify';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
 import { categories } from '../../../redux/reducer/categories/categoryActions';
@@ -14,26 +15,22 @@ import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import CreateCategoryModel from './CreateCategoryModel';
 import EditCategoryModel from './EditCategoryModel';
+
 import '../../assets/css/search.css';
+
 
 class CategoriesList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            categoriesData: [],
-            editCategoryFlag: false,
             searchInput: '',
             open: false,
-            page: 0,
-            rowsPerPage: 5,
-            count: 0,
+            pageSize: 5,
+            currentPage: 1
         }
     }
 
     componentDidMount = async () => {
-        this.setState({
-            categoriesData: this.props.categories
-        })
         const authToken = this.props.auth;
         await this.props.fetchCategories(authToken);
         if (this.props.tokenExpire) {
@@ -41,12 +38,6 @@ class CategoriesList extends Component {
             this.props.history.push('/admin/logout');
         }
     }
-
-    handleChangePage = (event, newPage) => {
-        this.setState({
-            page: newPage,
-        });
-    };
 
     handleDeleteCategory = async (categoryID) => {
         const authToken = this.props.auth;
@@ -96,10 +87,33 @@ class CategoriesList extends Component {
         })
     }
 
+    handlePageChange = (page) => {
+        this.setState({
+            currentPage: page
+        })
+    }
 
+    handleNext = (event) => {
+        const pagesCount = Math.ceil(this.props.categories.length / this.state.pageSize);
+        if (this.state.currentPage < pagesCount)
+            this.setState({
+                currentPage: this.state.currentPage + 1
 
+            });
+    }
+
+    handlePrevious = (event) => {
+        if (this.state.currentPage > 1)
+            this.setState({
+                currentPage: this.state.currentPage - 1,
+            });
+    }
     render() {
-        const categories = this.state.searchInput ? this.props.categories.filter(data => data.name === this.state.searchInput) : this.props.categories;
+        let totalCount = 0;
+        const { searchInput, currentPage, pageSize, open } = this.state;
+        const { categories: allCategories } = this.props;
+        const categoriesData = this.state.searchInput ? allCategories.filter(data => data.name === searchInput) : allCategories;
+        const categories = paginate(categoriesData, currentPage, pageSize);
 
         return (
             <React.Fragment>
@@ -122,10 +136,8 @@ class CategoriesList extends Component {
                         </div>
                         <div id="layoutSidenav_content">
                             <main style={{ marginLeft: '20px', marginRight: '20px', marginTop: '55px' }}>
-
                                 <div>
                                     <h3>Categoreis List</h3>
-
                                     {/* Search filter */}
                                     <div className="row mb-2" >
                                         <PaginationSearch onClick={() => this.OpenModel()} placeholder="Search User" add="" >ADD Category</PaginationSearch>
@@ -138,12 +150,8 @@ class CategoriesList extends Component {
                                         </div>
                                     </div>
                                     {/* Search filter */}
-
                                     {/* Open Model */}
-                                    <CreateCategoryModel open={this.state.open} OpenModel={() => this.OpenModel()} />
-
-
-                                    {/* <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> */}
+                                    <CreateCategoryModel open={open} OpenModel={() => this.OpenModel()} />
                                     <table className="table">
                                         <thead className="thead-dark">
                                             <tr>
@@ -156,9 +164,10 @@ class CategoriesList extends Component {
                                         <tbody>
                                             {categories && categories.length ? (
                                                 categories.map((category, index) => {
+                                                    totalCount = (currentPage - 1) * pageSize + index + 1;
                                                     return (
                                                         <tr key={index}>
-                                                            <th scope="row">{index + 1}</th>
+                                                            <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                                             <td>{category.name}</td>
                                                             <td>{category.status}</td>
                                                             <td>
@@ -170,7 +179,15 @@ class CategoriesList extends Component {
                                             ) : (
                                                     <tr><td>No Record found.</td></tr>
                                                 )}
-                                            <Pagination RecordCount={categories && categories.length ? categories.length : 0} colSpan={5} />
+                                            <Pagination recordCount={this.props.categories && this.props.categories.length ? this.props.categories.length : 0}
+                                                pageSize={pageSize}
+                                                currentPage={currentPage}
+                                                onPageChange={this.handlePageChange}
+                                                NextPage={this.handleNext}
+                                                PreviousPage={this.handlePrevious}
+                                                colSpan={3}
+                                                Url="/admin/categories-list"
+                                                totalCount={totalCount} />
                                         </tbody>
                                     </table>
                                 </div>
@@ -179,7 +196,6 @@ class CategoriesList extends Component {
                         </div>
                     </div>
                 </div>
-
             </React.Fragment>
         );
     }
@@ -199,7 +215,5 @@ const mapDispatchToProps = (dispatch) => {
         logoutCall: () => dispatch(userLogout())
     }
 }
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CategoriesList));

@@ -10,12 +10,15 @@ import PaginationSearch from '../PaginationSearch';
 import { toast, ToastContainer } from 'react-toastify';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
 import { withRouter } from 'react-router-dom';
+import paginate from '../../../helper/paginate';
 class UsersList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             users: [],
-            searchInput: ''
+            searchInput: '',
+            pageSize: 5,
+            currentPage: 1
         }
     }
 
@@ -64,9 +67,34 @@ class UsersList extends Component {
         })
     }
 
+    handlePageChange = (page) => {
+        this.setState({
+            currentPage: page
+        })
+    }
+
+    handleNext = (event) => {
+        const pagesCount = Math.ceil(this.state.users.length / this.state.pageSize);
+        if (this.state.currentPage < pagesCount)
+            this.setState({
+                currentPage: this.state.currentPage + 1
+
+            });
+    }
+
+    handlePrevious = (event) => {
+        if (this.state.currentPage > 1)
+            this.setState({
+                currentPage: this.state.currentPage - 1,
+            });
+    }
 
     render() {
-        const users = this.state.searchInput ? this.state.users.filter(data => data.name === this.state.searchInput) : this.state.users;
+        let totalCount = 0;
+        const { searchInput, currentPage, pageSize, users: allUsers } = this.state;
+        const userData = searchInput ? allUsers.filter(data => data.name === searchInput) : allUsers;
+        const users = paginate(userData, currentPage, pageSize);
+
         return (
             <React.Fragment>
                 <ToastContainer
@@ -118,9 +146,10 @@ class UsersList extends Component {
                                         <tbody>
                                             {users && users.length ? (
                                                 users.map((user, index) => {
+                                                    totalCount = (currentPage - 1) * pageSize + index + 1;
                                                     return (
                                                         <tr key={index}>
-                                                            <th scope="row">{index + 1}</th>
+                                                            <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                                             <td>{user.name}</td>
                                                             <td>{user.email}</td>
                                                             <td>{user.status}</td>
@@ -133,9 +162,15 @@ class UsersList extends Component {
                                                     <tr><td>No Record found.</td></tr>
                                                 )}
 
-                                            <Pagination RecordCount={users.length} colSpan={5} />
-
-
+                                            <Pagination recordCount={allUsers && allUsers.length ? allUsers.length : 0}
+                                                pageSize={pageSize}
+                                                currentPage={currentPage}
+                                                onPageChange={this.handlePageChange}
+                                                NextPage={this.handleNext}
+                                                PreviousPage={this.handlePrevious}
+                                                colSpan={5}
+                                                Url="/admin/users"
+                                                totalCount={totalCount} />
                                         </tbody>
                                     </table>
 
