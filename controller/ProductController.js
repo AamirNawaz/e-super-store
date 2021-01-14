@@ -1,4 +1,27 @@
 var { ProductModel } = require('../models/ProductModel');
+var multer = require('multer');
+
+/*******************Product Image uploading Code ******************/
+const imageFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb("Please upload only images.", false);
+  }
+};
+//profile storing path
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/productImages");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage, fileFilter: imageFilter }).single('productImage');
+/*******************Product Image uploading Code ******************/
+
 
 
 const getProducts = async (req, res) => {
@@ -22,13 +45,26 @@ const getProductById = async (req, res) => {
 
 const addProduct = async (req, res) => {
     try {
+        upload(req, res, async function (err) {
+          if (err instanceof multer.MulterError) {
+            return res.json({
+              status: 500,
+              message: err,
+            });
+          } else if (err) {
+            return res.json({
+              status: 500,
+              message: err,
+            });
+          }
+
         const reqBody = req.body;
         const products = new ProductModel({
             productName: reqBody.productName,
             manufacturer: reqBody.manufacturer,
             details: reqBody.details,
             category: reqBody.category,
-            image: reqBody.image,
+            image: req.file.filename,
             price: reqBody.price,
             sale: reqBody.sale,
             stock: reqBody.stock,
@@ -39,12 +75,15 @@ const addProduct = async (req, res) => {
             guarantee: reqBody.guarantee,
             reviews: reqBody.reviews,
         });
-
+        
         const result = await products.save();
-        res.json({ result })
+        res.json({ result });
+
+        });     
     } catch (error) {
         res.status(400).send(error.message);
     }
+
 }
 
 const deleteProduct = async (req, res) => {
@@ -56,6 +95,8 @@ const deleteProduct = async (req, res) => {
         console.log(error);
     }
 }
+
+
 
 module.exports = {
     getProducts,

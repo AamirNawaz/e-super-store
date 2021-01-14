@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
     },
     size: {
         type: String,
-        enum: ['small', 'large', 'Extra Large']
+        enum: ['small', 'large', 'ExtraLarge']
     },
     qty: Number,
     deliveryTime: String,
