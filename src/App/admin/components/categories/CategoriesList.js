@@ -49,7 +49,7 @@ class CategoriesList extends Component {
         );
 
         if (response.status === 200) {
-            toast.success('Category Created successfully!', {
+            toast.success('Category Deleted successfully!', {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,

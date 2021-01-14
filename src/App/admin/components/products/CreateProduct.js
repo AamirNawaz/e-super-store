@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
+import { userLogout } from '../../../redux/reducer/Auth/authActions';
+import { categories } from '../../../redux/reducer/categories/categoryActions';
 import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
@@ -15,7 +19,7 @@ class CreateProduct extends Component {
             category: '',
             manufacturer: '',
             details: '',
-            image: '',
+            productImage: '',
             price: '',
             sale: '',
             stock: '',
@@ -25,6 +29,19 @@ class CreateProduct extends Component {
             deliveryTime: '',
             guarantee: '',
             reviews: 'test',
+            categoriesList: []
+        }
+    }
+
+    componentDidMount = async () => {
+        const authToken = this.props.auth;
+        await this.props.fetchCategories(authToken);
+        this.setState({
+            categoriesList: this.props.categories
+        })
+        if (this.props.tokenExpire) {
+            this.props.logoutCall();
+            this.props.history.push('/admin/logout');
         }
     }
     handleChange = (e) => {
@@ -32,43 +49,58 @@ class CreateProduct extends Component {
             [e.target.name]: e.target.value
         })
     }
-    handleSaveProduct = async(e)=>{
+
+    handleFileInput = (e) => {
+        this.setState({
+            productImage: e.target.files[0]
+        });
+    }
+    handleSaveProduct = async (e) => {
         e.preventDefault();
-        const {productName,category,manufacturer,deliveryTime,details,image,price,qty,sale,size,guarantee,reviews,status,stock} = this.state;
-        // /static/media/7.3910c3dd.jpg
-        if(productName && category && manufacturer && deliveryTime && details && image && price && qty && sale && size && guarantee && status && stock) {
-            const data ={
-                productName,
-                category,
-                manufacturer,
-                deliveryTime,
-                details,image,price,qty,sale,size,guarantee,reviews,status,stock
+        const formData = new FormData();
+        const { productName, category, manufacturer, deliveryTime, details, productImage, price, qty, sale, size, guarantee, reviews, status, stock } = this.state;
+
+        if (productName && category && manufacturer && deliveryTime && details && productImage && price && qty && sale && size && guarantee && status && stock) {
+            formData.append("productName", productName);
+            formData.append("category", category);
+            formData.append("manufacturer", manufacturer);
+            formData.append("deliveryTime", deliveryTime);
+            formData.append("details", details);
+            formData.append("productImage", productImage);
+            formData.append("price", price);
+            formData.append("qty", qty);
+            formData.append("size", size);
+            formData.append("sale", sale);
+            formData.append("guarantee", guarantee);
+            formData.append("reviews", reviews);
+            formData.append("status", status);
+            formData.append("stock", stock);
+
+            const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/products/add`, formData);
+            if (response.status === 200) {
+                toast.success('Product Created successfully!', {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                })
+            } else {
+                toast.error('Failed to Created product!', {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                })
             }
-            const response = await axios.post(`${REACT_APP_ENV=== 'Development'? DEV_API_END_POINT:API_END_POINT}/products/add`,data);
-             if(response.status ===200) {
-                toast.success('Product Created successfully!',{
-                    position: "top-right",
-                    autoClose: 4000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                  })
-             }else{
-                toast.error('Failed to Created product!',{
-                    position: "top-right",
-                    autoClose: 4000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                  })
-             }
-           
-        }else{
-            toast.error('Product All Fields are mandatory!',{
+
+        } else {
+            toast.error('Product All Fields are mandatory!', {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,
@@ -76,23 +108,23 @@ class CreateProduct extends Component {
                 pauseOnHover: false,
                 draggable: true,
                 progress: undefined,
-              })
+            })
         }
     }
     render() {
         return (
             <React.Fragment>
-                 <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 <div>
                     <NavTop />
                     <div id="layoutSidenav">
@@ -121,7 +153,7 @@ class CreateProduct extends Component {
                                             </div>
                                             <div className="form-group col-md-6">
                                                 <label htmlFor="inputPassword4">Guarantee</label>
-                                                <input type="text" className="form-control"  name="guarantee" placeholder="Enter Company Name" onChange={(e) => this.handleChange(e)} />
+                                                <input type="text" className="form-control" name="guarantee" placeholder="Enter Company Name" onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
                                         <div className="form-row">
@@ -129,7 +161,10 @@ class CreateProduct extends Component {
                                                 <label htmlFor="inputState">Product Category</label>
                                                 <select name="category" id="inputState" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
-                                                    <option value="5ff1cb5b7c28a015e09b30ad">Shoes</option>
+                                                    {this.state.categoriesList.map((category, index) => {
+                                                        return (<option key={index} value={category._id}>{category.name}</option>);
+                                                    })}
+
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-6">
@@ -145,10 +180,10 @@ class CreateProduct extends Component {
                                             </div>
                                             <div className="form-group col-md-2">
                                                 <label htmlFor="inputState">Product Stock</label>
-                                                <select  name="stock" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                                <select name="stock" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
                                                     <option value="inStock">In Stock</option>
-                                                    <option value="outOfSock">Out Of Sock</option>
+                                                    <option value="outOfStock">Out Of Sock</option>
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-2">
@@ -161,35 +196,32 @@ class CreateProduct extends Component {
                                             </div>
                                             <div className="form-group col-md-2">
                                                 <label>Prduct Size</label>
-                                                <select  name="size" className="form-control" onChange={(e) => this.handleChange(e)}>
+                                                <select name="size" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
                                                     <option value="small">Small</option>
                                                     <option value="large">Large</option>
-                                                    <option value="extraLarge">Extra Large</option>
+                                                    <option value="ExtraLarge">Extra Large</option>
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-2">
                                                 <label htmlFor="inputImage">Price</label>
-                                                <input type="text" name="price" className="form-control" placeholder="price" onChange={(e) => this.handleChange(e)} />  
+                                                <input type="text" name="price" className="form-control" placeholder="price" onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
                                         <div className="form-row">
-                                        <div className="form-group col-md-12">
-                                            <label htmlFor="inputImage">Product Description</label>
-                                            <textarea type="text" name="details" className="form-control"  rows="3" onChange={(e) => this.handleChange(e)} />  
-                                        </div>
+                                            <div className="form-group col-md-12">
+                                                <label htmlFor="inputImage">Product Description</label>
+                                                <textarea type="text" name="details" className="form-control" rows="3" onChange={(e) => this.handleChange(e)} />
+                                            </div>
                                         </div>
                                         <div className="form-row">
-                                            {/* <div className="form-group col-md-12">
+                                            <div className="form-group col-md-12">
                                                 <label htmlFor="inputImage">Product Image</label>
-                                                <input type="file" name="productImage" onChange={(e) => this.handleChange(e)} />
-                                            </div> */}
-                                             <div className="form-group col-md-6">
-                                                <label htmlFor="inputImage">product image</label>
-                                                <input type="text" name="image" className="form-control" placeholder="product image" onChange={(e) => this.handleChange(e)} />  
+                                                <input type="file" name="productImage" onChange={(e) => this.handleFileInput(e)} />
                                             </div>
+
                                         </div>
-                                        <button  className="btn btn-primary" onClick={(e)=>this.handleSaveProduct(e)}>Save Product</button>
+                                        <button className="btn btn-primary" onClick={(e) => this.handleSaveProduct(e)}>Save Product</button>
                                     </form>
                                 </div>
                             </main>
@@ -203,4 +235,17 @@ class CreateProduct extends Component {
     }
 }
 
-export default CreateProduct;
+const mapStateToProps = (state) => {
+    return {
+        categories: state.categoryReducer.categories,
+        tokenExpire: state.categoryReducer.tokenExpireMessage ? state.categoryReducer.tokenExpireMessage : false,
+        auth: state.auth.authToken
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchCategories: (authToken) => dispatch(categories(authToken)),
+        logoutCall: () => dispatch(userLogout())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateProduct));
