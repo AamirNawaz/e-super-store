@@ -1,5 +1,9 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV, NODE_IMAGES_PATH, DEV_NODE_IMAGES_PATH } from '../../../AppConstant';
 import paginate from '../../../helper/paginate';
 import { fetchProducts } from '../../../redux/reducer/shope/shopeActions';
 import AsideBar from '../AsideBar';
@@ -41,6 +45,44 @@ class ProductList extends Component {
             });
     }
 
+
+    handleDeleteProduct = async (productID) => {
+        const authToken = this.props.auth;
+        const response = await axios.get(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/products/delete/${productID}`, {
+            // headers: {
+            //     'Authorization': `Bearer ${authToken}`,
+            // }
+        }
+        );
+
+        console.log('response:::', response);
+        if (response.status === 200) {
+            toast.success('Product deleted successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            //fetch all categories data on save
+            this.props.fetchProductsCall(authToken);
+
+        } else {
+            toast.error('Faild to delete the category', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
+
     render() {
         let totalCount = 0;
         const { searchInput, currentPage, pageSize } = this.state;
@@ -50,6 +92,17 @@ class ProductList extends Component {
 
         return (
             <React.Fragment>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 <div>
                     <NavTop />
                     <div id="layoutSidenav">
@@ -83,12 +136,14 @@ class ProductList extends Component {
                                                             <tr key={index}>
                                                                 <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                                                 <td>{product.productName}</td>
-                                                                <td><img src={product.image} style={{ width: 50, height: 50 }} alt="" /></td>
+                                                                <td><img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${product.image}` : NODE_IMAGES_PATH + `${product.image}`} style={{ width: 60, height: 50, borderRadius: 5 }} alt="" /></td>
+
+
                                                                 <td>${product.price}</td>
                                                                 <td>{product.qty}</td>
                                                                 <td>{product.status}</td>
                                                                 <td>{product.stock}</td>
-                                                                <td>Edit | Delete</td>
+                                                                <td><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i>&nbsp;&nbsp;| <Link to="/admin/product-list" onClick={() => this.handleDeleteProduct(product._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                             </tr>
                                                         )
                                                     })

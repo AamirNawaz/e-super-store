@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { DEV_NODE_IMAGES_PATH, NODE_IMAGES_PATH, REACT_APP_ENV } from '../../../AppConstant';
 import { addToCart, addToWishList, /*fetchProducts*/ } from '../../../redux/reducer/shope/shopeActions';
 import SearchFilterProducts from './SearchFilterProducts';
 
@@ -13,10 +14,10 @@ class ShopeProducts extends Component {
 
     componentDidMount = () => {
         // this.props.fetchProductsCall();
-        
+
         //goto the top of page when page loaded  
         window.scrollTo(0, 0)
-          
+
     }
 
 
@@ -41,7 +42,7 @@ class ShopeProducts extends Component {
                     <div className="container">
 
 
-                      <SearchFilterProducts />
+                        <SearchFilterProducts />
 
                         <header className="mb-3">
                             <div className="form-inline">
@@ -68,7 +69,7 @@ class ShopeProducts extends Component {
                                         <figure className="card card-product-grid">
                                             <div className="img-wrap">
                                                 <span className="badge badge-danger"> NEW </span>
-                                                <img src={product.image} alt="" />
+                                                <img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${product.image}` : NODE_IMAGES_PATH + `${product.image}`} alt="" />
                                             </div>
                                             <figcaption className="info-wrap">
                                                 <Link to={`/product-details/${product._id}`} className="title mb-2">{product.details}</Link>
@@ -80,7 +81,7 @@ class ShopeProducts extends Component {
                                                 <p className="text-muted ">{product.productName}</p>
                                                 <hr />
 
-                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product._id)}> <i className="fa fa-envelope" /> Add to Cart </button>
+                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product._id)}> <i class="fas fa-cart-plus"></i> Add to Cart </button>
                                         &nbsp;&nbsp;<button className="btn btn-outline-primary" onClick={() => this.props.addToWishListBtn(product._id)}> <i className="fa fa-heart" /> Add to wishlist </button>
                                             </figcaption>
                                         </figure>
@@ -122,7 +123,7 @@ const mapStateToProps = (state) => {
     return {
         productsList: state.shope.products
     }
-   
+
 }
 
 const mapDispatchToProps = (dispatch) => {

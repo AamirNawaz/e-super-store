@@ -10252,3 +10252,10 @@ body {
   width: 200px;
   background-color: red;
 }
+
+
+/* ***********Aamir csss */
+ .activeNavHilighter{
+   background:#ff6a00;
+   color: white
+  }
