@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { clearCart, decrmentQty, incrmentQty, removeFromCart } from '../../../redux/reducer/shope/shopeActions'
 import payments from '../../../assets/images/misc/payments.png';
 import { ToastContainer } from 'react-toastify';
+import { DEV_NODE_IMAGES_PATH, NODE_IMAGES_PATH, REACT_APP_ENV } from '../../../AppConstant';
 
 class CartItems extends Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class CartItems extends Component {
                                                         <tr key={index}>
                                                             <td>
                                                                 <figure className="itemside">
-                                                                    <div className="aside"><img src={item.image} alt="" className="img-sm" /></div>
+                                                                    <div className="aside"><img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${item.image}` : NODE_IMAGES_PATH + `${item.image}`} alt="" className="img-sm" /></div>
                                                                     <figcaption className="info">
                                                                         <Link to={`product-details/${item._id}`} className="title text-dark">{item.productName}</Link>
                                                                         <p className="text-muted small">Size: XL, Color: blue, <br /> Brand: Gucci</p>
