@@ -6,6 +6,7 @@ import PageSectionTop from './PageSectionTop';
 
 import { addToCart, clearWishList, removeFromWishList } from '../../../redux/reducer/shope/shopeActions';
 import { ToastContainer } from 'react-toastify';
+import { DEV_NODE_IMAGES_PATH, NODE_IMAGES_PATH, REACT_APP_ENV } from '../../../AppConstant';
 
 
 
@@ -42,7 +43,7 @@ function ProfileWhishList(props) {
                                                     <div key={index} className="col-md-6">
                                                         <figure className="itemside mb-4">
                                                             <div className="aside">
-                                                                <img src={list.image} alt=" " className="border img-md" /></div>
+                                                                <img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${list.image}` : NODE_IMAGES_PATH + `${list.image}`} alt=" " className="border img-md" /></div>
                                                             <figcaption className="info">
                                                                 <a href="/" className="title">{list.productName}</a>
                                                                 <p className="price mb-2">${list.price}</p>
