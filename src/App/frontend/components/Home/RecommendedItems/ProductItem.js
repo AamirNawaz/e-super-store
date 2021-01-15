@@ -34,7 +34,7 @@ function ProductItem(props) {
                                 <div className="price mt-1">${product.price}</div>
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <button className="btn btn-primary btn-sm" onClick={() => props.addToCartBtn(product._id)}> <i class="fas fa-cart-plus"></i>  Cart </button>
+                                        <button className="btn btn-primary btn-sm" onClick={() => props.addToCartBtn(product._id)}> <i className="fas fa-cart-plus"></i>  Cart </button>
                                     </div>
                                     <div className="col-md-6">
                                         <button className="btn btn-outline-primary btn-sm" onClick={() => props.addToWishListBtn(product._id)}> <i className="fa fa-heart" />  wishlist </button>

@@ -83,6 +83,11 @@ class ProductList extends Component {
         }
     }
 
+    handleOnchange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     render() {
         let totalCount = 0;
         const { searchInput, currentPage, pageSize } = this.state;
@@ -113,7 +118,19 @@ class ProductList extends Component {
                             <main style={{ margin: '20px' }}>
                                 <div className="table-responsive" >
                                     <h1>Product List</h1>
-                                    <PaginationSearch addBtn="Add Product" link="/admin/create-product" placeholder="Search product" />
+                                    {/* Search filter */}
+                                    <div className="row mb-2" >
+                                        <PaginationSearch link="/admin/create-product" addBtn="Add Product" ></PaginationSearch>
+                                        <div className="col-md-3 offset-md-6">
+                                            <div className="form-group has-search">
+                                                <span className="fa fa-search form-control-feedback" />
+                                                <input style={{ borderRadius: '0px', border: '2px solid #ff6a00' }} name="searchInput" type="text" className="form-control" placeholder={'search products'} onChange={(event) => this.handleOnchange(event)} autoComplete="off" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    {/* Search filter */}
+
                                     <table className="table">
                                         <thead className="thead-dark">
                                             <tr>
