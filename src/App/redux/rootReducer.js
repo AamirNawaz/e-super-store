@@ -9,7 +9,7 @@ import categoryReducer from './reducer/categories/categoryReducer';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['shope', 'auth']
+    whitelist: ['shope', 'auth', 'categoryReducer']
 }
 
 const rootReducer = combineReducers({

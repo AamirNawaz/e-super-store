@@ -1,6 +1,7 @@
 import React from 'react'
-import HygieneEquipments from './HygieneEquipments'
-import ProductContainer from './ProductContainer'
+import DealProduct from './DealProduct'
+import OfferCounter from './OfferCounter';
+
 
 export default function DealSection() {
     return (
@@ -9,8 +10,8 @@ export default function DealSection() {
             <section className="padding-bottom">
                 <div className="card card-deal">
                     <div className="row">
-                        <HygieneEquipments />
-                        <ProductContainer />
+                        <OfferCounter />
+                        <DealProduct />
                     </div>
                 </div>
             </section>

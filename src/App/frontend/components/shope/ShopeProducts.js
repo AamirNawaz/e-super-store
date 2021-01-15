@@ -81,7 +81,7 @@ class ShopeProducts extends Component {
                                                 <p className="text-muted ">{product.productName}</p>
                                                 <hr />
 
-                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product._id)}> <i class="fas fa-cart-plus"></i> Add to Cart </button>
+                                                <button className="btn btn-primary" onClick={() => this.props.addToCartBtn(product._id)}> <i className="fas fa-cart-plus"></i> Add to Cart </button>
                                         &nbsp;&nbsp;<button className="btn btn-outline-primary" onClick={() => this.props.addToWishListBtn(product._id)}> <i className="fa fa-heart" /> Add to wishlist </button>
                                             </figcaption>
                                         </figure>
@@ -121,7 +121,8 @@ class ShopeProducts extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        productsList: state.shope.products
+        productsList: state.shope.products,
+        categories: state.categoryReducer.categories
     }
 
 }

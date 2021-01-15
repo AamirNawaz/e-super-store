@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function HygieneEquipments() {
+export default function OfferCounter() {
     return (
         <React.Fragment>
 
-            <div className="col-heading col-md-3 col-3 pl-5 content-body">
+            <div className="col-heading col-md-3 col-3 pl-5 content-body" style={{ border: '1px solid #ebecf0' }}>
                 <header className="section-heading">
                     <h3 className="section-title">Deals and offers</h3>
-                    <p>Hygiene equipments</p>
+                    <p>OfferCounter equipments</p>
                 </header>{/* sect-heading */}
                 <div className="timer">
                     <div> <span className="num">04</span> <small>Days</small></div>

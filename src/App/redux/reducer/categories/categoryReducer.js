@@ -9,9 +9,16 @@ const categoryReducer = (state = [], action) => {
                 tokenExpireMessage: action.payload.tokenExpireMessage
             }
 
+        // getAllcategories with auth
+        case actionTypes.GET_ALL_CATEGORIES:
+            return {
+                ...state,
+                categories: action.payload.allCategories,
+            }
         default:
             return state;
     }
+
 }
 
 export default categoryReducer;

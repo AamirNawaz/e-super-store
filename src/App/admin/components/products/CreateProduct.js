@@ -87,6 +87,7 @@ class CreateProduct extends Component {
                     draggable: true,
                     progress: undefined,
                 })
+                this.props.history.push('/admin/product-list');
             } else {
                 toast.error('Failed to Created product!', {
                     position: "top-right",
