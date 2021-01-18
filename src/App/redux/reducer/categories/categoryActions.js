@@ -22,7 +22,7 @@ export const categories = (authToken) => {
                 }
             })
         } catch (error) {
-            const message = error.response.data ? error.response.data : 'Backend Service Stop';
+            const message = error.response && error.response.data ? error.response.data : 'Backend Service Stop';
             toast.error(message, {
                 position: "top-right",
                 autoClose: 7000,
@@ -61,7 +61,7 @@ export const getAllCategories = () => {
                 }
             })
         } catch (error) {
-            const message = error.response.data ? error.response.data : 'Backend Service Stop';
+            const message = error.response && error.response.data ? error.response.data : 'Backend Service Stop';
             toast.error(message, {
                 position: "top-right",
                 autoClose: 7000,
