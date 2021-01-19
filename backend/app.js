@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/',indexRoute);
+app.use('/', indexRoute);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -50,5 +50,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// app.listen(process.env.PORT, function () {
+//   console.log(`app listening on port:${process.env.PORT}`);
+// })
 
 module.exports = app;
