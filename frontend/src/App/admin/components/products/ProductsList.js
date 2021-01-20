@@ -120,7 +120,12 @@ class ProductList extends Component {
                                     <h1>Product List</h1>
                                     {/* Search filter */}
                                     <div className="row mb-2" >
-                                        <PaginationSearch link="/admin/create-product" addBtn="Add Product" ></PaginationSearch>
+                                        {/* product save with image */}
+                                        {/* <PaginationSearch link="/admin/create-product" addBtn="Add Product" ></PaginationSearch> */}
+
+                                        {/* product save with image url */}
+                                        <PaginationSearch link="/admin/create-product-url" addBtn="Add Product" ></PaginationSearch>
+
                                         <div className="col-md-3 offset-md-6">
                                             <div className="form-group has-search">
                                                 <span className="fa fa-search form-control-feedback" />
@@ -160,7 +165,8 @@ class ProductList extends Component {
                                                                 <td>{product.qty}</td>
                                                                 <td>{product.status}</td>
                                                                 <td>{product.stock}</td>
-                                                                <td><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i>&nbsp;&nbsp;| <Link to="/admin/product-list" onClick={() => this.handleDeleteProduct(product._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
+                                                                <td><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i>&nbsp;&nbsp;|
+                                                                <Link to="/admin/product-list" onClick={() => this.handleDeleteProduct(product._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                             </tr>
                                                         )
                                                     })

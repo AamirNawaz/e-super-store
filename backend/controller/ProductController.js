@@ -25,82 +25,111 @@ var upload = multer({ storage: storage, fileFilter: imageFilter }).single('produ
 
 
 const getProducts = async (req, res) => {
-    try {
-        const products = await ProductModel.find({});
-        res.json({ products });
-    } catch (error) {
-        throw new Error('products not found');
-    }
+  try {
+    const products = await ProductModel.find({});
+    res.json({ products });
+  } catch (error) {
+    throw new Error('products not found');
+  }
 }
 
 const getProductById = async (req, res) => {
-    try {
-        const product = await ProductModel.findById({ _id: req.params.id });
-        res.json({ product });
-    } catch (error) {
-        throw new Error('Single Product not found', error);
-    }
+  try {
+    const product = await ProductModel.findById({ _id: req.params.id });
+    res.json({ product });
+  } catch (error) {
+    throw new Error('Single Product not found', error);
+  }
 }
 
 
 const addProduct = async (req, res) => {
-    try {
-        upload(req, res, async function (err) {
-          if (err instanceof multer.MulterError) {
-            return res.json({
-              status: 500,
-              message: err,
-            });
-          } else if (err) {
-            return res.json({
-              status: 500,
-              message: err,
-            });
-          }
-
-        const reqBody = req.body;
-        const products = new ProductModel({
-            productName: reqBody.productName,
-            manufacturer: reqBody.manufacturer,
-            details: reqBody.details,
-            category: reqBody.category,
-            image: req.file.filename,
-            price: reqBody.price,
-            sale: reqBody.sale,
-            stock: reqBody.stock,
-            status: reqBody.status,
-            size: reqBody.size,
-            qty: reqBody.qty,
-            deliveryTime: reqBody.deliveryTime,
-            guarantee: reqBody.guarantee,
-            reviews: reqBody.reviews,
+  try {
+    upload(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.json({
+          status: 500,
+          message: err,
         });
-        
-        const result = await products.save();
-        res.json({ result });
+      } else if (err) {
+        return res.json({
+          status: 500,
+          message: err,
+        });
+      }
 
-        });     
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
+      const reqBody = req.body;
+      const products = new ProductModel({
+        productName: reqBody.productName,
+        manufacturer: reqBody.manufacturer,
+        details: reqBody.details,
+        category: reqBody.category,
+        image: req.file.filename,
+        price: reqBody.price,
+        sale: reqBody.sale,
+        stock: reqBody.stock,
+        status: reqBody.status,
+        size: reqBody.size,
+        qty: reqBody.qty,
+        deliveryTime: reqBody.deliveryTime,
+        guarantee: reqBody.guarantee,
+        reviews: reqBody.reviews,
+      });
+
+      const result = await products.save();
+      res.json({ result });
+
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 
 }
 
+const addProductUrl = async (req, res) => {
+  try {
+    const reqBody = req.body;
+    const products = new ProductModel({
+      productName: reqBody.productName,
+      manufacturer: reqBody.manufacturer,
+      details: reqBody.details,
+      category: reqBody.category,
+      image: reqBody.image,
+      price: reqBody.price,
+      sale: reqBody.sale,
+      stock: reqBody.stock,
+      status: reqBody.status,
+      size: reqBody.size,
+      qty: reqBody.qty,
+      deliveryTime: reqBody.deliveryTime,
+      guarantee: reqBody.guarantee,
+      reviews: reqBody.reviews,
+    });
+
+    const result = await products.save();
+    res.json({ result })
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+
 const deleteProduct = async (req, res) => {
-    try {
-        const _id = req.params.id;
-        const result = await ProductModel.deleteOne({ _id });
-        res.json({ result });
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    const _id = req.params.id;
+    const result = await ProductModel.deleteOne({ _id });
+    res.json({ result });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 
 
 module.exports = {
-    getProducts,
-    getProductById,
-    addProduct,
-    deleteProduct
+  getProducts,
+  getProductById,
+  addProduct,
+  deleteProduct,
+  addProductUrl
 };

@@ -64,7 +64,7 @@ function ProductItem(props) {
 
 const mapStateToProps = (state) => {
     return {
-        productData: state.shope.products
+        productData: state.shope.products && state.shope.products.length ? state.shope.products : []
 
     }
 }

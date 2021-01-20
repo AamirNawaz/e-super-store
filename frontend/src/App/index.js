@@ -22,6 +22,7 @@ import Logout from './admin/components/Logout';
 import ProductList from './admin/components/products/ProductsList';
 import UsersList from './admin/components/users/UsersList';
 import CategoriesList from './admin/components/categories/CategoriesList';
+import CreateProductUrl from './admin/components/products/CreateProductUrl';
 
 
 function Index() {
@@ -112,6 +113,10 @@ function Index() {
 
                 <Route path="/admin/create-product">
                     <CreateProduct />
+                </Route>
+
+                <Route path="/admin/create-product-url">
+                    <CreateProductUrl />
                 </Route>
                 <Route path="/admin/product-list">
                     <ProductList />

@@ -29,7 +29,7 @@ function index(props) {
                                 {eProducts && eProducts.length ? (
                                     eProducts.map((product, index) => {
                                         return (
-                                            <li className="col-6 col-lg-3 col-md-4">
+                                            <li key={index} className="col-6 col-lg-3 col-md-4">
 
                                                 <div className="card-body">
                                                     <h6 className="title">{product.productName}</h6>

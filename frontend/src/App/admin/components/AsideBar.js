@@ -66,6 +66,7 @@ function AsideBar(props) {
                      </nav>
                   </div>
 
+
                   <a className={active === 'categories' ? 'nav-link active' : 'nav-link collapsed'} href="/" data-toggle="collapse" data-target="#categoryLayout" aria-expanded="true" aria-controls="categoryLayout">
                      <div className="sb-nav-link-icon"><i className="fas fa-list" /></div>
                Categories
