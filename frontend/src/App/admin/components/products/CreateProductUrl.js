@@ -170,7 +170,7 @@ class CreateProductUrl extends Component {
                                                 <select name="stock" className="form-control" onChange={(e) => this.handleChange(e)}>
                                                     <option defaultValue>Choose...</option>
                                                     <option value="inStock">In Stock</option>
-                                                    <option value="outOfSock">Out Of Sock</option>
+                                                    <option value="outOfStock">Out Of Sock</option>
                                                 </select>
                                             </div>
                                             <div className="form-group col-md-2">

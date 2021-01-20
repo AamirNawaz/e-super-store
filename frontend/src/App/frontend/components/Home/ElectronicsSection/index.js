@@ -27,7 +27,7 @@ function index(props) {
                         <div key={index} className="col-md-9">
                             <ul className="row no-gutters bordered-cols">
                                 {eProducts && eProducts.length ? (
-                                    eProducts.map((product, index) => {
+                                    eProducts.slice(0, 12).map((product, index) => {
                                         return (
                                             <li key={index} className="col-6 col-lg-3 col-md-4">
 
@@ -51,6 +51,13 @@ function index(props) {
                                         )
                                     })
                                 ) : ('')}
+                                {eProducts.length > 12 ?
+                                    <div className="col-xl-12 col-lg-12 col-md-12 col-12"><Link to="/shope-products" style={{
+                                        textDecoration: 'underline',
+                                        color: '#ff6a00', float: 'right'
+                                    }}>View More</Link></div>
+                                    : ('')
+                                }
 
                             </ul>
                         </div>

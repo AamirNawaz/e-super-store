@@ -21,7 +21,7 @@ function ProductItem(props) {
                 pauseOnHover
             />
             {props.productData.length ?
-                props.productData.slice(0, 6).map((product, index) => {
+                props.productData.slice(0, 12).map((product, index) => {
 
                     return (<div key={index} className="col-xl-2 col-lg-3 col-md-4 col-6">
                         <div className="card card-sm card-product-grid">
@@ -49,7 +49,7 @@ function ProductItem(props) {
                     )
 
                 }) : ('')}
-            {props.productData.length > 6 ?
+            {props.productData.length > 12 ?
                 <div className="col-xl-12 col-lg-12 col-md-12 col-12"><Link to="/shope-products" style={{
                     textDecoration: 'underline',
                     color: '#ff6a00', float: 'right'
