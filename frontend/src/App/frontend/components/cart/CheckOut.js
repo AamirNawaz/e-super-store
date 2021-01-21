@@ -93,7 +93,7 @@ class CheckOut extends React.Component {
 
                 <div className="container mb-5 mt-5">
                     <div className="row">
-                        <div className="col-md-8">
+                        <div className="col-md-6 ">
                             <h4 className="mb-3">Billing address</h4>
                             <form className="needs-validation" noValidate>
                                 <div className="row">
@@ -227,7 +227,7 @@ class CheckOut extends React.Component {
                             </form>
                         </div>
 
-                        <CartItemsSumary colValue={'col-md-4'} />
+                        <CartItemsSumary colValue={'col-md-5 offset-md-1  '} />
 
 
                     </div>

@@ -92,15 +92,16 @@ class CartItemsSumary extends Component {
                         <div className="card-body">
                             <dl className="dlist-align">
                                 <dt>Total price:</dt>
-                                <dd className="text-right">USD {getTotals}</dd>
+
+                                <dd className="text-right"> {(getTotals.toLocaleString('en-US', { style: "currency", currency: 'USD' }))}</dd>
                             </dl>
-                            <dl className="dlist-align">
+                            <dl className="dlist-align" style={{ color: 'red' }}>
                                 <dt>Discount:</dt>
-                                <dd className="text-right">USD {dummyDiscount}</dd>
+                                <dd className="text-right"> {dummyDiscount.toLocaleString('en-US', { style: "currency", currency: 'USD' })}</dd>
                             </dl>
                             <dl className="dlist-align">
                                 <dt>Total:</dt>
-                                <dd className="text-right  h5"><strong>${getTotals - dummyDiscount}</strong></dd>
+                                <dd className="text-right  h5"><strong>{(getTotals - dummyDiscount).toLocaleString('en-US', { style: "currency", currency: 'USD' })}</strong></dd>
                             </dl>
                             <hr />
                             <p className="text-center mb-3">

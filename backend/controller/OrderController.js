@@ -25,6 +25,7 @@ const orderCheckout = async (req, res) => {
         console.log(reqBody);
         return false;
 
+
         if (reqBody.name && reqBody.status) {
             const order = new OrderModel({
                 name: reqBody.name,
