@@ -9,6 +9,7 @@ class CheckOut extends React.Component {
             lastName: '',
             email: '',
             address: '',
+            address2: '',
             country: '',
             countryState: '',
             zipCode: '',
@@ -25,9 +26,9 @@ class CheckOut extends React.Component {
             [e.target.name]: e.target.value
 
         })
-
     }
     render() {
+        console.log('checkout State::::', this.state);
         return (
             <React.Fragment>
                 <div className="checkout-container">
@@ -39,14 +40,14 @@ class CheckOut extends React.Component {
                                 <div className="row">
                                     <div className="col-md-6 mb-3">
                                         <label htmlFor="firstName">First name</label>
-                                        <input type="text" className="form-control" id="firstName" name="firstName" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="firstName" name="firstName" placeholder="firstname" onChange={(e) => this.handleChange(e)} />
                                         <div className="invalid-feedback">
                                             Valid first name is required.
                                         </div>
                                     </div>
                                     <div className="col-md-6 mb-3">
                                         <label htmlFor="lastName">Last name</label>
-                                        <input type="text" className="form-control" id="lastName" name="lastName" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="lastName" placeholder="last name" name="lastName" onChange={(e) => this.handleChange(e)} />
                                         <div className="invalid-feedback">
                                             Valid last name is required.
                                         </div>
@@ -68,7 +69,7 @@ class CheckOut extends React.Component {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="address2">Address 2 <span className="text-muted">(Optional)</span></label>
-                                    <input type="text" className="form-control" id="address2" placeholder="Apartment or suite" />
+                                    <input type="text" className="form-control" name="address2" id="address2" placeholder="Apartment or suite" onChange={(e) => this.handleChange(e)} />
                                 </div>
                                 <div className="row">
                                     <div className="col-md-5 mb-3">
@@ -93,7 +94,7 @@ class CheckOut extends React.Component {
                                     </div>
                                     <div className="col-md-3 mb-3">
                                         <label htmlFor="zip">Zip</label>
-                                        <input type="text" className="form-control" id="zip" name="zipCode" onChange={(e) => this.handleChange(e)} required />
+                                        <input type="text" className="form-control" placeholder="zip code" id="zip" name="zipCode" onChange={(e) => this.handleChange(e)} required />
                                         <div className="invalid-feedback">
                                             Zip code required.
                                         </div>
@@ -124,11 +125,15 @@ class CheckOut extends React.Component {
                                         <input id="paypal" name="paymentMethod" type="radio" className="custom-control-input" value="PayPal" required onChange={(e) => this.handleChange(e)} />
                                         <label className="custom-control-label" htmlFor="paypal">Paypal</label>
                                     </div>
+                                    <div className="custom-control custom-radio">
+                                        <input id="stripe" name="paymentMethod" type="radio" className="custom-control-input" value="Stripe" required onChange={(e) => this.handleChange(e)} />
+                                        <label className="custom-control-label" htmlFor="stripe">Stripe</label>
+                                    </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-6 mb-3">
                                         <label htmlFor="cc-name">Name on card</label>
-                                        <input type="text" className="form-control" id="cc-name" placeholder required name="cardHolder" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="cc-name" placeholder="cardholder" required name="cardHolder" onChange={(e) => this.handleChange(e)} />
                                         <small className="text-muted">Full name as displayed on card</small>
                                         <div className="invalid-feedback">
                                             Name on card is required
@@ -136,7 +141,7 @@ class CheckOut extends React.Component {
                                     </div>
                                     <div className="col-md-6 mb-3">
                                         <label htmlFor="cc-number">Credit card number</label>
-                                        <input type="text" className="form-control" id="cc-number" placeholder required name="cardNumber" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="cc-number" placeholder="Credit Card number" required name="cardNumber" onChange={(e) => this.handleChange(e)} />
                                         <div className="invalid-feedback">
                                             Credit card number is required
                                         </div>
@@ -145,14 +150,14 @@ class CheckOut extends React.Component {
                                 <div className="row">
                                     <div className="col-md-3 mb-3">
                                         <label htmlFor="cc-expiration">Expiration</label>
-                                        <input type="text" className="form-control" id="cc-expiration" placeholder required name="expiryDate" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="cc-expiration" placeholder="expiry date" required name="expiryDate" onChange={(e) => this.handleChange(e)} />
                                         <div className="invalid-feedback">
                                             Expiration date required
                                         </div>
                                     </div>
                                     <div className="col-md-3 mb-3">
                                         <label htmlFor="cc-expiration">CVV</label>
-                                        <input type="text" className="form-control" id="cc-cvv" placeholder required name="cvvNumber" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="cc-cvv" placeholder="cvvNumber" required name="cvvNumber" onChange={(e) => this.handleChange(e)} />
                                         <div className="invalid-feedback">
                                             Security code required
                                         </div>

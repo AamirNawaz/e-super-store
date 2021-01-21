@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
-import Pagination from '../Pagination';
-import PaginationSearch from '../PaginationSearch';
+import Pagination from '../../../helper/Pagination';
+import PaginationSearch from '../../../helper/PaginationSearch';
 import paginate from '../../../helper/paginate';
 import { toast, ToastContainer } from 'react-toastify';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
@@ -179,17 +179,18 @@ class CategoriesList extends Component {
                                             ) : (
                                                     <tr><td>No Record found.</td></tr>
                                                 )}
-                                            <Pagination recordCount={this.props.categories && this.props.categories.length ? this.props.categories.length : 0}
-                                                pageSize={pageSize}
-                                                currentPage={currentPage}
-                                                onPageChange={this.handlePageChange}
-                                                NextPage={this.handleNext}
-                                                PreviousPage={this.handlePrevious}
-                                                colSpan={3}
-                                                Url="/admin/categories-list"
-                                                totalCount={totalCount} />
+
                                         </tbody>
                                     </table>
+                                    <Pagination recordCount={this.props.categories && this.props.categories.length ? this.props.categories.length : 0}
+                                        pageSize={pageSize}
+                                        currentPage={currentPage}
+                                        onPageChange={this.handlePageChange}
+                                        NextPage={this.handleNext}
+                                        PreviousPage={this.handlePrevious}
+                                        colSpan={3}
+                                        Url="/admin/categories-list"
+                                        totalCount={totalCount} />
                                 </div>
                             </main>
                             <DashboardFooter />

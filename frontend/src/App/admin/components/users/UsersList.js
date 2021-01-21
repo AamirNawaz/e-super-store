@@ -5,8 +5,8 @@ import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
-import Pagination from '../Pagination';
-import PaginationSearch from '../PaginationSearch';
+import Pagination from '../../../helper/Pagination';
+import PaginationSearch from '../../../helper/PaginationSearch';
 import { toast, ToastContainer } from 'react-toastify';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
 import { withRouter } from 'react-router-dom';
@@ -162,17 +162,18 @@ class UsersList extends Component {
                                                     <tr><td>No Record found.</td></tr>
                                                 )}
 
-                                            <Pagination recordCount={allUsers && allUsers.length ? allUsers.length : 0}
-                                                pageSize={pageSize}
-                                                currentPage={currentPage}
-                                                onPageChange={this.handlePageChange}
-                                                NextPage={this.handleNext}
-                                                PreviousPage={this.handlePrevious}
-                                                colSpan={5}
-                                                Url="/admin/users"
-                                                totalCount={totalCount} />
+
                                         </tbody>
                                     </table>
+                                    <Pagination recordCount={allUsers && allUsers.length ? allUsers.length : 0}
+                                        pageSize={pageSize}
+                                        currentPage={currentPage}
+                                        onPageChange={this.handlePageChange}
+                                        NextPage={this.handleNext}
+                                        PreviousPage={this.handlePrevious}
+                                        colSpan={5}
+                                        Url="/admin/users"
+                                        totalCount={totalCount} />
 
                                 </div>
                             </main>

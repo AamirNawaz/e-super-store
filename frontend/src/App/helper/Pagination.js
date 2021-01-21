@@ -10,9 +10,10 @@ function Pagination(props) {
 
     return (
         <React.Fragment>
-            <tr>
-                <td>Showing {totalCount} out {recordCount} records</td>
-                <td colSpan={props.colSpan}>
+            {props.tableStart}
+            <div>
+                <span>Showing {totalCount} out {recordCount} records</span>
+                <span colSpan={props.colSpan}>
                     <nav aria-label="Page navigation example" style={{ float: 'right' }}>
                         <ul className="pagination">
                             <li onClick={PreviousPage} className="page-item"><Link className="page-link" to={Url}>Previous</Link></li>
@@ -24,9 +25,10 @@ function Pagination(props) {
                             <li onClick={NextPage} className="page-item"><Link className="page-link" to={Url}>Next</Link></li>
                         </ul>
                     </nav>
-                </td>
+                </span>
+            </div>
 
-            </tr>
+            {props.tableEnd}
         </React.Fragment>
     )
 }

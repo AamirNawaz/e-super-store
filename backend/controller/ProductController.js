@@ -26,7 +26,8 @@ var upload = multer({ storage: storage, fileFilter: imageFilter }).single('produ
 
 const getProducts = async (req, res) => {
   try {
-    const products = await ProductModel.find({});
+    // const products = await ProductModel.find({}).populate('category', 'name').exec();
+    const products = await ProductModel.find({}).populate('category').exec();
     res.json({ products });
   } catch (error) {
     throw new Error('products not found');

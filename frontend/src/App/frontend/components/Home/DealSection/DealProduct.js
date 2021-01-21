@@ -20,7 +20,7 @@ function DealProduct(props) {
                                     <img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${dProduct.image}` : NODE_IMAGES_PATH + `${dProduct.image}`} alt={dProduct.productName} />
                                 </Link>
                                 <div className="text-wrap p-3">
-                                    <Link to="/shope-products" className="title">Category: {dProduct.category}</Link>
+                                    <Link to="/shope-products" className="title"> {dProduct.category ? dProduct.category.name : ''}</Link>
                                     <div className="row">
                                         <div className="col-md-6">
                                             <span className="badge badge-default" style={{ color: 'gray' }}> ${dProduct.price} </span><br />

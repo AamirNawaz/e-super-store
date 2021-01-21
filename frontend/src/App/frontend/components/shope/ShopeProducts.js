@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { DEV_NODE_IMAGES_PATH, NODE_IMAGES_PATH, REACT_APP_ENV } from '../../../AppConstant';
+import paginate from '../../../helper/paginate';
+import Pagination from '../../../helper/Pagination';
 import { addToCart, addToWishList, /*fetchProducts*/ } from '../../../redux/reducer/shope/shopeActions';
-import SearchFilterProducts from './SearchFilterProducts';
+// import SearchFilterProducts from './SearchFilterProducts';
 
 class ShopeProducts extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            pageSize: 12,
+            currentPage: 1
+        }
     }
 
     componentDidMount = () => {
@@ -20,10 +25,35 @@ class ShopeProducts extends Component {
 
     }
 
+    handlePageChange = (page) => {
+        this.setState({
+            currentPage: page
+        })
+    }
+
+    handleNext = (event) => {
+        const pagesCount = Math.ceil(this.state.users.length / this.state.pageSize);
+        if (this.state.currentPage < pagesCount)
+            this.setState({
+                currentPage: this.state.currentPage + 1
+
+            });
+    }
+
+    handlePrevious = (event) => {
+        if (this.state.currentPage > 1)
+            this.setState({
+                currentPage: this.state.currentPage - 1,
+            });
+    }
 
 
     render() {
-        const { productsList } = this.props;
+        const { productsList: allproducts } = this.props;
+        let totalCount = 0;
+        const { currentPage, pageSize } = this.state;
+        const productsList = paginate(allproducts, currentPage, pageSize);
+
         return (
             <React.Fragment>
                 <ToastContainer
@@ -42,11 +72,11 @@ class ShopeProducts extends Component {
                     <div className="container">
 
 
-                        <SearchFilterProducts />
+                        {/* <SearchFilterProducts /> */}
 
                         <header className="mb-3">
                             <div className="form-inline">
-                                <strong className="mr-md-auto">Category : Shoes  >  {productsList.length} Items found </strong>
+                                <strong className="mr-md-auto">Category : Shoes  {`>`}  {productsList.length} Items found </strong>
                                 <select className="mr-2 form-control">
                                     <option>Latest items</option>
                                     <option>Trending</option>
@@ -63,14 +93,17 @@ class ShopeProducts extends Component {
                         </header>{/* sect-heading */}
                         <div className="row">
 
-                            {productsList.map((product, index) => {
+                            {productsList && productsList.map((product, index) => {
+                                totalCount = (currentPage - 1) * pageSize + index + 1;
                                 return (
                                     <div className="col-md-3" key={index}>
                                         <figure className="card card-product-grid">
-                                            <div className="img-wrap">
-                                                <span className="badge badge-danger"> NEW </span>
-                                                <img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${product.image}` : NODE_IMAGES_PATH + `${product.image}`} alt="" />
-                                            </div>
+                                            <Link to={`/product-details/${product._id}`} className="title mb-2">
+                                                <div className="img-wrap">
+                                                    <span className="badge badge-danger"> NEW </span>
+                                                    <img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${product.image}` : NODE_IMAGES_PATH + `${product.image}`} alt="" />
+                                                </div>
+                                            </Link>
                                             <figcaption className="info-wrap">
                                                 <Link to={`/product-details/${product._id}`} className="title mb-2">{product.details}</Link>
                                                 <div className="price-wrap">
@@ -92,22 +125,18 @@ class ShopeProducts extends Component {
 
 
                         </div> {/* row end.// */}
-                        <nav className="mb-4" aria-label="Page navigation sample">
-                            <ul className="pagination">
-                                <li className="page-item disabled"><a className="page-link" href="/">Previous</a></li>
-                                <li className="page-item active"><a className="page-link" href="/">1</a></li>
-                                <li className="page-item"><a className="page-link" href="/">2</a></li>
-                                <li className="page-item"><a className="page-link" href="/">3</a></li>
-                                <li className="page-item"><a className="page-link" href="/">4</a></li>
-                                <li className="page-item"><a className="page-link" href="/">5</a></li>
-                                <li className="page-item"><a className="page-link" href="/">Next</a></li>
-                            </ul>
-                        </nav>
-                        <div className="box text-center">
-                            <p>Did you find what you were looking for？</p>
-                            <a href="/" className="btn btn-light">Yes</a>
-                            <a href="/" className="btn btn-light">No</a>
-                        </div>
+                        <Pagination recordCount={allproducts && allproducts.length ? allproducts.length : 0}
+                            pageSize={pageSize}
+                            currentPage={currentPage}
+                            onPageChange={this.handlePageChange}
+                            NextPage={this.handleNext}
+                            PreviousPage={this.handlePrevious}
+                            colSpan={7}
+                            Url="/shope-products"
+                            totalCount={totalCount}
+                            hideShowTotalCount={true}
+                        />
+
                     </div>
                 </section>
                 {/* container .//  */}
