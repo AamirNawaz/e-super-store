@@ -14,7 +14,7 @@ class CartItems extends Component {
 
     render() {
         const { cartItems } = this.props;
-        let getTotals = -0;
+        let getTotals = 0;
         return (
             <React.Fragment>
                 <ToastContainer

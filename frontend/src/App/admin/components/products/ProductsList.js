@@ -9,8 +9,8 @@ import { fetchProducts } from '../../../redux/reducer/shope/shopeActions';
 import AsideBar from '../AsideBar';
 import DashboardFooter from '../DashboardFooter';
 import NavTop from '../NavTop';
-import Pagination from '../Pagination';
-import PaginationSearch from '../PaginationSearch';
+import Pagination from '../../../helper/Pagination';
+import PaginationSearch from '../../../helper/PaginationSearch';
 class ProductList extends Component {
     constructor(props) {
         super(props);
@@ -92,8 +92,9 @@ class ProductList extends Component {
         let totalCount = 0;
         const { searchInput, currentPage, pageSize } = this.state;
         const { products: allProducts } = this.props;
-        const productsData = this.state.searchInput ? allProducts.filter(data => data.productName === searchInput) : allProducts;
+        const productsData = this.state.searchInput ? allProducts.filter(data => data.productName === searchInput) : allProducts.reverse();
         const products = paginate(productsData, currentPage, pageSize);
+
 
         return (
             <React.Fragment>
@@ -174,19 +175,20 @@ class ProductList extends Component {
                                                         <tr><td>No Record found.</td></tr>
                                                     )}
 
-                                            <Pagination
-                                                recordCount={this.props.products && this.props.products.length ? this.props.products.length : 0}
-                                                pageSize={pageSize}
-                                                currentPage={currentPage}
-                                                onPageChange={this.handlePageChange}
-                                                NextPage={this.handleNext}
-                                                PreviousPage={this.handlePrevious}
-                                                colSpan={7}
-                                                Url="/admin/product-list"
-                                                totalCount={totalCount}
-                                            />
+
                                         </tbody>
                                     </table>
+                                    <Pagination
+                                        recordCount={this.props.products && this.props.products.length ? this.props.products.length : 0}
+                                        pageSize={pageSize}
+                                        currentPage={currentPage}
+                                        onPageChange={this.handlePageChange}
+                                        NextPage={this.handleNext}
+                                        PreviousPage={this.handlePrevious}
+                                        colSpan={7}
+                                        Url="/admin/product-list"
+                                        totalCount={totalCount}
+                                    />
                                 </div>
                             </main>
                             <DashboardFooter />
