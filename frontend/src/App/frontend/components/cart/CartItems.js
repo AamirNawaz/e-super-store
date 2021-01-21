@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { clearCart, decrmentQty, incrmentQty, removeFromCart } from '../../../redux/reducer/shope/shopeActions'
-import payments from '../../../assets/images/misc/payments.png';
 import { ToastContainer } from 'react-toastify';
 import { DEV_NODE_IMAGES_PATH, NODE_IMAGES_PATH, REACT_APP_ENV } from '../../../AppConstant';
+import CartItemsSumary from './CartItemsSumary';
 
 class CartItems extends Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class CartItems extends Component {
 
     render() {
         const { cartItems } = this.props;
-        let getTotals = 0;
+
         return (
             <React.Fragment>
                 <ToastContainer
@@ -47,7 +47,7 @@ class CartItems extends Component {
                                         <tbody>
                                             {cartItems.length > 0 ?
                                                 cartItems.map((item, index) => {
-                                                    getTotals = getTotals + (item.price * item.qty);
+
                                                     return (
                                                         <tr key={index}>
                                                             <td>
@@ -106,52 +106,18 @@ class CartItems extends Component {
                                             </div>
                                     }
 
-                                </div> {/* card.// */}
+                                </div>
                                 <div className="alert alert-success mt-3">
                                     <p className="icontext"><i className="icon text-success fa fa-truck" /> Free Delivery within 1-2 weeks</p>
                                 </div>
-                            </main> {/* col.// */}
-                            <aside className="col-md-3">
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <form>
-                                            <div className="form-group">
-                                                <label>Have coupon?</label>
-                                                <div className="input-group">
-                                                    <input type="text" className="form-control" placeholder="Coupon code" />
-                                                    <span className="input-group-append">
-                                                        <button className="btn btn-primary">Apply</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div> {/* card-body.// */}
-                                </div>  {/* card .// */}
-                                <div className="card">
-                                    <div className="card-body">
-                                        <dl className="dlist-align">
-                                            <dt>Total price:</dt>
-                                            <dd className="text-right">USD {getTotals}</dd>
-                                        </dl>
-                                        <dl className="dlist-align">
-                                            <dt>Discount:</dt>
-                                            <dd className="text-right">USD 0.00</dd>
-                                        </dl>
-                                        <dl className="dlist-align">
-                                            <dt>Total:</dt>
-                                            <dd className="text-right  h5"><strong>${getTotals}</strong></dd>
-                                        </dl>
-                                        <hr />
-                                        <p className="text-center mb-3">
-                                            <img src={payments} alt="" height={26} />
-                                        </p>
-                                    </div> {/* card-body.// */}
-                                </div>  {/* card .// */}
-                            </aside> {/* col.// */}
+                            </main>
+
+                            {/* CartItems summary */}
+                            <CartItemsSumary colValue={'col-md-3'} cartSection={true} />
                         </div>
-                    </div> {/* container .//  */}
+                    </div>
                 </section>
-                {/* ========================= SECTION CONTENT END// ========================= */}
+
 
             </React.Fragment >
         )

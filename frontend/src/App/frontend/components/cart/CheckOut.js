@@ -1,5 +1,10 @@
 import React from 'react';
-import RightCartCard from './RightCartCard';
+import { connect } from 'react-redux';
+
+import axios from 'axios';
+import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
+import CartItemsSumary from './CartItemsSumary';
+import { ToastContainer } from 'react-toastify';
 
 class CheckOut extends React.Component {
     constructor(props) {
@@ -7,12 +12,12 @@ class CheckOut extends React.Component {
         this.state = {
             firstName: '',
             lastName: '',
-            email: '',
+            userEmail: '',
             address: '',
             address2: '',
             country: '',
-            countryState: '',
-            zipCode: '',
+            state: '',
+            countryZip: '',
             shippingAddress: '',
             useInfoForNextTime: '',
             paymentMethod: '',
@@ -27,14 +32,68 @@ class CheckOut extends React.Component {
 
         })
     }
+
+    handleCheckout = async (e) => {
+        e.preventDefault();
+        const { firstName, lastName, userEmail, address, address2, country, state, countryZip, shippingAddress, useInfoForNextTime,
+            paymentMethod, cardNumber, expiryDate, cvvNumber } = this.state;
+
+        let itemsInCart = [];
+        if (this.props.cartItems && this.props.cartItems.length > 0) {
+            this.props.cartItems.map((item) => (
+                itemsInCart.push({
+                    productId: item._id, name: item.productName, sale: item.sale, price: item.price, qty: item.qty,
+                    totalAmount: item.qty * item.price
+                })
+
+            ));
+        }
+
+
+        const cartData = {
+            firstName,
+            lastName,
+            userEmail,
+            address,
+            address2,
+            country,
+            state,
+            countryZip,
+            shippingAddress,
+            useInfoForNextTime,
+            paymentMethod,
+            cardNumber,
+            expiryDate,
+            cvvNumber,
+            orderItems: itemsInCart,
+            userId: 100
+
+        }
+
+        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/checkout`, cartData);
+        console.log('response:::::', response);
+
+
+    }
     render() {
-        console.log('checkout State::::', this.state);
+
         return (
             <React.Fragment>
-                <div className="checkout-container">
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+
+                <div className="container mb-5 mt-5">
                     <div className="row">
-                        <RightCartCard />
-                        <div className="col-md-8 order-md-1">
+                        <div className="col-md-8">
                             <h4 className="mb-3">Billing address</h4>
                             <form className="needs-validation" noValidate>
                                 <div className="row">
@@ -55,7 +114,7 @@ class CheckOut extends React.Component {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="email">Email</label>
-                                    <input type="email" className="form-control" id="email" placeholder="you@example.com" name="email" onChange={(e) => this.handleChange(e)} />
+                                    <input type="email" className="form-control" id="userEmail" placeholder="you@example.com" name="userEmail" onChange={(e) => this.handleChange(e)} />
                                     <div className="invalid-feedback">
                                         Please enter a valid email address for shipping updates.
                                     </div>
@@ -84,7 +143,7 @@ class CheckOut extends React.Component {
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="state">State</label>
-                                        <select className="custom-select d-block w-100" id="state" name="countryState" onChange={(e) => this.handleChange(e)}>
+                                        <select className="custom-select d-block w-100" id="state" name="state" onChange={(e) => this.handleChange(e)}>
                                             <option value>Choose...</option>
                                             <option>California</option>
                                         </select>
@@ -94,7 +153,7 @@ class CheckOut extends React.Component {
                                     </div>
                                     <div className="col-md-3 mb-3">
                                         <label htmlFor="zip">Zip</label>
-                                        <input type="text" className="form-control" placeholder="zip code" id="zip" name="zipCode" onChange={(e) => this.handleChange(e)} required />
+                                        <input type="text" className="form-control" placeholder="zip code" id="zip" name="countryZip" onChange={(e) => this.handleChange(e)} required />
                                         <div className="invalid-feedback">
                                             Zip code required.
                                         </div>
@@ -164,9 +223,13 @@ class CheckOut extends React.Component {
                                     </div>
                                 </div>
                                 <hr className="mb-4" />
-                                <button className="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                                <button className="btn btn-primary btn-lg btn-block" onClick={(e) => this.handleCheckout(e)}>Continue to checkout</button>
                             </form>
                         </div>
+
+                        <CartItemsSumary colValue={'col-md-4'} />
+
+
                     </div>
                 </div>
 
@@ -175,5 +238,10 @@ class CheckOut extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        cartItems: state.shope.cart
+    }
+}
 
-export default CheckOut;
+export default connect(mapStateToProps)(CheckOut);
