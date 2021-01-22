@@ -23,6 +23,7 @@ import ProductList from './admin/components/products/ProductsList';
 import UsersList from './admin/components/users/UsersList';
 import CategoriesList from './admin/components/categories/CategoriesList';
 import CreateProductUrl from './admin/components/products/CreateProductUrl';
+import OrderPlaced from './frontend/components/cart/OrderPlaced';
 
 
 function Index() {
@@ -84,6 +85,13 @@ function Index() {
                     <CheckOut />
                     <Footer />
                 </Route>
+
+                <Route path="/order-placed/:orderID">
+                    <Header />
+                    <OrderPlaced />
+                    <Footer />
+                </Route>
+
 
                 <Route path="/product-details/:productID">
                     <Header />

@@ -5,6 +5,8 @@ import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import CartItemsSumary from './CartItemsSumary';
 import { ToastContainer } from 'react-toastify';
+import { withRouter } from 'react-router-dom';
+import { clearCart } from '../../../redux/reducer/shope/shopeActions';
 
 class CheckOut extends React.Component {
     constructor(props) {
@@ -21,6 +23,7 @@ class CheckOut extends React.Component {
             shippingAddress: '',
             useInfoForNextTime: '',
             paymentMethod: '',
+            cardHolderName: '',
             cardNumber: '',
             expiryDate: '',
             cvvNumber: ''
@@ -35,43 +38,55 @@ class CheckOut extends React.Component {
 
     handleCheckout = async (e) => {
         e.preventDefault();
-        const { firstName, lastName, userEmail, address, address2, country, state, countryZip, shippingAddress, useInfoForNextTime,
-            paymentMethod, cardNumber, expiryDate, cvvNumber } = this.state;
+        try {
+            const { firstName, lastName, userEmail, address, address2, country, state, countryZip, shippingAddress, useInfoForNextTime,
+                paymentMethod, cardHolderName, cardNumber, expiryDate, cvvNumber } = this.state;
 
-        let itemsInCart = [];
-        if (this.props.cartItems && this.props.cartItems.length > 0) {
-            this.props.cartItems.map((item) => (
-                itemsInCart.push({
-                    productId: item._id, name: item.productName, sale: item.sale, price: item.price, qty: item.qty,
-                    totalAmount: item.qty * item.price
-                })
+            let itemsInCart = [];
+            if (this.props.cartItems && this.props.cartItems.length > 0) {
+                this.props.cartItems.map((item) => (
+                    itemsInCart.push({
+                        productId: item._id, name: item.productName, sale: item.sale, price: item.price, qty: item.qty,
+                        totalAmount: item.qty * item.price
+                    })
 
-            ));
+                ));
+            }
+
+
+            const cartData = {
+                firstName,
+                lastName,
+                userEmail,
+                address,
+                address2,
+                country,
+                state,
+                countryZip,
+                shippingAddress,
+                useInfoForNextTime,
+                paymentMethod,
+                cardHolderName,
+                cardNumber,
+                expiryDate,
+                cvvNumber,
+                orderItems: itemsInCart,
+                userId: 100
+
+            }
+
+            const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/checkout`, cartData);
+            console.log('response:::::', response.data);
+            if (response.data.status === 200) {
+                await this.props.clearCartBtn();
+                this.props.history.push(`/order-placed/${response.data.result._id}`);
+            }
+
+        } catch (error) {
+            console.log('erorr', error);
         }
 
 
-        const cartData = {
-            firstName,
-            lastName,
-            userEmail,
-            address,
-            address2,
-            country,
-            state,
-            countryZip,
-            shippingAddress,
-            useInfoForNextTime,
-            paymentMethod,
-            cardNumber,
-            expiryDate,
-            cvvNumber,
-            orderItems: itemsInCart,
-            userId: 100
-
-        }
-
-        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/checkout`, cartData);
-        console.log('response:::::', response);
 
 
     }
@@ -192,7 +207,7 @@ class CheckOut extends React.Component {
                                 <div className="row">
                                     <div className="col-md-6 mb-3">
                                         <label htmlFor="cc-name">Name on card</label>
-                                        <input type="text" className="form-control" id="cc-name" placeholder="cardholder" required name="cardHolder" onChange={(e) => this.handleChange(e)} />
+                                        <input type="text" className="form-control" id="cardHolderName" placeholder="cardholder" required name="cardHolderName" onChange={(e) => this.handleChange(e)} />
                                         <small className="text-muted">Full name as displayed on card</small>
                                         <div className="invalid-feedback">
                                             Name on card is required
@@ -244,4 +259,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(CheckOut);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        clearCartBtn: () => dispatch(clearCart())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CheckOut));

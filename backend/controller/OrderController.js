@@ -22,19 +22,39 @@ const getOrdersById = async (req, res) => {
 const orderCheckout = async (req, res) => {
     try {
         const reqBody = req.body;
-        console.log(reqBody);
-        return false;
-
-
-        if (reqBody.name && reqBody.status) {
+        if (reqBody.orderItems && reqBody.orderItems.length > 0) {
             const order = new OrderModel({
-                name: reqBody.name,
-                status: reqBody.status
+                userId: '5ff0bbf941622e12e4bda828',
+                firstName: reqBody.firstName,
+                lastName: reqBody.lastName,
+                userEmail: reqBody.userEmail,
+                address: reqBody.address,
+                address2: reqBody.address2,
+                country: reqBody.country,
+                state: reqBody.state,
+                countryZip: reqBody.countryZip,
+                shippingAddress: reqBody.shippingAddress,
+                useInfoForNextTime: reqBody.useInfoForNextTime,
+                contactDetails: reqBody.contactDetails,
+                paymentMethod: reqBody.paymentMethod,
+                paymentStatus: 'paid',
+                cardHolderName: reqBody.cardHolderName,
+                cardNo: reqBody.cardNumber,
+                cardExpiry: reqBody.expiryDate,
+                cardCsv: reqBody.cvvNumber,
+
+                orderItems: reqBody.orderItems,
+
+                totalPrice: '',
+                discountPrice: '',
+                orderStatus: 'pending',
+
             });
+
             const result = await order.save();
             res.json({ status: 200, result })
         } else {
-            res.json({ status: 400, message: 'Category name and status are required field!' });
+            res.json({ status: 400, message: 'Order placing failed!' });
         }
     } catch (error) {
         res.json({ status: 400, message: 'Order Checkout Failed!' });
