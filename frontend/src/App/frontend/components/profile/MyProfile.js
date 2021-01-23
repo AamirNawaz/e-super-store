@@ -10,9 +10,6 @@ import item6 from '../../../assets/images/items/6.jpg';
 import avatar3 from '../../../assets/images/avatars/avatar3.jpg'
 
 
-
-
-
 class MyProfile extends Component {
     constructor(props) {
         super(props);

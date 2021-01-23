@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import CartItemsSumary from './CartItemsSumary';
@@ -29,6 +29,12 @@ class CheckOut extends React.Component {
             cvvNumber: ''
         }
     }
+
+    componentDidMount = () => {
+        if (!this.props.auth.authToken) {
+            this.props.history.push('/user/login');
+        }
+    }
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -53,6 +59,11 @@ class CheckOut extends React.Component {
                 ));
             }
 
+            // extract user id from auth token
+            let decoded_data = 0;
+            if (this.props.auth.authToken) {
+                decoded_data = jwt_decode(this.props.auth.authToken);
+            }
 
             const cartData = {
                 firstName,
@@ -71,7 +82,7 @@ class CheckOut extends React.Component {
                 expiryDate,
                 cvvNumber,
                 orderItems: itemsInCart,
-                userId: 100
+                userId: decoded_data.user.id
 
             }
 
@@ -255,7 +266,8 @@ class CheckOut extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        cartItems: state.shope.cart
+        cartItems: state.shope.cart,
+        auth: state.auth
     }
 }
 
