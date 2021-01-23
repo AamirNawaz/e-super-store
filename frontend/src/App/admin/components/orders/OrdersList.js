@@ -100,8 +100,6 @@ class OrdersList extends Component {
         const ordersData = this.state.searchInput ? allOrders.filter(data => data.productName === searchInput) : allOrders.reverse();
         const orders = paginate(ordersData, currentPage, pageSize);
 
-        console.log('ordersss:::::', orders);
-
 
         return (
             <React.Fragment>
@@ -157,7 +155,7 @@ class OrdersList extends Component {
                                                     return (
                                                         <tr key={index}>
                                                             <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
-                                                            <td>{order.userId.name}</td>
+                                                            <td>{order.userId && order.userId !== null ? order.userId.name : ''}</td>
                                                             <td>${order.totalPrice}</td>
                                                             <td>{order.orderStatus}</td>
 
