@@ -22,9 +22,9 @@ const getOrdersById = async (req, res) => {
 const orderCheckout = async (req, res) => {
     try {
         const reqBody = req.body;
-        if (reqBody.orderItems && reqBody.orderItems.length > 0) {
+        if (reqBody.userId && reqBody.orderItems && reqBody.orderItems.length > 0) {
             const order = new OrderModel({
-                userId: '5ff0bbf941622e12e4bda828',
+                userId: reqBody.userId,
                 firstName: reqBody.firstName,
                 lastName: reqBody.lastName,
                 userEmail: reqBody.userEmail,
