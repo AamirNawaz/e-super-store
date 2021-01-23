@@ -26,6 +26,7 @@ import CreateProductUrl from './admin/components/products/CreateProductUrl';
 import OrderPlaced from './frontend/components/cart/OrderPlaced';
 import OrdersList from './admin/components/orders/OrdersList';
 import OrderDetails from './admin/components/orders/OrderDetails';
+import UserLogout from './frontend/components/Auth/UserLogout';
 
 
 function Index() {
@@ -54,27 +55,27 @@ function Index() {
                     <Footer />
                 </Route>
 
-                <Route path="/profile">
+                <Route path="/user/profile">
                     <MyProfile />
                 </Route>
 
-                <Route path="/profile-address">
+                <Route path="/user/profile-address">
                     <ProfileAddress />
                 </Route>
 
-                <Route path="/profile-orders">
+                <Route path="/user/profile-orders">
                     <ProfileOrders />
                 </Route>
 
-                <Route path="/profile-wishlist">
+                <Route path="/user/profile-wishlist">
                     <ProfileWhishList />
                 </Route>
 
-                <Route path="/profile-setting">
+                <Route path="/user/profile-setting">
                     <ProfileSetting />
                 </Route>
-                <Route path="/profile-logout">
-                    <Home />
+                <Route path="/user/logout">
+                    <UserLogout />
                 </Route>
                 <Route path="/cart-details">
                     <Header />

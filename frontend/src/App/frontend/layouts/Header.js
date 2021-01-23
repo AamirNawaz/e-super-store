@@ -71,7 +71,7 @@ function Header(props) {
                                 </div>
 
                                 <div className="widget-header">
-                                    <Link to="/profile-wishlist" className="widget-view">
+                                    <Link to="/user/profile-wishlist" className="widget-view">
                                         <div className="icon-area">
                                             <i className="fa fa-heart" />
                                             <span className="notify">{props.wishList.length}</span>
@@ -96,18 +96,17 @@ function Header(props) {
                                             </div>
                                         </div>
                                     </div>
-                                ) : (
-                                        <div className="widget-header mr-3">
-                                            <Link to="/user/login" className="widget-view">
-                                                <div className="icon-area">
-                                                    <i className="fa fa-user" />
+                                ) : ('')
+                                    // <div className="widget-header mr-3">
+                                    //     <Link to="/admin/login" className="widget-view">
+                                    //         <div className="icon-area">
+                                    //             <i className="fa fa-user" />
 
-                                                </div>
-                                                <div className="" data-toggle="dropdown" style={{ fontSize: '14px' }}>Login </div>
+                                    //         </div>
+                                    //         <div className="" data-toggle="dropdown" style={{ fontSize: '14px' }}>admin Login </div>
 
-                                            </Link>
-                                        </div>
-                                    )
+                                    //     </Link>
+                                    // </div>
                                 }
 
 
@@ -120,17 +119,27 @@ function Header(props) {
                                             </div>
                                             <div className="nav-link dropdown-toggle" data-toggle="dropdown" style={{ fontSize: '14px' }}> My profile </div>
                                             <div className="dropdown-menu dropdown-menu-right">
-                                                <Link className="dropdown-item" to="/profile">Profile</Link>
-                                                <Link className="dropdown-item" to="/profile-wishlist">My Wishlist</Link>
-                                                <Link className="dropdown-item" to="/profile-orders">My Orders</Link>
-                                                <Link className="dropdown-item" to="/profile-setting">Setting</Link>
-                                                <Link className="dropdown-item" to="/logout">Logout</Link>
+                                                <Link className="dropdown-item" to="/user/profile">Profile</Link>
+                                                <Link className="dropdown-item" to="/user/profile-wishlist">My Wishlist</Link>
+                                                <Link className="dropdown-item" to="/user/profile-orders">My Orders</Link>
+                                                <Link className="dropdown-item" to="/user/profile-setting">Setting</Link>
+                                                {/* <Link className="dropdown-item" to="/logout">Logout</Link> */}
+                                                <Link className="dropdown-item" to="/user/logout" onClick={() => props.logoutBtn()}>Logout</Link>
                                             </div>
                                         </div>
                                     </div>
 
                                 ) :
-                                    ''
+                                    <div className="widget-header mr-3">
+                                        <Link to="/user/login" className="widget-view">
+                                            <div className="icon-area">
+                                                <i className="fa fa-user" />
+
+                                            </div>
+                                            <div className="" data-toggle="dropdown" style={{ fontSize: '14px' }}>Login </div>
+
+                                        </Link>
+                                    </div>
                                 }
 
 
