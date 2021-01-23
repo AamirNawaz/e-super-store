@@ -2,7 +2,7 @@ const { OrderModel } = require('../models/OrderModel');
 
 const getOrders = async (req, res) => {
     try {
-        const orders = await OrderModel.find({})
+        const orders = await OrderModel.find({}).populate('userId').exec();
         res.json({ orders })
     } catch (error) {
         res.status(404).send(error.message)

@@ -24,6 +24,8 @@ import UsersList from './admin/components/users/UsersList';
 import CategoriesList from './admin/components/categories/CategoriesList';
 import CreateProductUrl from './admin/components/products/CreateProductUrl';
 import OrderPlaced from './frontend/components/cart/OrderPlaced';
+import OrdersList from './admin/components/orders/OrdersList';
+import OrderDetails from './admin/components/orders/OrderDetails';
 
 
 function Index() {
@@ -134,6 +136,13 @@ function Index() {
                     <CategoriesList />
                 </Route>
 
+                <Route path="/admin/orders-list">
+                    <OrdersList />
+                </Route>
+
+                <Route path="/admin/order-details/:orderId">
+                    <OrderDetails />
+                </Route>
 
                 <Route path="/admin/users">
                     <UsersList />
