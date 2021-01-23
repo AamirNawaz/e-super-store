@@ -20,6 +20,9 @@ function AsideBar(props) {
 
       } else if (url === "/admin/users") {
          setActive('users');
+
+      } else if (url === "/admin/orders-list") {
+         setActive('orders');
       }
    }, [props.match.url]);
 
@@ -76,6 +79,18 @@ function AsideBar(props) {
                      <nav className="sb-sidenav-menu-nested nav">
                         <Link className={active === 'categories' ? 'nav-link active activeNavHilighter' : 'nav-link '} onClick={() => onClickActive('categories')} to="/admin/categories-list" >
                            Categories List</Link>
+                     </nav>
+                  </div>
+
+                  <a className={active === 'orders' ? 'nav-link active' : 'nav-link collapsed'} href="/" data-toggle="collapse" data-target="#orderLayout" aria-expanded="true" aria-controls="orderLayout">
+                     <div className="sb-nav-link-icon"><i className="fas fa-shopping-cart" /></div>
+               Orders
+               <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down" /></div>
+                  </a>
+                  <div className={active === 'orders' ? 'collapse show' : 'collapse '} id="orderLayout" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                     <nav className="sb-sidenav-menu-nested nav">
+                        <Link className={active === 'orders' ? 'nav-link active activeNavHilighter' : 'nav-link '} onClick={() => onClickActive('orders')} to="/admin/orders-list" >
+                           Orders List</Link>
                      </nav>
                   </div>
 

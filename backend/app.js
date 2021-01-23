@@ -11,6 +11,7 @@ var productRoutes = require('./routes/productRoutes');
 var userRoutes = require('./routes/userRoutes');
 var categoryRoutes = require('./routes/categoryRoutes')
 var orderRoutes = require('./routes/orderRoutes');
+var dashboardCounters = require('./routes/dashboardCounterRoutes');
 
 const { dbConnection } = require('./db/config');
 
@@ -37,6 +38,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/dashboardCounters', dashboardCounters);
 
 
 // catch 404 and forward to error handler
