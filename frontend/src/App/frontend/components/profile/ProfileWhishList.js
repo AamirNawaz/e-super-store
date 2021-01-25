@@ -47,7 +47,7 @@ function ProfileWhishList(props) {
                                                             <figcaption className="info">
                                                                 <a href="/" className="title">{list.productName}</a>
                                                                 <p className="price mb-2">${list.price}</p>
-                                                                <button className="btn btn-secondary btn-sm" onClick={() => props.addToCartBtn(list._id)}> Add to cart </button>
+                                                                <button className="btn btn-secondary btn-sm" onClick={() => { props.addToCartBtn(list._id); props.removeFromWishlistBtn(list._id) }}> Add to cart </button>
                                                                 <button className="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Remove from wishlist" onClick={() => props.removeFromWishlistBtn(list._id)}> <i className="fa fa-times" /> </button>
                                                             </figcaption>
                                                         </figure>
@@ -73,7 +73,7 @@ function ProfileWhishList(props) {
             {/* ========================= SECTION CONTENT END// ========================= */}
 
 
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 

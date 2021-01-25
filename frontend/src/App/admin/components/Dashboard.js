@@ -20,7 +20,8 @@ class Dashboard extends Component {
             categoriesCount: 0,
             productsCount: 0,
             usersCount: 0,
-            ordersCount: 0
+            ordersCount: 0,
+            render: false
         }
     }
 
@@ -45,18 +46,23 @@ class Dashboard extends Component {
                     categoriesCount: response.data.categoriesCount,
                     ordersCount: response.data.ordersCount,
                     productsCount: response.data.productsCount,
-                    usersCount: response.data.usersCount
+                    usersCount: response.data.usersCount,
+                    render: true
                 })
             }
         } catch (error) {
             // console.log(error.message);
             //get logout beacuse jwt token expires
+            await this.setState({
+                render: false
+            })
             this.props.logoutCall();
             this.props.history.push('/admin/logout');
         }
 
     }
     render() {
+
         const options_to_products = {
             animationEnabled: true,
             title: {
@@ -127,68 +133,71 @@ class Dashboard extends Component {
                 ]
             }]
         }
+        if (this.state.render) {
+            return (<React.Fragment>
 
-        return (<React.Fragment>
-
-            <div>
-                <NavTop />
-                <div id="layoutSidenav">
-                    <div id="layoutSidenav_nav">
-                        <AsideBar />
-                    </div>
-                    <div id="layoutSidenav_content">
-                        <div className="row w-100 mt-5">
-                            <div className="col-md-3">
-                                <div className="card border-info mx-sm-1 p-3">
-                                    <div className="card border-info shadow text-info p-3 my-card"><span className="fa fa-shopping-cart fa-2x" aria-hidden="true" /></div>
-                                    <div className="text-info text-center mt-3"><h4>Orders</h4></div>
-                                    <div className="text-info text-center mt-2"><h1>{this.state.ordersCount}</h1></div>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="card border-success mx-sm-1 p-3">
-                                    <div className="card border-success shadow text-success p-3 my-card"><span className="fas fa-columns fa-2x" aria-hidden="true" /></div>
-                                    <div className="text-success text-center mt-3"><h4>Products</h4></div>
-                                    <div className="text-success text-center mt-2"><h1>{this.state.productsCount}</h1></div>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="card border-danger mx-sm-1 p-3">
-                                    <div className="card border-danger shadow text-danger p-3 my-card"><span className="fas fa-list fa-2x" aria-hidden="true" /></div>
-                                    <div className="text-danger text-center mt-3"><h4>Categories</h4></div>
-                                    <div className="text-danger text-center mt-2"><h1>{this.state.categoriesCount}</h1></div>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="card border-warning mx-sm-1 p-3">
-                                    <div className="card border-warning shadow text-warning p-3 my-card"><span className="fa fa-users fa-2x" aria-hidden="true" /></div>
-                                    <div className="text-warning text-center mt-3"><h4>Users</h4></div>
-                                    <div className="text-warning text-center mt-2"><h1>{this.state.usersCount}</h1></div>
-                                </div>
-                            </div>
+                <div>
+                    <NavTop />
+                    <div id="layoutSidenav">
+                        <div id="layoutSidenav_nav">
+                            <AsideBar />
                         </div>
-
-                        <div id="layoutSidenav_content mt-4" style={{ paddingLeft: '11px', paddingRight: '11px' }}>
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <CanvasJSChart options={options_Orders} />
-                                </div>
-                                <div className="col-md-3 offset-md-1  ">
-                                    <CanvasJSChart options={options_toCategories} />
+                        <div id="layoutSidenav_content">
+                            <div className="row w-100 mt-5">
+                                <div className="col-md-3">
+                                    <div className="card border-info mx-sm-1 p-3">
+                                        <div className="card border-info shadow text-info p-3 my-card"><span className="fa fa-shopping-cart fa-2x" aria-hidden="true" /></div>
+                                        <div className="text-info text-center mt-3"><h4>Orders</h4></div>
+                                        <div className="text-info text-center mt-2"><h1>{this.state.ordersCount}</h1></div>
+                                    </div>
                                 </div>
                                 <div className="col-md-3">
-                                    <CanvasJSChart options={options_to_products} />
+                                    <div className="card border-success mx-sm-1 p-3">
+                                        <div className="card border-success shadow text-success p-3 my-card"><span className="fas fa-columns fa-2x" aria-hidden="true" /></div>
+                                        <div className="text-success text-center mt-3"><h4>Products</h4></div>
+                                        <div className="text-success text-center mt-2"><h1>{this.state.productsCount}</h1></div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="card border-danger mx-sm-1 p-3">
+                                        <div className="card border-danger shadow text-danger p-3 my-card"><span className="fas fa-list fa-2x" aria-hidden="true" /></div>
+                                        <div className="text-danger text-center mt-3"><h4>Categories</h4></div>
+                                        <div className="text-danger text-center mt-2"><h1>{this.state.categoriesCount}</h1></div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="card border-warning mx-sm-1 p-3">
+                                        <div className="card border-warning shadow text-warning p-3 my-card"><span className="fa fa-users fa-2x" aria-hidden="true" /></div>
+                                        <div className="text-warning text-center mt-3"><h4>Users</h4></div>
+                                        <div className="text-warning text-center mt-2"><h1>{this.state.usersCount}</h1></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <DashboardFooter />
+                            <div id="layoutSidenav_content mt-4" style={{ paddingLeft: '11px', paddingRight: '11px' }}>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <CanvasJSChart options={options_Orders} />
+                                    </div>
+                                    <div className="col-md-3 offset-md-1  ">
+                                        <CanvasJSChart options={options_toCategories} />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <CanvasJSChart options={options_to_products} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <DashboardFooter />
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-        </React.Fragment>);
+            </React.Fragment>);
+        } else {
+            return null;
+        }
     }
 }
 

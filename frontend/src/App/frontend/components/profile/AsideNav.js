@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
 
 function AsideNav(props) {
@@ -28,12 +28,12 @@ function AsideNav(props) {
         }
     }, [props.match.url]);
 
-    useEffect(() => {
-        if (!props.auth.authToken) {
-            props.logoutBtn();
-            props.history.push('/user/logout');
-        }
-    });
+    // useEffect(() => {
+    //     if (!props.auth.authToken) {
+    //         props.logoutBtn();
+    //         props.history.push('/user/logout');
+    //     }
+    // });
 
     useEffect(() => {
         if (props.auth.authToken) {
@@ -46,21 +46,36 @@ function AsideNav(props) {
         setActive(menuItem);
 
     };
-    return (
-        <React.Fragment>
-            <aside className="col-md-3">
-                <nav className="list-group">
-                    <Link className={active === 'profile' ? 'list-group-item active ' : 'list-group-item '} onClick={() => onClickActive('profile')} to="/user/profile">Account overview</Link>
+    const url = props.match.url;
+    if (!props.auth.authToken) {
+        if (url === '/user/profile-wishlist') {
+            return (
+                <aside className="col-md-3">
+                    <nav className="list-group">
+                        <Link className={active === 'wishlist' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('wishlist')} to="/user/profile-wishlist"> My Wishlist </Link>
+                    </nav>
+                </aside>
+            )
+        } else {
+            return <Redirect to="/user/login" />
+        }
+    } else {
+        return (
+            <React.Fragment>
+                <aside className="col-md-3">
+                    <nav className="list-group">
+                        <Link className={active === 'profile' ? 'list-group-item active ' : 'list-group-item '} onClick={() => onClickActive('profile')} to="/user/profile">Account overview</Link>
 
-                    <Link className={active === 'address' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('address')} to="/user/profile-address"> My Address </Link>
-                    <Link className={active === 'orders' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('orders')} to="/user/profile-orders"> My Orders </Link>
-                    <Link className={active === 'wishlist' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('wishlist')} to="/user/profile-wishlist"> My Wishlist </Link>
-                    <Link className={active === 'setting' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('setting')} to="/user/profile-setting"> My Setting </Link>
-                    <Link className="list-group-item" to="/user/logout" onClick={() => props.logoutBtn()}> Log out </Link>
-                </nav>
-            </aside> {/* col.// */}
-        </React.Fragment>
-    )
+                        <Link className={active === 'address' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('address')} to="/user/profile-address"> My Address </Link>
+                        <Link className={active === 'orders' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('orders')} to="/user/profile-orders"> My Orders </Link>
+                        <Link className={active === 'wishlist' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('wishlist')} to="/user/profile-wishlist"> My Wishlist </Link>
+                        <Link className={active === 'setting' ? 'list-group-item active' : 'list-group-item'} onClick={() => onClickActive('setting')} to="/user/profile-setting"> My Setting </Link>
+                        <Link className="list-group-item" to="/user/logout" onClick={() => props.logoutBtn()}> Log out </Link>
+                    </nav>
+                </aside> {/* col.// */}
+            </React.Fragment>
+        )
+    }
 }
 
 

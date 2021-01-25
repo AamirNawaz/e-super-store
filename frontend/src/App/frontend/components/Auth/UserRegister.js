@@ -16,8 +16,10 @@ class UserRegister extends Component {
             country: '',
             password: '',
             confirmPassword: '',
-            termsAndCondition: ''
+            termsAndCondition: '',
+
         }
+
     }
 
 
@@ -29,6 +31,7 @@ class UserRegister extends Component {
 
     handleSignup = async (e) => {
         e.preventDefault();
+
         const { name, lname, email, username, gender, city, country, password, confirmPassword, termsAndCondition } = this.state;
 
         if (name === '' && email === '' && username === '' && password === '' && confirmPassword === '' && city === '' && country === '' && gender === '' && termsAndCondition === '') {
@@ -157,6 +160,7 @@ class UserRegister extends Component {
         }
 
         if (termsAndCondition) {
+
             try {
                 const userData = {
                     name,
@@ -172,8 +176,8 @@ class UserRegister extends Component {
                 }
                 await this.props.userSignup(userData);
 
-                if (this.props.authResponse.authToken) {
-                    const decode = jwt_decode(this.props.authResponse.authToken);
+                if (this.props.auth.authToken) {
+                    const decode = jwt_decode(this.props.auth.authToken);
                     const { userType } = decode.user;
                     console.log('doced::', decode);
                     if (userType && userType === 'customer') {
@@ -197,8 +201,8 @@ class UserRegister extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.authResponse.authToken) {
-            const decode = jwt_decode(this.props.authResponse.authToken);
+        if (this.props.auth.authToken) {
+            const decode = jwt_decode(this.props.auth.authToken);
             const { userType } = decode.user;
 
             if (userType && userType === 'customer') {
@@ -286,9 +290,24 @@ class UserRegister extends Component {
                                     <span style={{ color: 'red' }}>{this.state.termsAndConditionError}</span>
                                 </div> {/* form-group end.// */}
 
+                                {/* <div class="spinner-border text-primary" role="status">
+                                    <center> <span class="sr-only">Loading...</span></center>
+                                </div> */}
                                 <div className="form-group">
-                                    <button className="btn btn-primary btn-block" onClick={(e) => this.handleSignup(e)}> Register</button>
-                                </div> {/* form-group// */}
+                                    <button className="btn btn-primary btn-block" disabled={this.props.auth.isLoading ? true : false} onClick={(e) => this.handleSignup(e)}>
+                                        {this.props.auth.isLoading ? (
+                                            <div className="spinner-border text-default" role="status">
+                                                <center> <span className="sr-only">Loading...</span></center>
+                                            </div>
+                                        ) : (
+                                                'Signup '
+                                            )}
+
+                                    </button>
+
+                                </div>
+
+                                {/* form-group// */}
 
                             </form>
                         </article>{/* card-body.// */}
@@ -302,7 +321,7 @@ class UserRegister extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        authResponse: state.auth
+        auth: state.auth
     }
 }
 const mapDispatchToProps = (dispatch) => {

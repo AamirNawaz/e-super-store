@@ -46,21 +46,26 @@ class UserLogin extends React.Component {
 
         try {
             await this.props.UserLoginBtn(email, password);
-            this.setState({
-                errorMessage: ''
-            })
+
+
         } catch (error) {
             console.log('error:::', error);
         }
 
     }
     componentDidUpdate() {
-        if (this.props.authResponse.authToken) {
-            const decode = jwt_decode(this.props.authResponse.authToken);
+        if (this.props.auth.authToken) {
+            const decode = jwt_decode(this.props.auth.authToken);
             const { userType } = decode.user;
 
             if (userType && userType === 'customer') {
-                this.props.history.push('/user/profile');
+                if (localStorage.getItem('RoutePath')) {
+                    this.props.history.push('/check-out');
+                } else {
+                    this.props.history.push('/user/profile');
+                }
+            } else {
+                this.props.history.push('/admin/dashboard');
             }
         }
     }
@@ -95,10 +100,19 @@ class UserLogin extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <Link to="/user/forgot-password" className="float-right">Forgot password?</Link>
-                                    <label className="float-left custom-control custom-checkbox"> <input type="checkbox" name="rememberMe" onChange={(e) => this.handleOnChange(e)} className="custom-control-input" defaultChecked /> <div className="custom-control-label"> Remember </div> </label>
+                                    <label className="float-left custom-control custom-checkbox"> <input type="checkbox" name="rememberMe" onChange={(e) => this.handleOnChange(e)} className="custom-control-input" /> <div className="custom-control-label"> Remember </div> </label>
                                 </div>
                                 <div className="form-group">
-                                    <button onClick={(event) => this.handleLogin(event)} className="btn btn-primary btn-block"> Login</button>
+                                    <button onClick={(event) => this.handleLogin(event)} disabled={this.props.auth.isLoading ? true : false} className="btn btn-primary btn-block">
+                                        {this.props.auth.isLoading ? (
+                                            <div className="spinner-border text-default" role="status">
+                                                <center> <span className="sr-only">Loading...</span></center>
+                                            </div>
+                                        ) : (
+                                                'Login '
+                                            )}
+
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -113,7 +127,7 @@ class UserLogin extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        authResponse: state.auth
+        auth: state.auth
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -29,7 +29,6 @@ class MyProfile extends Component {
 
     getUserFromToken = () => {
         const decodedData = jwtDecode(this.props.auth.authToken);
-        console.log(decodedData);
         this.setState({
             fullname: decodedData.user.name,
             userEmail: decodedData.user.email,
