@@ -44,6 +44,42 @@ export const userLogin = (email, password) => {
 
 }
 
+export const userSignup = (userData) => {
+    return async function (dispatch) {
+        try {
+            const userToken = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/signup`, userData);
+
+            dispatch({
+                type: actionType.USER_SIGNUP,
+                payload: {
+                    authToken: userToken.data.token,
+                    isLoggedIn: true,
+                }
+            })
+        } catch (error) {
+            const message = error.response.data ? error.response.data : 'Backend Service Stop';
+            toast.error(message, {
+                position: "top-right",
+                autoClose: 7000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            });
+
+            dispatch({
+                type: actionType.USER_SIGNUP,
+                payload: {
+                    authToken: null,
+                    isLoggedIn: false
+                }
+            })
+        }
+
+    }
+
+}
 
 export const userLogout = () => {
     return {

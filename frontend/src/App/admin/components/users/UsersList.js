@@ -9,7 +9,7 @@ import Pagination from '../../../helper/Pagination';
 import PaginationSearch from '../../../helper/PaginationSearch';
 import { toast, ToastContainer } from 'react-toastify';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import paginate from '../../../helper/paginate';
 class UsersList extends Component {
     constructor(props) {
@@ -89,6 +89,43 @@ class UsersList extends Component {
             });
     }
 
+
+    handleDeleteUser = async (userId) => {
+        const authToken = this.props.auth.authToken;
+        const response = await axios.get(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/delete/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            }
+        }
+        );
+
+        if (response.status === 200) {
+            toast.success('User Deleted successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            //fetch all user data 
+            this.getUsers();
+
+        } else {
+            toast.error('Faild to delete the User', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
+
     render() {
         let totalCount = 0;
         const { searchInput, currentPage, pageSize, users: allUsers } = this.state;
@@ -154,7 +191,7 @@ class UsersList extends Component {
                                                             <td>{user.email}</td>
                                                             <td>{user.status}</td>
                                                             <td>{user.userType}</td>
-                                                            <td>Edit | Delete</td>
+                                                            <td>Edit | <Link to="/admin/users" onClick={() => this.handleDeleteUser(user._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                         </tr>
                                                     )
                                                 })

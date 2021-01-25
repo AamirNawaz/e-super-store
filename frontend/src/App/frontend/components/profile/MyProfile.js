@@ -8,14 +8,35 @@ import item1 from '../../../assets/images/items/1.jpg';
 import item2 from '../../../assets/images/items/2.jpg';
 import item6 from '../../../assets/images/items/6.jpg';
 import avatar3 from '../../../assets/images/avatars/avatar3.jpg'
+import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 
 
 class MyProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            fullname: '',
+            userEmail: '',
+            userType: '',
+            userId: ''
+        }
     }
 
+    componentDidMount = () => {
+        this.getUserFromToken();
+    }
+
+    getUserFromToken = () => {
+        const decodedData = jwtDecode(this.props.auth.authToken);
+        console.log(decodedData);
+        this.setState({
+            fullname: decodedData.user.name,
+            userEmail: decodedData.user.email,
+            userType: decodedData.user.userType,
+            userId: decodedData.user.id
+        })
+    }
     render() {
         return (<React.Fragment>
             <Header />
@@ -35,8 +56,8 @@ class MyProfile extends Component {
                                             <img className="rounded-circle img-sm border" src={avatar3} alt="avatar" />
                                         </div>
                                         <div className="text">
-                                            <strong> Mr. Jackson Someone </strong> <br />
-                                            <p className="mb-2"> myloginname@gmail.com</p>
+                                            <strong> {(this.state.fullname).toUpperCase()} </strong> <br />
+                                            <p className="mb-2"> {this.state.email}</p>
                                             <a href="/" className="btn btn-light btn-sm">Edit</a>
                                         </div>
                                     </figure>
@@ -126,4 +147,11 @@ class MyProfile extends Component {
     }
 }
 
-export default MyProfile;
+const mapstateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+}
+
+
+export default connect(mapstateToProps)(MyProfile);
