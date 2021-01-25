@@ -62,9 +62,20 @@ const getUserProfile = async (req, res, next) => {
     const userInfo = await UserModel.findById({ _id: req.user.id }).select('-password');
     res.json(userInfo);
 }
+
+const deleteUser = async (req, res) => {
+    try {
+        const _id = req.params.id;
+        const users = await UserModel.deleteOne({ _id });
+        res.json({ users });
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
 module.exports = {
     authUser,
     getUsers,
     signup,
-    getUserProfile
+    getUserProfile,
+    deleteUser
 }
