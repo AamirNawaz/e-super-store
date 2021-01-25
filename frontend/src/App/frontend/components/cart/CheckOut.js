@@ -34,7 +34,14 @@ class CheckOut extends React.Component {
         if (!this.props.auth.authToken) {
             this.props.history.push('/user/login');
         }
+        if (this.props.auth.authToken) {
+            const decode = jwt_decode(this.props.auth.authToken);
+            if (decode.user.userType !== 'customer') {
+                this.props.history.push('/user/login');
+            }
+        }
     }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
