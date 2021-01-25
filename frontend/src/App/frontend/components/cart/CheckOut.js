@@ -32,6 +32,7 @@ class CheckOut extends React.Component {
 
     componentDidMount = () => {
         if (!this.props.auth.authToken) {
+            localStorage.setItem('RoutePath', 'cart-details');
             this.props.history.push('/user/login');
         }
         if (this.props.auth.authToken) {

@@ -38,7 +38,7 @@ function ProfileWhishList() {
                                                         <option> Choose...</option>
                                                         <option>Uzbekistan</option>
                                                         <option>Russia</option>
-                                                        <option selected>United States</option>
+                                                        <option >United States</option>
                                                         <option>India</option>
                                                         <option>Afganistan</option>
                                                     </select>

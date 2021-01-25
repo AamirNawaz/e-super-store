@@ -7,6 +7,15 @@ import { toast } from 'react-toastify';
 export const userLogin = (email, password) => {
     return async function (dispatch) {
         try {
+            dispatch({
+                type: actionType.USER_LOGIN,
+                payload: {
+                    authToken: null,
+                    isLoggedIn: false,
+                    isLoading: true
+                }
+            })
+
             const userToken = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/login`, {
                 email,
                 password
@@ -17,6 +26,7 @@ export const userLogin = (email, password) => {
                 payload: {
                     authToken: userToken.data.token,
                     isLoggedIn: true,
+                    isLoading: true
                 }
             })
         } catch (error) {
@@ -35,7 +45,8 @@ export const userLogin = (email, password) => {
                 type: actionType.USER_LOGIN,
                 payload: {
                     authToken: null,
-                    isLoggedIn: false
+                    isLoggedIn: false,
+                    isLoading: false
                 }
             })
         }
@@ -47,6 +58,14 @@ export const userLogin = (email, password) => {
 export const userSignup = (userData) => {
     return async function (dispatch) {
         try {
+            dispatch({
+                type: actionType.USER_SIGNUP,
+                payload: {
+                    authToken: null,
+                    isLoggedIn: false,
+                    isLoading: false
+                }
+            })
             const userToken = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/signup`, userData);
 
             dispatch({
@@ -54,6 +73,7 @@ export const userSignup = (userData) => {
                 payload: {
                     authToken: userToken.data.token,
                     isLoggedIn: true,
+                    isLoading: true
                 }
             })
         } catch (error) {
@@ -72,7 +92,9 @@ export const userSignup = (userData) => {
                 type: actionType.USER_SIGNUP,
                 payload: {
                     authToken: null,
-                    isLoggedIn: false
+                    isLoggedIn: false,
+                    isLoading: false
+
                 }
             })
         }
@@ -86,7 +108,8 @@ export const userLogout = () => {
         type: actionType.USER_LOGOUT,
         payload: {
             authToken: null,
-            isLoggedIn: false
+            isLoggedIn: false,
+            isLoading: false
         }
     }
 }
