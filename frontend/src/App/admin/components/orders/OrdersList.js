@@ -93,6 +93,128 @@ class OrdersList extends Component {
             [e.target.name]: e.target.value
         })
     }
+
+
+    handleAcceptOrder = async (orderId) => {
+        const authToken = this.props.auth.authToken;
+        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/update`,
+            {
+                status: 'inprocess',
+                orderId: orderId
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            toast.info('Order goes inprocess successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            this.getAllOrders();
+
+        } else {
+            toast.error('Faild to accept the Order', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+
+
+    }
+
+    handleRejectOrder = async (orderId) => {
+        const authToken = this.props.auth.authToken;
+        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/update`,
+            {
+                status: 'rejected',
+                orderId: orderId
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            toast.error('Order Rejected successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            this.getAllOrders();
+
+        } else {
+            toast.error('Faild to rejecte the Order', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
+    handleOrderDeliverd = async (orderId) => {
+        const authToken = this.props.auth.authToken;
+        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/update`,
+            {
+                status: 'delivered',
+                orderId: orderId
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            toast.success('Order Deliverd successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            this.getAllOrders();
+
+        } else {
+            toast.error('Faild to delete the Order', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
     render() {
         let totalCount = 0;
         const { searchInput, currentPage, pageSize } = this.state;
@@ -141,9 +263,10 @@ class OrdersList extends Component {
                                             <th scope="col">ID</th>
                                             <th scope="col">Customer Name</th>
                                             <th scope="col">Price</th>
-                                            <th scope="col">order status</th>
-                                            <th scope="col">Payment status</th>
                                             <th scope="col">Order items</th>
+                                            <th scope="col">Payment status</th>
+                                            <th scope="col">order status</th>
+                                            <th scope="col">Order action</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -151,17 +274,21 @@ class OrdersList extends Component {
                                         {
                                             orders && orders.length ? (
                                                 orders.map((order, index) => {
+                                                    console.log('order:::', order);
                                                     totalCount = (currentPage - 1) * pageSize + index + 1;
                                                     return (
                                                         <tr key={index}>
                                                             <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                                             <td>{order.userId && order.userId !== null ? order.userId.name : ''}</td>
                                                             <td>${order.totalPrice}</td>
-                                                            <td>{order.orderStatus}</td>
+                                                            <td><Link to={`/admin/order-details/${order._id}`} style={{ color: '#9C27B0', textDecoration: 'underline' }}>view</Link></td>
 
                                                             <td><span className={order.paymentStatus === 'paid' ? 'badge badge-success' : 'badge badge-danger'}>{order.paymentStatus}</span></td>
-                                                            <td><Link to={`/admin/order-details/${order._id}`} className="btn btn-primary btn-sm">view</Link></td>
-                                                            <td><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i>&nbsp;&nbsp;|
+                                                            <td> <span className={order.orderStatus === 'inprocess' ? `badge badge-info` : order.orderStatus === 'delivered' ? 'badge badge-success' : 'badge badge-danger'}>{order.orderStatus}</span></td>
+
+                                                            <td><button className="btn btn-info btn-sm" onClick={() => this.handleAcceptOrder(order._id)}>Accept</button> <button className="btn btn-success btn-sm" onClick={() => this.handleOrderDeliverd(order._id)}>Deliverd</button> <button className="btn btn-danger btn-sm" onClick={() => this.handleRejectOrder(order._id)}>Reject</button></td>
+                                                            <td>
+
                                                                 <Link to="/admin/orders-list" onClick={() => this.handleDeleteOrder(order._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                         </tr>
                                                     )
@@ -190,7 +317,7 @@ class OrdersList extends Component {
                         </div>
                     </div>
                 </div>
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }

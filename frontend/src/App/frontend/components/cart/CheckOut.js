@@ -57,12 +57,17 @@ class CheckOut extends React.Component {
                 paymentMethod, cardHolderName, cardNumber, expiryDate, cvvNumber } = this.state;
 
             let itemsInCart = [];
+            let totalPrice = 0;
             if (this.props.cartItems && this.props.cartItems.length > 0) {
                 this.props.cartItems.map((item) => (
+                    // eslint-disable-next-line no-sequences
+                    totalPrice = totalPrice + (item.price * item.qty),
                     itemsInCart.push({
                         productId: item._id, name: item.productName, sale: item.sale, price: item.price, qty: item.qty,
                         totalAmount: item.qty * item.price
+
                     })
+
 
                 ));
             }
@@ -90,7 +95,8 @@ class CheckOut extends React.Component {
                 expiryDate,
                 cvvNumber,
                 orderItems: itemsInCart,
-                userId: decoded_data.user.id
+                userId: decoded_data.user.id,
+                totalPrice: totalPrice
 
             }
 
