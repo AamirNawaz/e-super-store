@@ -281,7 +281,7 @@ class OrdersList extends Component {
                                                             <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                                             <td>{order.userId && order.userId !== null ? order.userId.name : ''}</td>
                                                             <td>${order.totalPrice}</td>
-                                                            <td><Link to={`/admin/order-details/${order._id}`} style={{ color: '#9C27B0', textDecoration: 'underline' }}>view</Link></td>
+                                                            <td><Link to={`/admin/order-details/${order._id}`} ><i style={{ color: '#9C27B0', textDecoration: 'underline' }} className="fas fa-eye "> View</i> </Link></td>
 
                                                             <td><span className={order.paymentStatus === 'paid' ? 'badge badge-success' : 'badge badge-danger'}>{order.paymentStatus}</span></td>
                                                             <td> <span className={order.orderStatus === 'inprocess' ? `badge badge-info` : order.orderStatus === 'delivered' ? 'badge badge-success' : 'badge badge-danger'}>{order.orderStatus}</span></td>
