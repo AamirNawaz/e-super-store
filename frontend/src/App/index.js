@@ -27,6 +27,7 @@ import OrderPlaced from './frontend/components/cart/OrderPlaced';
 import OrdersList from './admin/components/orders/OrdersList';
 import OrderDetails from './admin/components/orders/OrderDetails';
 import UserLogout from './frontend/components/Auth/UserLogout';
+import SliderList from './admin/components/slider/SliderList';
 
 
 function Index() {
@@ -148,6 +149,10 @@ function Index() {
                 <Route path="/admin/users">
                     <UsersList />
                 </Route>
+                <Route path="/admin/sliders">
+                    <SliderList />
+                </Route>
+
                 {/* Admin Dashboard routes End */}
 
                 <Route path="*">

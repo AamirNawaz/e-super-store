@@ -286,7 +286,13 @@ class OrdersList extends Component {
                                                             <td><span className={order.paymentStatus === 'paid' ? 'badge badge-success' : 'badge badge-danger'}>{order.paymentStatus}</span></td>
                                                             <td> <span className={order.orderStatus === 'inprocess' ? `badge badge-info` : order.orderStatus === 'delivered' ? 'badge badge-success' : 'badge badge-danger'}>{order.orderStatus}</span></td>
 
-                                                            <td><button className="btn btn-info btn-sm" onClick={() => this.handleAcceptOrder(order._id)}>Accept</button> <button className="btn btn-success btn-sm" onClick={() => this.handleOrderDeliverd(order._id)}>Deliverd</button> <button className="btn btn-danger btn-sm" onClick={() => this.handleRejectOrder(order._id)}>Reject</button></td>
+                                                            <td>
+                                                                {order.orderStatus !== 'inprocess' && order.orderStatus !== 'delivered' && order.orderStatus !== 'rejected' ? <button className="btn btn-info btn-sm" onClick={() => this.handleAcceptOrder(order._id)}>Accept</button> : ''}
+                                                                &nbsp;
+                                                                {order.orderStatus !== 'delivered' && order.orderStatus !== 'rejected' ? <button className="btn btn-success btn-sm" onClick={() => this.handleOrderDeliverd(order._id)}>Deliverd</button> : ''}
+                                                                &nbsp;
+                                                                {order.orderStatus !== 'rejected' && order.orderStatus !== 'delivered' ? <button className="btn btn-danger btn-sm" onClick={() => this.handleRejectOrder(order._id)}>Reject</button> : ''}
+                                                            </td>
                                                             <td>
 
                                                                 <Link to="/admin/orders-list" onClick={() => this.handleDeleteOrder(order._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>

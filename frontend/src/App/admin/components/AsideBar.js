@@ -24,6 +24,9 @@ function AsideBar(props) {
       } else if (url === "/admin/orders-list") {
          setActive('orders');
       }
+      else if (url === '/admin/sliders') {
+         setActive('sliders');
+      }
    }, [props.match.url]);
 
    useEffect(() => {
@@ -107,7 +110,21 @@ function AsideBar(props) {
                      </nav>
                   </div>
 
-                  <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                  {/* Sliders */}
+                  <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#sliderLayouts" aria-expanded="false" aria-controls="sliderLayouts">
+                     <div className="sb-nav-link-icon"><i className="fas fa-tv" /></div>
+               Frontend Slider
+               <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down" /></div>
+                  </a>
+                  <div className={active === 'sliders' ? 'collapse show' : 'collapse'} id="sliderLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                     <nav className="sb-sidenav-menu-nested nav">
+                        <Link className={active === 'sliders' ? 'nav-link active activeNavHilighter' : 'nav-link'} to="/admin/sliders">
+                           Slider List</Link>
+                     </nav>
+                  </div>
+
+                  {/*Multi level Nav heracy  */}
+                  {/* <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                      <div className="sb-nav-link-icon"><i className="fas fa-book-open" /></div>
                Pages
                <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down" /></div>
@@ -137,7 +154,7 @@ function AsideBar(props) {
                            </nav>
                         </div>
                      </nav>
-                  </div>
+                  </div> */}
                   <div className="sb-sidenav-menu-heading">Logout</div>
 
                   <Link className="nav-link" to="/admin/logout" onClick={() => props.logoutBtn()}>
