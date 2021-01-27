@@ -13,8 +13,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
-import AddSlider from './AddSlider';
-import EditSlider from './EditSlider';
+import AddSlider from './addSlider';
+import EditSlider from './editSlider';
 
 import '../../assets/css/search.css';
 
