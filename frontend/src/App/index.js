@@ -151,6 +151,7 @@ function Index() {
                 </Route>
                 <Route path="/admin/sliders">
                     <SliderList />
+
                 </Route>
 
                 {/* Admin Dashboard routes End */}
