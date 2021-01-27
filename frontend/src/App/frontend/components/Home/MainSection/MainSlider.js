@@ -5,7 +5,7 @@ function MainSlider(props) {
     const sliders = props.sliders && props.sliders.length ? props.sliders.filter(slider => slider.status === 'active') : '';
     return (
         <React.Fragment>
-            <div className="col-md-9 col-xl-7 col-lg-7">
+            <div className="col-md-9 col-xl-9 col-lg-7">
                 {/* ================== COMPONENT SLIDER  BOOTSTRAP  ==================  */}
                 <div id="carousel1_indicator" className="slider-home-banner carousel slide" data-ride="carousel">
                     <ol className="carousel-indicators">
