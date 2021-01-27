@@ -6,8 +6,8 @@ const { orderCheckout, getOrders, getOrdersById, deleteOrder, updateOrderStatus 
 router.get('/', getOrders);
 router.get('/:id', getOrdersById);
 router.post('/checkout', orderCheckout);
-router.post('/update', protectedRoute, adminProtectedRoute, updateOrderStatus);
 router.get('/delete/:id', protectedRoute, adminProtectedRoute, deleteOrder);
+router.post('/update', protectedRoute, adminProtectedRoute, updateOrderStatus);
 
 
 

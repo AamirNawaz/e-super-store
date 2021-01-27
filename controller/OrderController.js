@@ -45,7 +45,7 @@ const orderCheckout = async (req, res) => {
 
                 orderItems: reqBody.orderItems,
 
-                totalPrice: '',
+                totalPrice: reqBody.totalPrice,
                 discountPrice: '',
                 orderStatus: 'pending',
 
@@ -74,14 +74,16 @@ const deleteOrder = async (req, res) => {
 
 const updateOrderStatus = async (req, res) => {
     try {
-        const { id, name, status } = req.body;
+
+        const { orderId, status } = req.body;
+
         const result = await OrderModel.updateOne(
-            { _id: id },
-            [{ $set: { name, status } }]
+            { _id: orderId },
+            [{ $set: { orderStatus: status } }]
         );
         res.json({ result });
     } catch (error) {
-        // res.json({status:400,message:error.data})
+        res.json({ status: 400, message: error.data })
         console.log('error');
     }
 }

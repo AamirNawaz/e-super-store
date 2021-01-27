@@ -31,7 +31,7 @@ const orderSchema = new mongoose.Schema({
     discountPrice: String,
     orderStatus: {
         type: String,
-        enum: ['pending', 'inprocess', 'delivered']
+        enum: ['pending', 'inprocess', 'delivered', 'rejected']
     },
 }, { timestamps: true })
 

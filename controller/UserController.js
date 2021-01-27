@@ -11,8 +11,13 @@ const authUser = async (req, res) => {
         if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {
-                const token = await generateToken({ id: user._id, email: user.email, name: user.name, userType: user.userType });
-                res.json({ token });
+                if (user.status === 'unblock') {
+                    const token = await generateToken({ id: user._id, email: user.email, name: user.name, userType: user.userType });
+                    res.json({ token });
+                } else {
+                    res.status(400).send('User is status is blocked');
+                }
+
             } else {
                 res.status(400).send('Password did not matched');
             }
@@ -72,10 +77,25 @@ const deleteUser = async (req, res) => {
         res.status(400).send(error.message);
     }
 }
+
+const updateUserStatus = async (req, res) => {
+    try {
+        const { userId, UserStatus } = req.body;
+        const result = await UserModel.updateOne(
+            { _id: userId },
+            [{ $set: { status: UserStatus } }]
+        );
+        res.json({ result });
+    } catch (error) {
+        res.json({ status: 400, message: error.data })
+        console.log('error');
+    }
+}
 module.exports = {
     authUser,
     getUsers,
     signup,
     getUserProfile,
-    deleteUser
+    deleteUser,
+    updateUserStatus
 }
