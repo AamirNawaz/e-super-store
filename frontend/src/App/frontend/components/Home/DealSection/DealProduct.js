@@ -15,7 +15,7 @@ function DealProduct(props) {
                     return (
                         <div key={index} className="col-md col-6">
                             <figure className="card-product-grid card-sm" style={{ border: '1px solid #ebecf0' }}>
-                                <Link to="/shope-products" className="img-wrap">
+                                <Link to={`/product-details/${dProduct._id}`} className="img-wrap">
                                     <span className="badge badge-danger">Sale {dProduct.sale}% </span>
                                     <img src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${dProduct.image}` : NODE_IMAGES_PATH + `${dProduct.image}`} alt={dProduct.productName} />
                                 </Link>

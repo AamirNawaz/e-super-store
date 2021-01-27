@@ -1,7 +1,7 @@
 import React from 'react'
 import AsideNav from './AsideNav'
 import MainSlider from './MainSlider'
-import PopularCategories from './PopularCategories'
+// import PopularCategories from './PopularCategories'
 
 
 export default function MainSection() {
@@ -14,7 +14,7 @@ export default function MainSection() {
                         <div className="row">
                             <AsideNav />
                             <MainSlider />
-                            <PopularCategories />
+                            {/* <PopularCategories /> */}
                         </div>
                     </div>
                 </main>

@@ -33,8 +33,11 @@ function index(props) {
 
                                                 <div className="card-body">
                                                     <h6 className="title">{product.productName}</h6>
-                                                    <Link to="/shope-products" className="item"> <img className="img-sm float-right" src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${product.image}` : NODE_IMAGES_PATH + `${product.image}`} alt={product.productName} /> </Link>
-                                                    <p className="text-muted"><i className="fa fa-map-marker-alt" /> {product.manufacturer}</p>
+
+                                                    <Link to={`/product-details/${product._id}`} className="item">
+                                                        <img className="img-sm float-right" src={REACT_APP_ENV === 'Development' ? DEV_NODE_IMAGES_PATH + `${product.image}` : NODE_IMAGES_PATH + `${product.image}`} alt={product.productName} />
+                                                    </Link>
+                                                    <p className="text-muted"><i className="fa fa-map-marker-alt" /> <Link to="/shope-products">{product.manufacturer}</Link></p>
                                                     <p className="text-muted">$ {product.price}</p>
                                                     <p className="text-muted"> {product.stock}</p>
                                                     <p className="text-muted"> {product.guarantee}</p>
