@@ -7,11 +7,12 @@ import '../assets/css/dashboard.css';
 import AsideBar from './AsideBar';
 import DashboardFooter from './DashboardFooter';
 import NavTop from './NavTop';
-
+import preloader from '../../../../src/App/assets/images/preloader.gif';
 import CanvasJSReact from '../assets/js/canvasjs.react';
 import { userLogout } from '../../redux/reducer/Auth/authActions';
 // var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 
 class Dashboard extends Component {
     constructor(props) {
@@ -196,7 +197,8 @@ class Dashboard extends Component {
 
             </React.Fragment>);
         } else {
-            return null;
+            return <div style={{ marginTop: '200px', marginLeft: '680px' }}>
+                <img src={preloader} alt=""></img><br /> &nbsp;&nbsp;&nbsp;&nbsp;Please wait....</div>
         }
     }
 }
