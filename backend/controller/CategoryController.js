@@ -20,7 +20,7 @@ const getCategoryById = async (req, res) => {
 
 
 const addCategory = async (req, res) => {
-        try {
+    try {
         const reqBody = req.body;
         // console.log(reqBody);
         if (reqBody.name && reqBody.status) {
@@ -29,12 +29,12 @@ const addCategory = async (req, res) => {
                 status: reqBody.status
             });
             const result = await category.save();
-            res.json({status:200, result })
+            res.json({ status: 200, result })
         } else {
-            res.json({status:400,message:'Category name and status are required field!'});
+            res.json({ status: 400, message: 'Category name and status are required field!' });
         }
     } catch (error) {
-        res.json({status:400,message:'Category already exist!'});
+        res.json({ status: 400, message: 'Category already exist!' });
     }
 }
 
@@ -49,15 +49,15 @@ const deleteCategory = async (req, res) => {
     }
 }
 
-const updateCategory = async (req,res)=>{
-    try{
-        const {id,name,status}= req.body;
+const updateCategory = async (req, res) => {
+    try {
+        const { id, name, status } = req.body;
         const result = await CategoryModel.updateOne(
-            { _id:id },
-            [{$set:{name,status}}]
-            );
+            { _id: id },
+            [{ $set: { name, status } }]
+        );
         res.json({ result });
-    }catch (error){
+    } catch (error) {
         // res.json({status:400,message:error.data})
         console.log('error');
     }

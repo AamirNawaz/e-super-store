@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const sliderSchema = new mongoose.Schema({
+    name: String,
     image: String,
     status: {
         type: String,
@@ -12,4 +13,4 @@ const sliderSchema = new mongoose.Schema({
 
 const Slider = mongoose.model('Slider', sliderSchema);
 
-module.exports.Slider = Slider;
+module.exports.SliderModel = Slider;

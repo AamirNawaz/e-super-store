@@ -126,6 +126,85 @@ class UsersList extends Component {
         }
     }
 
+    handleBlockUser = async (userId) => {
+        const authToken = this.props.auth.authToken;
+        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/updateStatus`, {
+            UserStatus: 'block',
+            userId: userId
+        },
+            {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            toast.success('User Blocked successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            //fetch all user data 
+            this.getUsers();
+
+        } else {
+            toast.error('Faild to block the User', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
+
+    hanldeUnBlockUser = async (userId) => {
+        const authToken = this.props.auth.authToken;
+        const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/users/updateStatus`, {
+            UserStatus: 'unblock',
+            userId: userId
+        },
+            {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                }
+            }
+        );
+        if (response.status === 200) {
+            toast.success('User Unblocked successfully!', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+
+            //fetch all user data 
+            this.getUsers();
+
+        } else {
+            toast.error('Faild to Unblock the User', {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+        }
+    }
+
     render() {
         let totalCount = 0;
         const { searchInput, currentPage, pageSize, users: allUsers } = this.state;
@@ -175,8 +254,9 @@ class UsersList extends Component {
                                                 <th scope="col">SrNo</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Email</th>
-                                                <th scope="col">Status</th>
                                                 <th scope="col">User Type</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Status Action</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -189,8 +269,14 @@ class UsersList extends Component {
                                                             <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                                             <td>{user.name}</td>
                                                             <td>{user.email}</td>
-                                                            <td>{user.status}</td>
+
                                                             <td>{user.userType}</td>
+
+                                                            <td><span className={user.status === 'unblock' ? 'badge badge-success' : 'badge badge-danger'}>{user.status === 'block' ? 'Blocked' : 'Active'}</span></td>
+
+                                                            <td>
+                                                                <button className="btn btn-success btn-sm" onClick={() => this.hanldeUnBlockUser(user._id)}>UnBlock</button> <button className="btn btn-danger btn-sm" onClick={() => this.handleBlockUser(user._id)}>Block</button>
+                                                            </td>
                                                             <td>Edit | <Link to="/admin/users" onClick={() => this.handleDeleteUser(user._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
                                                         </tr>
                                                     )
