@@ -13,6 +13,7 @@ import SubscribeNewsLater from '../subscribeNewsLater';
 import bannerImg from '../../../assets/images/banners/ad-sm.png';
 import { fetchProducts } from '../../../redux/reducer/shope/shopeActions';
 import { getAllCategories } from '../../../redux/reducer/categories/categoryActions';
+import { sliders } from '../../../redux/reducer/slider/sliderActions';
 
 
 class Index extends React.Component {
@@ -23,6 +24,7 @@ class Index extends React.Component {
     componentDidMount = () => {
         this.props.fetchProductsCall();
         this.props.fetchAllCategories();
+        this.props.fetchSliders();
     }
 
     render() {
@@ -51,7 +53,8 @@ class Index extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchProductsCall: () => dispatch(fetchProducts()),
-        fetchAllCategories: () => dispatch(getAllCategories())
+        fetchAllCategories: () => dispatch(getAllCategories()),
+        fetchSliders: () => dispatch(sliders()),
     }
 }
 export default connect(null, mapDispatchToProps)(Index);
