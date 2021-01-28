@@ -15,6 +15,7 @@ import axios from 'axios';
 import { API_END_POINT, DEV_API_END_POINT, REACT_APP_ENV } from '../../../AppConstant';
 import AddSlider from './addSlider';
 import EditSlider from './editSlider';
+import preloader from '../../../../App/assets/images/preloader.gif';
 
 import '../../assets/css/search.css';
 
@@ -26,7 +27,8 @@ class SliderList extends Component {
             searchInput: '',
             open: false,
             pageSize: 5,
-            currentPage: 1
+            currentPage: 1,
+            render: false
         }
     }
 
@@ -37,6 +39,9 @@ class SliderList extends Component {
             this.props.logoutCall();
             this.props.history.push('/admin/logout');
         }
+        this.setState({
+            render: true
+        })
     }
 
     handleDeleteSlider = async (sliderId) => {
@@ -191,10 +196,11 @@ class SliderList extends Component {
     }
     render() {
         let totalCount = 0;
-        const { searchInput, currentPage, pageSize, open } = this.state;
+        const { searchInput, currentPage, pageSize, open, render } = this.state;
         const { sliders: allSliders } = this.props;
         const sliderData = this.state.searchInput ? allSliders.filter(data => data.name === searchInput) : allSliders;
         const sliders = paginate(sliderData, currentPage, pageSize);
+
 
         return (
             <React.Fragment>
@@ -245,33 +251,38 @@ class SliderList extends Component {
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {sliders && sliders.length ? (
-                                                sliders.map((slider, index) => {
-                                                    totalCount = (currentPage - 1) * pageSize + index + 1;
-                                                    return (
-                                                        <tr key={index}>
-                                                            <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
-                                                            <td>{slider.name}</td>
-                                                            <td><span className={slider.status === 'active' ? 'badge badge-success' : 'badge badge-danger'}>{slider.status === 'active' ? 'Active' : 'Stop'}</span></td>
-                                                            <td><img src={slider.image} alt={slider.name} style={{ height: '110px', width: '220px' }} /></td>
-                                                            <td>
-                                                                <button className="btn btn-success btn-sm" onClick={() => this.handleActive(slider._id)}>Active</button>
+                                        {render ? (
+                                            <tbody>
+                                                {sliders && sliders.length ? (
+                                                    sliders.map((slider, index) => {
+                                                        totalCount = (currentPage - 1) * pageSize + index + 1;
+                                                        return (
+                                                            <tr key={index}>
+                                                                <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
+                                                                <td>{slider.name}</td>
+                                                                <td><span className={slider.status === 'active' ? 'badge badge-success' : 'badge badge-danger'}>{slider.status === 'active' ? 'Active' : 'Stop'}</span></td>
+                                                                <td><img src={slider.image} alt={slider.name} style={{ height: '110px', width: '220px' }} /></td>
+                                                                <td>
+                                                                    <button className="btn btn-success btn-sm" onClick={() => this.handleActive(slider._id)}>Active</button>
                                                                 &nbsp;<button className="btn btn-danger btn-sm" onClick={() => this.handleInActive(slider._id)}>Stop</button>
-                                                            </td>
-                                                            <td>
-                                                                <EditSlider sliderId={slider._id} ><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i></EditSlider>
+                                                                </td>
+                                                                <td>
+                                                                    <EditSlider sliderId={slider._id} ><i className="fas fa-edit" style={{ cursor: 'pointer', color: 'blue' }}> </i></EditSlider>
                                                                 &nbsp;&nbsp;| <Link to="/admin/sliders" onClick={() => this.handleDeleteSlider(slider._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link>
-                                                            </td>
+                                                                </td>
 
-                                                        </tr>
-                                                    )
-                                                })
-                                            ) : (
-                                                    <tr><td>No Record found.</td></tr>
-                                                )}
+                                                            </tr>
+                                                        )
+                                                    })
+                                                ) : (
+                                                        <tr><td>No Record found.</td></tr>
+                                                    )}
 
-                                        </tbody>
+                                            </tbody>
+                                        ) :
+                                            <div style={{ marginTop: '100px', marginLeft: '580px' }}>
+                                                <img src={preloader} alt=""></img><br /> &nbsp;&nbsp;&nbsp;&nbsp;Please wait....</div>
+                                        }
                                     </table>
                                     <Pagination recordCount={this.props.sliders && this.props.sliders.length ? this.props.sliders.length : 0}
                                         pageSize={pageSize}
@@ -292,6 +303,7 @@ class SliderList extends Component {
         );
     }
 }
+
 
 const mapStateToProps = (state) => {
     return {

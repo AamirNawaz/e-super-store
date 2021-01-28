@@ -11,6 +11,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { userLogout } from '../../../redux/reducer/Auth/authActions';
 import { Link, withRouter } from 'react-router-dom';
 import paginate from '../../../helper/paginate';
+import preloader from '../../../../App/assets/images/preloader.gif';
 class UsersList extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,8 @@ class UsersList extends Component {
             users: [],
             searchInput: '',
             pageSize: 5,
-            currentPage: 1
+            currentPage: 1,
+            render: false
         }
     }
 
@@ -36,7 +38,8 @@ class UsersList extends Component {
             }
             );
             this.setState({
-                users: response.data.users
+                users: response.data.users,
+                render: true
             })
 
 
@@ -207,7 +210,7 @@ class UsersList extends Component {
 
     render() {
         let totalCount = 0;
-        const { searchInput, currentPage, pageSize, users: allUsers } = this.state;
+        const { searchInput, currentPage, pageSize, users: allUsers, render } = this.state;
         const userData = searchInput ? allUsers.filter(data => data.name === searchInput) : allUsers;
         const users = paginate(userData, currentPage, pageSize);
 
@@ -260,33 +263,38 @@ class UsersList extends Component {
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {users && users.length ? (
-                                                users.map((user, index) => {
-                                                    totalCount = (currentPage - 1) * pageSize + index + 1;
-                                                    return (
-                                                        <tr key={index}>
-                                                            <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
-                                                            <td>{user.name}</td>
-                                                            <td>{user.email}</td>
+                                        {render ? (
+                                            <tbody>
+                                                {users && users.length ? (
+                                                    users.map((user, index) => {
+                                                        totalCount = (currentPage - 1) * pageSize + index + 1;
+                                                        return (
+                                                            <tr key={index}>
+                                                                <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
+                                                                <td>{user.name}</td>
+                                                                <td>{user.email}</td>
 
-                                                            <td>{user.userType}</td>
+                                                                <td>{user.userType}</td>
 
-                                                            <td><span className={user.status === 'unblock' ? 'badge badge-success' : 'badge badge-danger'}>{user.status === 'block' ? 'Blocked' : 'Active'}</span></td>
+                                                                <td><span className={user.status === 'unblock' ? 'badge badge-success' : 'badge badge-danger'}>{user.status === 'block' ? 'Blocked' : 'Active'}</span></td>
 
-                                                            <td>
-                                                                <button className="btn btn-success btn-sm" onClick={() => this.hanldeUnBlockUser(user._id)}>UnBlock</button> <button className="btn btn-danger btn-sm" onClick={() => this.handleBlockUser(user._id)}>Block</button>
-                                                            </td>
-                                                            <td>Edit | <Link to="/admin/users" onClick={() => this.handleDeleteUser(user._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
-                                                        </tr>
-                                                    )
-                                                })
-                                            ) : (
-                                                    <tr><td>No Record found.</td></tr>
-                                                )}
+                                                                <td>
+                                                                    <button className="btn btn-success btn-sm" onClick={() => this.hanldeUnBlockUser(user._id)}>UnBlock</button> <button className="btn btn-danger btn-sm" onClick={() => this.handleBlockUser(user._id)}>Block</button>
+                                                                </td>
+                                                                <td>Edit | <Link to="/admin/users" onClick={() => this.handleDeleteUser(user._id)} style={{ cursor: 'pointer', color: 'red' }}><i className="fas fa-trash-alt" /></Link></td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                ) : (
+                                                        <tr><td>No Record found.</td></tr>
+                                                    )}
 
 
-                                        </tbody>
+                                            </tbody>
+                                        ) :
+                                            <div style={{ marginTop: '100px', marginLeft: '580px' }}>
+                                                <img src={preloader} alt=""></img><br /> &nbsp;&nbsp;&nbsp;&nbsp;Please wait....</div>
+                                        }
                                     </table>
                                     <Pagination recordCount={allUsers && allUsers.length ? allUsers.length : 0}
                                         pageSize={pageSize}
