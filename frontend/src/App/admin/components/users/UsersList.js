@@ -20,7 +20,8 @@ class UsersList extends Component {
             searchInput: '',
             pageSize: 5,
             currentPage: 1,
-            render: false
+            render: false,
+            status: ''
         }
     }
 
@@ -68,6 +69,10 @@ class UsersList extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    checkUserStatus = (e) => {
+        console.log('status:::', this.state.status);
     }
 
     handlePageChange = (page) => {
@@ -214,6 +219,7 @@ class UsersList extends Component {
         const userData = searchInput ? allUsers.filter(data => data.name === searchInput) : allUsers;
         const users = paginate(userData, currentPage, pageSize);
 
+        console.log('stateeeee:::render', this.state.status);
         return (
             <React.Fragment>
                 <ToastContainer
