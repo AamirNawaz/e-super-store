@@ -22,7 +22,10 @@ class Dashboard extends Component {
             productsCount: 0,
             usersCount: 0,
             ordersCount: 0,
-            render: false
+            render: false,
+            categories: [],
+            orders: [],
+            products: []
         }
     }
 
@@ -48,7 +51,11 @@ class Dashboard extends Component {
                     ordersCount: response.data.ordersCount,
                     productsCount: response.data.productsCount,
                     usersCount: response.data.usersCount,
-                    render: true
+                    render: true,
+                    orders: response.data.orders,
+                    categories: response.data.categories,
+                    products: response.data.products
+
                 })
             }
         } catch (error) {
@@ -63,32 +70,23 @@ class Dashboard extends Component {
 
     }
     render() {
+        const { categories, products, orders } = this.state;
 
-        const options_to_products = {
-            animationEnabled: true,
-            title: {
-                text: "Top Products"
-            },
-            subtitles: [{
-                text: "71% Positive",
-                verticalAlign: "center",
-                fontSize: 24,
-                dockInsidePlotArea: true
-            }],
-            data: [{
-                type: "doughnut",
-                showInLegend: true,
-                indexLabel: "{name}: {y}",
-                yValueFormatString: "#,###'%'",
-                dataPoints: [
-                    { name: "Unsatisfied", y: 5 },
-                    { name: "Very Unsatisfied", y: 31 },
-                    { name: "Very Satisfied", y: 40 },
-                    { name: "Satisfied", y: 17 },
-                    { name: "Neutral", y: 7 }
-                ]
-            }]
-        }
+        // categories graph data
+        const activeCategories = (categories && categories.filter((active) => active.status === 'active').length);
+        const InActiveCategories = (categories && categories.filter((active) => active.status === 'inActive').length);
+
+        // products graph data
+        const activeProducts = (products && products.filter((active) => active.status === 'active').length);
+        const InActiveProducts = (products && products.filter((active) => active.status === 'inActive').length);
+        const InStockProducts = (products && products.filter((active) => active.stock === 'inStock').length);
+        const outStockProducts = (products && products.filter((active) => active.stock === 'outOfStock').length);
+
+        // order graph data 
+        const pendingOrders = (orders && orders.filter((order) => order.orderStatus === 'pending').length);
+        const InProcessOrders = (orders && orders.filter((order) => order.orderStatus === 'inprocess').length);
+        const deliveredOrders = (orders && orders.filter((order) => order.orderStatus === 'delivered').length);
+        const rejectedOrders = (orders && orders.filter((order) => order.orderStatus === 'rejected').length);
 
         const options_Orders = {
             title: {
@@ -99,15 +97,43 @@ class Dashboard extends Component {
                     // Change type to "doughnut", "line", "splineArea", etc.
                     type: "column",
                     dataPoints: [
-                        { label: "Apple", y: 10 },
-                        { label: "Orange", y: 15 },
-                        { label: "Banana", y: 25 },
-                        { label: "Mango", y: 30 },
-                        { label: "Grape", y: 28 }
+                        { label: "Pending order", y: pendingOrders ? pendingOrders : 0 },
+                        { label: "Inprocess order", y: InProcessOrders ? InProcessOrders : 0 },
+                        { label: "Deliverd order", y: deliveredOrders ? deliveredOrders : 0 },
+                        { label: "Rejected order", y: rejectedOrders ? rejectedOrders : 0 },
+
                     ]
                 }
             ]
         }
+
+        const options_to_products = {
+            animationEnabled: true,
+            title: {
+                text: "Top Products"
+            },
+            subtitles: [{
+                text: (((activeProducts + InActiveProducts + InStockProducts + outStockProducts) / 400) * 100).toFixed(0) + "% Positive",
+                verticalAlign: "center",
+                fontSize: 20,
+                dockInsidePlotArea: true
+            }],
+            data: [{
+                type: "doughnut",
+                showInLegend: true,
+                indexLabel: "{name}: {y}",
+                yValueFormatString: "#,###'%'",
+                dataPoints: [
+                    { name: "Active", y: activeProducts ? activeProducts : 0 },
+                    { name: "Inactive", y: InActiveProducts ? InActiveProducts : 0 },
+                    { name: "InStock", y: InStockProducts ? InStockProducts : 0 },
+                    { name: "outStock", y: outStockProducts ? outStockProducts : 0 },
+
+                ]
+            }]
+        }
+
+
 
         const options_toCategories = {
             theme: "light",
@@ -120,17 +146,14 @@ class Dashboard extends Component {
             data: [{
                 type: "pie",
                 showInLegend: true,
-                legendText: "{label}",
+                legendText: "{label} : {y}",
                 toolTipContent: "{label}: <strong>{y}%</strong>",
-                indexLabel: "{y}%",
+                indexLabel: "{label}:{y}",
                 indexLabelPlacement: "inside",
                 dataPoints: [
-                    { y: 32, label: "Health" },
-                    { y: 22, label: "Finance" },
-                    { y: 15, label: "Education" },
-                    { y: 19, label: "Career" },
-                    { y: 5, label: "Family" },
-                    { y: 7, label: "Real Estate" }
+                    { y: activeCategories ? activeCategories : 0, label: "Active" },
+                    { y: InActiveCategories ? InActiveCategories : 0, label: "InActive" },
+                    // { y: 15, label: "Popular" },
                 ]
             }]
         }

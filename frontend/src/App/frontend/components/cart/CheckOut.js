@@ -26,7 +26,8 @@ class CheckOut extends React.Component {
             cardHolderName: '',
             cardNumber: '',
             expiryDate: '',
-            cvvNumber: ''
+            cvvNumber: '',
+            paymentStatus: ''
         }
     }
 
@@ -53,69 +54,86 @@ class CheckOut extends React.Component {
     handleCheckout = async (e) => {
         e.preventDefault();
         try {
-            const { firstName, lastName, userEmail, address, address2, country, state, countryZip, shippingAddress, useInfoForNextTime,
-                paymentMethod, cardHolderName, cardNumber, expiryDate, cvvNumber } = this.state;
-
-            let itemsInCart = [];
-            let totalPrice = 0;
             if (this.props.cartItems && this.props.cartItems.length > 0) {
-                this.props.cartItems.map((item) => (
-                    // eslint-disable-next-line no-sequences
-                    totalPrice = totalPrice + (item.price * item.qty),
-                    itemsInCart.push({
-                        productId: item._id, name: item.productName, sale: item.sale, price: item.price, qty: item.qty,
-                        totalAmount: item.qty * item.price
+                const { firstName, lastName, userEmail, address, address2, country, state, countryZip, shippingAddress, useInfoForNextTime,
+                    paymentMethod, cardHolderName, cardNumber, expiryDate, cvvNumber } = this.state;
 
-                    })
+                let itemsInCart = [];
+                let totalPrice = 0;
+                if (this.props.cartItems && this.props.cartItems.length > 0) {
+                    this.props.cartItems.map((item) => (
+                        // eslint-disable-next-line no-sequences
+                        totalPrice = totalPrice + (item.price * item.qty),
+                        itemsInCart.push({
+                            productId: item._id, name: item.productName, sale: item.sale, price: item.price, qty: item.qty,
+                            totalAmount: item.qty * item.price
+
+                        })
 
 
-                ));
-            }
+                    ));
+                }
 
-            // extract user id from auth token
-            let decoded_data = 0;
-            if (this.props.auth.authToken) {
-                decoded_data = jwt_decode(this.props.auth.authToken);
-            }
+                // extract user id from auth token
+                let decoded_data = 0;
+                if (this.props.auth.authToken) {
+                    decoded_data = jwt_decode(this.props.auth.authToken);
+                }
 
-            const cartData = {
-                firstName,
-                lastName,
-                userEmail,
-                address,
-                address2,
-                country,
-                state,
-                countryZip,
-                shippingAddress,
-                useInfoForNextTime,
-                paymentMethod,
-                cardHolderName,
-                cardNumber,
-                expiryDate,
-                cvvNumber,
-                orderItems: itemsInCart,
-                userId: decoded_data.user.id,
-                totalPrice: totalPrice
+                const cartData = {
+                    firstName,
+                    lastName,
+                    userEmail,
+                    address,
+                    address2,
+                    country,
+                    state,
+                    countryZip,
+                    shippingAddress,
+                    useInfoForNextTime,
+                    paymentMethod,
+                    cardHolderName,
+                    cardNumber,
+                    expiryDate,
+                    cvvNumber,
+                    orderItems: itemsInCart,
+                    userId: decoded_data.user.id,
+                    totalPrice: totalPrice
 
-            }
+                }
 
-            const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/checkout`, cartData);
-            console.log('response:::::', response.data);
-            if (response.data.status === 200) {
-                await this.props.clearCartBtn();
-                this.props.history.push(`/order-placed/${response.data.result._id}`);
+                const response = await axios.post(`${REACT_APP_ENV === 'Development' ? DEV_API_END_POINT : API_END_POINT}/orders/checkout`, cartData);
+                if (response.data.status === 200) {
+                    await this.props.clearCartBtn();
+                    this.props.history.push(`/order-placed/${response.data.result._id}`);
+                }
+
+            } else {
+                this.props.history.push(`/shope-products`);
             }
 
         } catch (error) {
             console.log('erorr', error);
         }
+    }
 
+    payWithStrip = (e) => {
+        e.preventDefault();
+        alert('paid');
+        this.setState({
+            paymentStatus: 'paid'
+        })
+    }
 
-
-
+    payWithPayPal = (e) => {
+        e.preventDefault();
+        alert('paid with payPal');
+        this.setState({
+            paymentStatus: 'paid'
+        })
     }
     render() {
+        const { paymentStatus, paymentMethod } = this.state;
 
         return (
             <React.Fragment>
@@ -211,70 +229,82 @@ class CheckOut extends React.Component {
                                 <hr className="mb-4" />
                                 <h4 className="mb-3">Payment</h4>
                                 <div className="d-block my-3">
+
                                     <div className="custom-control custom-radio">
-                                        <input id="credit" name="paymentMethod" type="radio" className="custom-control-input" value="Credit Card"
-                                            required onChange={(e) => this.handleChange(e)} />
-                                        <label className="custom-control-label" htmlFor="credit">Credit card</label>
-                                    </div>
-                                    <div className="custom-control custom-radio">
-                                        <input id="debit" name="paymentMethod" type="radio" className="custom-control-input" value="Debit Card" required onChange={(e) => this.handleChange(e)} />
-                                        <label className="custom-control-label" htmlFor="debit">Debit card</label>
+                                        <input id="debit" name="paymentMethod" type="radio" defaultChecked className="custom-control-input" value="Debit Card" required onChange={(e) => this.handleChange(e)} />
+                                        <label className="custom-control-label" htmlFor="debit"><i className="fab fa-cc-visa fa-3x"></i></label>
                                     </div>
                                     <div className="custom-control custom-radio">
                                         <input id="paypal" name="paymentMethod" type="radio" className="custom-control-input" value="PayPal" required onChange={(e) => this.handleChange(e)} />
-                                        <label className="custom-control-label" htmlFor="paypal">Paypal</label>
+                                        <label className="custom-control-label" htmlFor="paypal"><i className="fab fa-paypal fa-3x"></i></label>
                                     </div>
                                     <div className="custom-control custom-radio">
                                         <input id="stripe" name="paymentMethod" type="radio" className="custom-control-input" value="Stripe" required onChange={(e) => this.handleChange(e)} />
-                                        <label className="custom-control-label" htmlFor="stripe">Stripe</label>
+                                        <label className="custom-control-label" htmlFor="stripe"><i className="fab fa-cc-stripe fa-3x"></i></label>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="cc-name">Name on card</label>
-                                        <input type="text" className="form-control" id="cardHolderName" placeholder="cardholder" required name="cardHolderName" onChange={(e) => this.handleChange(e)} />
-                                        <small className="text-muted">Full name as displayed on card</small>
-                                        <div className="invalid-feedback">
-                                            Name on card is required
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="cc-number">Credit card number</label>
-                                        <input type="text" className="form-control" id="cc-number" placeholder="Credit Card number" required name="cardNumber" onChange={(e) => this.handleChange(e)} />
-                                        <div className="invalid-feedback">
-                                            Credit card number is required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-3 mb-3">
-                                        <label htmlFor="cc-expiration">Expiration</label>
-                                        <input type="text" className="form-control" id="cc-expiration" placeholder="expiry date" required name="expiryDate" onChange={(e) => this.handleChange(e)} />
-                                        <div className="invalid-feedback">
-                                            Expiration date required
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3 mb-3">
-                                        <label htmlFor="cc-expiration">CVV</label>
-                                        <input type="text" className="form-control" id="cc-cvv" placeholder="cvvNumber" required name="cvvNumber" onChange={(e) => this.handleChange(e)} />
-                                        <div className="invalid-feedback">
-                                            Security code required
-                                        </div>
-                                    </div>
-                                </div>
+
+
+                                {paymentMethod === 'Stripe' ? (
+                                    paymentStatus === 'paid' ? ('Paid') : (
+                                        <button className="btn btn-info" onClick={(e) => this.payWithStrip(e)}>Pay with Strip</button>
+                                    )
+                                )
+                                    : paymentMethod === 'PayPal' ?
+                                        paymentStatus === 'paid' ? ('Paid') : (
+                                            <button className="btn btn-info" onClick={(e) => this.payWithPayPal(e)}>Pay with PayPal</button>
+                                        )
+                                        : (
+                                            paymentStatus === 'paid' ? ('Paid') : (
+                                                <div>
+                                                    <div className="row">
+                                                        <div className="col-md-6 mb-3">
+                                                            <label htmlFor="cc-name">Name on card</label>
+                                                            <input type="text" className="form-control" id="cardHolderName" placeholder="cardholder" required name="cardHolderName" onChange={(e) => this.handleChange(e)} />
+                                                            <small className="text-muted">Full name as displayed on card</small>
+                                                            <div className="invalid-feedback">
+                                                                Name on card is required
+                                                 </div>
+                                                        </div>
+                                                        <div className="col-md-6 mb-3">
+                                                            <label htmlFor="cc-number">Credit card number</label>
+                                                            <input type="text" className="form-control" id="cc-number" placeholder="Credit Card number" required name="cardNumber" onChange={(e) => this.handleChange(e)} />
+                                                            <div className="invalid-feedback">
+                                                                Credit card number is required
+                                                  </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row">
+                                                        <div className="col-md-3 mb-3">
+                                                            <label htmlFor="cc-expiration">Expiration</label>
+                                                            <input type="text" className="form-control" id="cc-expiration" placeholder="expiry date" required name="expiryDate" onChange={(e) => this.handleChange(e)} />
+                                                            <div className="invalid-feedback">
+                                                                Expiration date required
+                                                 </div>
+                                                        </div>
+                                                        <div className="col-md-3 mb-3">
+                                                            <label htmlFor="cc-expiration">CVV</label>
+                                                            <input type="text" className="form-control" id="cc-cvv" placeholder="cvvNumber" required name="cvvNumber" onChange={(e) => this.handleChange(e)} />
+                                                            <div className="invalid-feedback">
+                                                                Security code required
+                                                 </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
                                 <hr className="mb-4" />
-                                <button className="btn btn-primary btn-lg btn-block" onClick={(e) => this.handleCheckout(e)}>Continue to checkout</button>
+                                <button className="btn btn-primary btn-lg btn-block" disabled={paymentStatus === 'paid' ? false : true} onClick={(e) => this.handleCheckout(e)}>Continue to checkout</button>
                             </form>
-                        </div>
+                        </div >
 
                         <CartItemsSumary colValue={'col-md-5 offset-md-1  '} />
 
 
-                    </div>
-                </div>
+                    </div >
+                </div >
 
 
-            </React.Fragment>
+            </React.Fragment >
         )
     }
 }
